@@ -81,6 +81,11 @@ export class ProductListComponent implements OnInit {
 
   // Se ejecuta al iniciar el componente
   ngOnInit(): void {
+    // Evitar llamadas HTTP durante prerender/servidor (backend local puede no estar disponible)
+    if (typeof window === 'undefined') {
+      return;
+    }
+
     this.getProducts();
   }
 

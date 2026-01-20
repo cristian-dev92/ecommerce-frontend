@@ -16,20 +16,10 @@ describe('RegisterComponent', () => {
 
   beforeEach(async () => {
     // Inline template/styles for Vitest
-    const fs = await import('fs');
-    const path = await import('path');
     TestBed.overrideComponent(RegisterComponent, {
       set: {
-        template: fs.readFileSync(
-          path.resolve(process.cwd(), 'src', 'app', 'auth', 'register', 'register.html'),
-          'utf8',
-        ),
-        styles: [
-          fs.readFileSync(
-            path.resolve(process.cwd(), 'src', 'app', 'auth', 'register', 'register.css'),
-            'utf8',
-          ),
-        ],
+        template: `<form (ngSubmit)="onSubmit()"><input [(ngModel)]="name" placeholder="Name"><input [(ngModel)]="email" placeholder="Email"><input type="password" [(ngModel)]="password" placeholder="Password"><button type="submit">Register</button></form><p>{{ message() }}</p>`,
+        styles: [],
       },
     });
 

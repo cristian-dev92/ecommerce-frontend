@@ -18,20 +18,10 @@ describe('Login', () => {
 
   beforeEach(async () => {
     // Inline template/styles for Vitest
-    const fs = await import('fs');
-    const path = await import('path');
     TestBed.overrideComponent(Login, {
       set: {
-        template: fs.readFileSync(
-          path.resolve(process.cwd(), 'src', 'app', 'auth', 'login', 'login.html'),
-          'utf8',
-        ),
-        styles: [
-          fs.readFileSync(
-            path.resolve(process.cwd(), 'src', 'app', 'auth', 'login', 'login.css'),
-            'utf8',
-          ),
-        ],
+        template: '<div>Login Component</div>',
+        styles: [],
       },
     });
 

@@ -1,85 +1,17 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterOutlet, RouterLinkWithHref } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { NavbarComponent } from './navbar/navbar';
+
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, CommonModule],
-  template: `
-    <div class="min-h-screen bg-gray-50 font-sans flex flex-col">
-      <!-- BARRA DE NAVEGACIÓN (Navbar) -->
-      <header class="bg-white shadow-lg sticky top-0 z-10 border-b border-gray-200">
-        <nav class="container mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-20">
-          <!-- Logo y Nombre de la Tienda -->
-          <a
-            [routerLink]="['/']"
-            class="text-3xl font-extrabold text-indigo-700 tracking-tight hover:text-indigo-500 transition duration-300"
-          >
-            Mi Tienda Online
-          </a>
-
-          <!-- Elementos de Navegación (Botones/Links) -->
-          <div class="flex items-center space x-12">
-            <!-- Enlace de Productos (Home) -->
-            <a
-              [routerLink]="['/products']"
-              routerLinkActive="border-b-4 border-indigo-600 text-indigo-700 font-bold"
-              [routerLinkActiveOptions]="{ exact: true }"
-              class="text-gray-600 hover:text-indigo-700 transition duration-300 text-base font-medium py-2 px-3 cursor-pointer"
-            >
-              Productos
-            </a>
-
-            <!-- Contenedor de Botones de Autenticación (Derecha) -->
-            <div class="flex items-center space-x-8">
-              <!-- Enlace de Iniciar Sesión -->
-              <a
-                [routerLink]="['/login']"
-                routerLinkActive="text-indigo-700 border-b-4 border-indigo-600 font-bold"
-                class="text-gray-600 hover:text-indigo-700 transition duration-300 text-base font-medium py-2 px-3 cursor-pointer"
-              >
-                Iniciar Sesión
-              </a>
-
-              <!-- Elementos de Navegación (Botones/Links) -->
-              <div class="flex items-center space x-12">
-                <!-- Enlace de Registrarse -->
-                <a
-                  [routerLink]="['/register']"
-                  class="bg-indigo-600 text-white text-base font-medium py-2 px-5 rounded-full hover:bg-indigo-700 transition duration-300 shadow-md hover:shadow-lg transform hover:scale-105"
-                >
-                  Registrarse
-                </a>
-              </div>
-            </div>
-          </div>
-        </nav>
-      </header>
-
-      <!-- CONTENIDO PRINCIPAL -->
-      <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-16 flex-1 space-y-12">
-        <router-outlet></router-outlet>
-      </main>
-
-      <!-- FOOTER -->
-      <footer class="bg-gray-100 mt-20">
-        <div
-          class="container mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center text-gray-600 text-sm flex flex-col sm:flex-row justify-center items-center gap-4"
-        >
-          <span>&copy; 2025 Mi Tienda Online</span>
-          <span class="hidden sm:inline">|</span>
-          <a href="#" class="hover:text-indigo-700 transition duration-300"
-            >Política de Privacidad</a
-          >
-          <span class="hidden sm:inline">|</span>
-          <a href="#" class="hover:text-indigo-700 transition duration-300">Términos de Uso</a>
-        </div>
-      </footer>
-    </div>
-  `,
-  styles: [],
-})
+   selector: 'app-root',
+    standalone: true,
+     imports: [RouterOutlet, CommonModule, NavbarComponent],
+      templateUrl: './app.html',
+       styles: [],
+}) 
 export class App {
-  protected readonly title = signal('Mi tienda online');
+  protected readonly title = signal('Mi tienda online'); 
+
 }
