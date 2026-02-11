@@ -62,7 +62,7 @@ import { Product } from '../models/product';
                 
                 const formData = new FormData(); 
                 
-                formData.append('image', this.selectedFile); 
+                formData.append('imageUrl', this.selectedFile); 
                 this.productService.uploadImage(formData).subscribe(res => { 
                     this.form.patchValue({ imageUrl: res.imageUrl }); 
                 }); 

@@ -1,88 +1,64 @@
-<h2 class="text-xl font-bold mb-4">Editar Producto</h2> 
+<h2 class="title">Editar Producto</h2> 
 
-<form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4"> 
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="form"> 
     
     <!-- Nombre -->
-    <div> 
-        <label class="block text-sm font-medium mb-1">Nombre</label> 
+    <div class="form-group"> 
+        <label>Nombre</label>
         <input 
          formControlName="name" 
-         class="border p-2 w-full rounded" 
-         [ngClass]="{ 
-            'border-red-500': form.controls['name'].invalid && form.controls['name'].touched, 
-            'border-green-500': form.controls['name'].valid && form.controls['name'].touched 
-        }"
-        placeholder="Nombre del producto" /> 
+         class="input" 
+         placeholder="Nombre del producto" /> 
     </div> 
     
     <!-- Descripción -->
-    <div> 
-        <label class="block text-sm font-medium mb-1">Descripción</label> 
+    <div class="form-group"> 
+        <label>Descripción</label> 
         <textarea 
          formControlName="description" 
-         class="border p-2 w-full rounded"
-        [ngClass]="{ 
-            'border-red-500': form.controls['description'].invalid && form.controls['description'].touched, 
-            'border-green-500': form.controls['description'].valid && form.controls['description'].touched 
-        }"
+         class="input"
         placeholder="Descripción del producto" >
         </textarea> 
-   
-
-     <div 
-     *ngIf="form.controls['description'].touched && form.controls['description'].invalid" 
-     class="text-red-600 text-sm mt-1" 
-     > 
-     La descripción es obligatoria. 
-    </div> 
-</div>
+    </div>
 
     <!-- Precio -->
-    <div> 
-        <label class="block text-sm font-medium mb-1">Precio (€)</label> 
+    <div class="form-group"> 
+        <label>Precio (€)</label> 
         <input 
          type="number" 
          formControlName="price" 
-         class="border p-2 w-full rounded"
-            [ngClass]="{ 
-                'border-red-500': form.controls['price'].invalid && form.controls['price'].touched, 
-                'border-green-500': form.controls['price'].valid && form.controls['price'].touched   
-         }"
+         class="input"
          placeholder="0.00"
          step="0.01"
          min="0" 
         /> 
-   
-    
-    <div 
-    *ngIf="form.controls['price'].touched && form.controls['price'].invalid" 
-    class="text-red-600 text-sm mt-1" 
-    > El precio es obligatorio. 
- </div> 
-</div>
+    </div>
+
+     <!-- Imagen (URL) --> 
+      <div class="form-group"> 
+        <label>URL de la imagen</label> 
+        <input formControlName="imageUrl" 
+        class="input" 
+        placeholder="https://ejemplo.com/imagen.jpg" /> 
+    </div>
+
+     <!-- Vista previa --> 
+      <div *ngIf="form.value.imageUrl" class="preview-container">
+         <p>Vista previa:</p> 
+         <img [src]="form.value.imageUrl" class="preview-img" alt="Vista previa"> 
+    </div>
     
     <!-- Botones -->
-    <button 
-    type="submit" 
-    class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700" 
-    > 
+     <div class="botton-row">
+    <button  type="submit"  class="btn-primary" [disabled]="form.invalid"> 
     Guardar cambios 
- </button> 
-
-    <button 
-    type="button" 
+   </button> 
+ 
+    <button type="button" 
     (click)="router.navigate(['/products'])" 
-    class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400" 
-    > 
+    class="btn-secondary"> 
     Cancelar 
- </button>
-
- <!-- Vista previa de la imagen -->
-  <input type="file" (change)="onFileSelected($event)" /> 
-  <button type="button" (click)="uploadImage()">
-    Subir imagen
-</button> 
-
-<img *ngIf="imagePreview" [src]="imagePreview" class="product-img-preview">
+  </button>
+ </div>
  
 </form>

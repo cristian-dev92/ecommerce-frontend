@@ -79,6 +79,12 @@ export const routes: Routes = [
 
   },
 
+  //Ruta para la orden de compra (Standalone Component)
+  { path: 'profile', loadComponent: () => import('./profile/profile').then(m => m.ProfileComponent), children: [ { 
+    path: 'orders', loadComponent: () => import('./profile/orders-history/orders-history') .then(m => m.OrdersHistory) } ]
+
+  },
+
   //Ruta para cualquier otra URL no definida(404 - Not Found)
   { 
     path: '**', 

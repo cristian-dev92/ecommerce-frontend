@@ -64,10 +64,11 @@
 </div> 
 
 <!-- HISTORIAL DE PEDIDOS --> 
- <div class="border p-4 rounded mb-6"> <h3 class="font-semibold mb-2">Historial de Pedidos</h3> 
-    
-    <p class="text-gray-600">Tienes 0 pedidos</p> 
-</div>
+ <a routerLink="/profile/orders" class="text-blue-600 underline"> 
+ </a>
+
+ <!-- Aquí se cargan las páginas internas del perfil --> 
+  <router-outlet></router-outlet>
 
 <!-- ELIMINAR CUENTA --> 
  <div class="border p-4 rounded mb-6"> 

@@ -2,13 +2,14 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common'; 
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms'; 
 import { AuthService } from '../services/auth.service'; 
+import { RouterOutlet } from '@angular/router';
 
     @Component({ 
     standalone: true, 
     selector: 'app-profile', 
     templateUrl: './profile.html', 
     styleUrls: ['./profile.css'],
-    imports: [CommonModule, ReactiveFormsModule] 
+    imports: [CommonModule, ReactiveFormsModule, RouterOutlet] 
 }) 
 
     export class ProfileComponent {
