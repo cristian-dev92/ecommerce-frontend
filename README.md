@@ -1,6 +1,6 @@
 # 🛍️ Ecommerce Frontend (Angular 21)
 
-Frontend moderno desarrollado en **Angular 21** para una aplicación de comercio electrónico.  
+Frontend moderno desarrollado en **Angular 21** para una aplicación de comercio en general.  
 Incluye autenticación JWT, guards, servicios centralizados, componentes standalone y una arquitectura limpia y escalable.
 
 ## 🚀 Tecnologías principales
@@ -78,42 +78,155 @@ src/app/
 
 │
 
+├── auth/
+
+│   ├── login/
+
+│   └──  login.ts
+
+│   └── login.html
+
+│   └──  login.css
+
+│   ├── register/
+
+│   └──  register.ts
+
+│   └── register.html
+
+│   └──  register.css
+
+├── cart/
+
+│   └──  cart.ts
+
+│   └── cart.html
+
+│   └──  cart.css
+
+├── chekout/
+
+│   ├── chekout.ts
+
+│   └── chekout.html
+
+├── core/
+
+│   ├── interceptors/
+
+│   └── auth.interceptor.ts
+
 ├── guards/
 
 │   ├── auth-guard.ts
 
 │   └── auth-redirect-guard.ts
 
-│
-├── services/
+├── interceptors/
 
-│   ├── auth.service.ts
+│   ├── auth.interceptor.ts
 
-│   └── user.service.ts
+├── legal/
 
-│
+│   ├── privacy/
 
-├── navbar/
+│   ├── privacy.ts
+
+│   └── privacy.html
+
+│   └──  privacy.css
+
+│   ├── terms/
+
+│   ├── terms.ts
+
+│   └── terms.html
+
+│   └──  terms.css
+
+├──  models/
+
+│   ├── order.ts
+
+│   ├── product.ts
+
+│   └── user.ts
+
+├──  navbar/
 
 │   ├── navbar.ts
 
 │   ├── navbar.html
 
-│   └── navbar.css
+│   └── unavbar.css
 
-│
+├──  product-create/
 
-├── pages/
+│   ├── product-create.ts
 
-│   ├── login/
+│   ├── product-create.html
 
-│   ├── register/
+│   └── product-create.css
 
-│   └── products/
+├──  product-edit/
 
-│
+│   ├── product-edit.ts
+
+│   ├── product-edit.html
+
+│   └── product-edit.css
+
+├──  product-list/
+
+│   ├── nproduct-list.ts
+
+│   ├── product-list.html
+
+│   └── product-list.css
+
+├──  profile/
+
+│   ├── orders-history/
+
+│   ├── orders-history.ts
+
+│   ├── orders-history.html
+
+│   └── orders-history.css
+
+│   ├── profile.ts
+
+│   ├── profile.html
+
+│   └── pprofile.css
+
+├── services/
+
+│   ├── auth.service.ts
+
+│   └── cart.service.ts
+
+│   └── orders.service.ts
+
+│   └── product.service.ts
+
+│   └── user.service.ts
+
+└── api-constants.ts
+
+└── app.config.server.ts
+
+└── app.config.ts
+
+└── app.css
+
+└── app.html
+
+└── app.routes.server.ts
 
 └── app.routes.ts
+
+└── app.ts
 
 🔗 Conexión con el backend
 
