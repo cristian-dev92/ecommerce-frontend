@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms'; 
 import { AuthService } from '../services/auth.service'; 
 import { RouterOutlet } from '@angular/router';
+import { OrdersHistory } from './orders-history/orders-history';
 
     @Component({ 
     standalone: true, 
     selector: 'app-profile', 
     templateUrl: './profile.html', 
     styleUrls: ['./profile.css'],
-    imports: [CommonModule, ReactiveFormsModule, RouterOutlet] 
+    imports: [CommonModule, ReactiveFormsModule, RouterOutlet, OrdersHistory] 
 }) 
 
     export class ProfileComponent {

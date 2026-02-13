@@ -14,18 +14,14 @@ export class OrdersHistory {
   orders = signal<Order[]>([]);
   ordersService = inject(OrdersService);
 
-  constructor() {
+  ngOnInit() {
     this.loadOrders();
   }
 
   loadOrders() {
     this.ordersService.getMyOrders().subscribe({
-      next: (res) => {
-        this.orders.set(res);
-      },
-      error: (err) => {
-        console.error('Error cargando pedidos:', err);
-      }
+      next: (res) => this.orders.set(res),
+        error: (err) => console.error('Error cargando pedidos:', err)
     });
-    }
+  }
 }
