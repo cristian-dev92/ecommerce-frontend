@@ -47,7 +47,8 @@ import { inject } from '@angular/core';
       <td class="px-6 py-4 flex gap-3"> 
 
          <!-- Comprar --> 
-         <button 
+         <button
+         (click)="cartService.addToCart(product)"
          class="text-indigo-600 hover:text-indigo-900 bg-indigo-100 px-3 py-1 rounded-full text-xs"> 
          Comprar 
         </button> 

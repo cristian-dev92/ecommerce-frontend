@@ -1,72 +1,42 @@
-<h2 class="text-xl font-bold mb-4">Catálogo de Productos de la Tienda</h2> 
+<h2 class="title">Catálogo de Productos de la Tienda</h2> 
 
-<!-- Tabla de productos --> 
- <table 
- *ngIf="products().length > 0" 
- class="min-w-full divide-y divide-gray-200 shadow-md rounded-lg overflow-hidden" 
- > 
- 
- <thead class="bg-gray-50"> 
-  <tr> 
-    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> 
-      Nombre 
-    </th> 
-    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> 
-      Descripción 
-    </th> 
-    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> 
-      Precio 
-    </th> 
-    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> 
-      Acciones 
-    </th> 
-  </tr> 
-</thead> 
+<!-- Tabla de productos -->
+ <div class="product-grid" *ngIf="products().length > 0"> 
+  <div class="product-card" *ngFor="let product of products(); trackBy: trackById"> 
+    
+    <!-- Imagen del producto -->
+      <td class="px-6 py-4"> <img [src]="product.imageUrl" class="product-image" alt="Imagen del producto"> </td>
+    
+    <!-- Título del producto -->
+    <h3 class="product-title">{{ product.name }}</h3>
+    
+    <!-- Descripción del producto -->
+    <p class="product-description"> {{ product.description }}</p>
 
-<tbody class="bg-white divide-y divide-gray-200"> 
-  <tr *ngFor="let product of products(); trackBy: trackById"> 
-    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"> 
-      {{ product.name }} 
-    </td> 
-    
-    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"> 
-      {{ product.description }} 
-    </td> 
-    
-    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"> 
-      {{ product.price | currency:'EUR':'symbol' }} 
-    </td> 
-    
-    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium flex gap-3"> 
+    <!-- Pie de producto con precio y botones -->
+    <div class="product-footer"> 
+      <span class="product-price">{{ product.price | currency:'EUR':'symbol' }}</span>
 
-    <!-- Botón Añadir al carrito --> <!-- Antes botón Comprar -->
-      <button 
-      (click)="cartService.addToCart(product)" 
-      class="text-indigo-600 hover:text-indigo-900 bg-indigo-100 px-3 py-1 rounded-full text-xs"> 
+    <!-- Botón Añadir al carrito -->
+      <button class="btn"(click)="cartService.addToCart(product)"> 
       Añadir al carrito 
     </button>
 
     <!-- Botón Editar --> 
-     <a 
-     [routerLink]="['/products/edit', product.id]" 
-     class="text-blue-600 hover:text-blue-900"> 
+    <div class="product-actions">
+     <a [routerLink]="['/products/edit', product.id]" class="edit-link"> 
      Editar 
     </a> 
     <!-- Botón Eliminar --> 
-     <button 
-     (click)="deleteProduct(product.id)" 
-     class="text-red-600 hover:text-red-900"> 
+     <button (click)="deleteProduct(product.id)" class="delete-link"> 
      Eliminar 
     </button>
+   </div>
 
-   </td> 
-  </tr> 
- </tbody> 
-</table> 
+  </div>
+</div>
 
 <!-- Mensaje de carga --> 
- <div 
-    *ngIf="products().length === 0" 
-    class="text-center text-gray-500 p-8 border border-dashed rounded-lg mt-4"> 
- Cargando productos... (Verifique que Spring Boot esté activo en :8080) 
+ <div *ngIf="products().length === 0" class="empty-message"> 
+  Cargando productos... (Verifique que Spring Boot esté activo en :8080) 
 </div>

@@ -7,5 +7,5 @@
  */
 export const API_CONSTANTS = {
   // Corregido: La URL de la API debe apuntar a 8080
-  BASE_URL: 'http://localhost:8080/api/v1',
+  BASE_URL: 'http://localhost:8080/api',
 };

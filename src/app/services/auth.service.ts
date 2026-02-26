@@ -1,5 +1,6 @@
-import { Injectable, signal } from '@angular/core'; 
+import { Injectable, signal,inject } from '@angular/core'; 
 import { Router } from '@angular/router'; 
+import { CartService } from './cart.service';
 
 @Injectable({ 
   providedIn: 'root' 
@@ -9,6 +10,9 @@ export class AuthService {
   // Signals reactivas 
     loggedIn = signal(false); 
     userName = signal<string | null>(null); 
+
+    // Inyectar CartService para limpiar el carrito al cerrar sesión
+    private cartService = inject(CartService); 
     
     constructor(private router: Router) {
       this.loadFromStorage(); 
@@ -39,9 +43,12 @@ export class AuthService {
         this.userName.set(null); 
         
         this.router.navigate(['/login']); 
+
+        //Limpiar carrito al cerrar sesión
+        this.cartService.clearCart();
       } 
       // Obtenenemos el token de autenticación
       getToken() { 
-        return localStorage.getItem('Token'); 
+        return localStorage.getItem('authToken'); 
       } 
     }

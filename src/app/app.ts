@@ -1,8 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
-import { RouterOutlet, RouterModule } from '@angular/router';
+import { RouterOutlet, RouterModule} from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from './navbar/navbar';
-import { Inject } from '@angular/core';
 import { CartService } from './services/cart.service';
 
 

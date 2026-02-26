@@ -17,11 +17,40 @@ export class ProductCreateComponent {
     private productService = inject(ProductService); 
     router = inject(Router);
 
+    imagePreview: string | ArrayBuffer | null = null;
+    selectedFile: File | null = null;
+
     form = this.fb.nonNullable.group({ 
         name: ['', Validators.required], 
         description: ['', Validators.required], 
-        price: [0, [Validators.required, Validators.min(0.01)]] 
+        price: [0, [Validators.required, Validators.min(0.01)]],
+        imageUrl: ['', Validators.required] // Added ImageUrl field
     }); 
+
+        onFileSelected(event: any) { 
+            const file = event.target.files[0]; 
+            if (!file) return;
+
+            this.selectedFile = file; 
+
+            const reader = new FileReader(); 
+            reader.onload = () => this.imagePreview = reader.result as string; 
+            reader.readAsDataURL(file); 
+        }
+
+         uploadImage() { 
+            if (!this.selectedFile){
+                 console.error("No hay archivo seleccionado");
+                    return;
+            } 
+                
+            const formData = new FormData(); 
+            formData.append('imageUrl', this.selectedFile); 
+            
+            this.productService.uploadImage(formData).subscribe(res => { 
+                this.form.patchValue({ imageUrl: res.imageUrl }); 
+            }); 
+        }
 
         onSubmit() { 
             if (this.form.invalid) return; 

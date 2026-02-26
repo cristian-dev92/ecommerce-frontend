@@ -1,24 +1,23 @@
 import { Injectable, signal, computed } from '@angular/core'; 
 import { Product } from '../models/product'; 
 
-export interface CartItem { 
-    product: Product; 
-    quantity: number; 
-} 
-
 @Injectable({ 
     providedIn: 'root'
  }) 
  export class CartService { 
     
-    private items = signal<CartItem[]>([]); 
+    private items = signal<{ product: Product; quantity: number }[]>([]); 
 
     //Restaurar carrito desde el almacenamiento local al iniciar el servicio
     constructor() { 
         const saved = localStorage.getItem('cart'); 
         if (saved) { 
+            try {
             this.items.set(JSON.parse(saved)); 
+        } catch {
+            this.items.set([]);
         }
+      }
     }
 
     // Suscribirse a los cambios en los ítems del carrito para guardar en el almacenamiento local
@@ -36,9 +35,9 @@ export interface CartItem {
  );
  
  // Nuevo método para contar la cantidad total de ítems en el carrito
-    itemCount() { 
-        return this.items().reduce((count, item) => count + item.quantity, 0); 
- }
+    itemCount = computed(() => 
+         this.items().reduce((count, item) => count + item.quantity, 0)
+    );
     
  addToCart(product: Product) { 
     const current = this.items(); 

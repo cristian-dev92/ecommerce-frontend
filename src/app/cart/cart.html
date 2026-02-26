@@ -1,56 +1,60 @@
 <h2 class="text-xl font-bold mb-4">Carrito de Compras</h2> 
 
-<!-- Si el carrito está vacío -->
-<div *ngIf="cart.cartItems().length === 0" class="text-gray-500"> 
-    El carrito está vacío. 
+<div *ngIf="cart.cartItems().length === 0"> 
+  <p>Tu carrito está vacío.</p> 
 </div> 
-    
-<!-- Si el carrito tiene productos -->
-<div *ngFor="let item of cart.cartItems()" class="border p-4 rounded mb-3 flex justify-between"> 
 
-    <!-- Información del producto -->
-    <div> 
-        <p class="font-bold">{{ item.product.name }}</p> 
-        <p>{{ item.product.price }} € x {{ item.quantity }}</p> 
-    </div> 
+<div *ngIf="cart.cartItems().length > 0"> 
+  <div *ngFor="let item of cart.cartItems()" class="border-b py-3 flex justify-between items-center"> 
+    <div> <p class="font-semibold">{{ item.product.name }}
+
+  </p> 
+    <p class="text-sm text-gray-600">Precio: {{ item.product.price }} 
+      €
+    </p> 
     
-    <!-- Controles de cantidad --> 
-      <div class="flex items-center gap-4"> 
-        
-    <!-- Botón disminuir --> 
-     <button 
-     (click)="cart.decreaseQuantity(item.product.id)" 
-     class="bg-gray-300 hover:bg-gray-400 px-3 py-1 rounded text-lg font-bold"> 
-     – 
+    <p class="text-sm text-gray-600">Subtotal: {{ item.product.price * item.quantity }} 
+      €
+    </p> 
+  </div> 
+  
+    <div class="flex items-center gap-2"> 
+    <button (click)="cart.decreaseQuantity(item.product.id)">
+      ➖
+   </button> 
+    
+    <span>{{ item.quantity }}
+
+   </span> 
+    
+    <button (click)="cart.increaseQuantity(item.product.id)">
+      ➕
     </button> 
-
-    <!-- Cantidad --> 
-     <span class="font-semibold text-lg">{{ item.quantity }}</span> 
-     
-    <!-- Botón aumentar --> 
-      <button 
-      (click)="cart.increaseQuantity(item.product.id)" 
-      class="bg-gray-300 hover:bg-gray-400 px-3 py-1 rounded text-lg font-bold"> 
-      + 
-    </button>
-
-    <!-- Botón eliminar -->
-    <button 
-    (click)="cart.removeFromCart(item.product.id)" 
-    class="bg-red-500 text-white px-3 py-1 rounded">
-    Eliminar 
+    
+    <button (click)="cart.removeFromCart(item.product.id)" class="text-red-600 ml-4"> 
+      🗑️ 
     </button> 
   </div> 
-</div>
+</div> 
 
-    <!-- Total y botón vaciar carrito -->
-<div *ngIf="cart.cartItems().length > 0" class="mt-4"> 
-    <p class="text-lg font-bold">Total: {{ cart.total() }} €</p> 
-    
-    <!-- Botón vaciar carrito -->
-    <button 
-    (click)="cart.clearCart()" 
-    class="bg-gray-600 text-white px-4 py-2 rounded mt-3"> 
-    Vaciar carrito 
-    </button> 
-</div>
+      <p class="text-sm text-gray-600"> 
+        Artículos: {{ cart.itemCount() }} 
+      </p>
+
+    <div class="mt-4 text-right"> 
+      <p class="text-lg font-bold"> 
+        Total: {{ cart.total() }} €
+       </p> 
+
+      <button (click)="checkout()" class="bg-blue-600 text-white px-4 py-2 rounded mt-2"> 
+        Proceder al Pago
+      </button>
+
+      <button (click)="confirmClearCart()" 
+        class="mt-2 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition" > 
+        Vaciar carrito
+      </button>
+
+    </div> 
+
+  </div>

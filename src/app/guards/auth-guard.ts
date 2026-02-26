@@ -10,7 +10,7 @@ export class AuthGuard implements CanActivate {
   canActivate(): boolean { 
      // Evitar error en SSR (no existe window ni localStorage) 
      if (typeof window === 'undefined') { 
-      return false; 
+      return true; 
     }
 
       const token = localStorage.getItem('authToken');

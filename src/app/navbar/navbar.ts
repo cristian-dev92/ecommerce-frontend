@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs/operators';
 import { RouterModule } from '@angular/router';
 import { CartService } from '../services/cart.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({ 
   selector: 'app-navbar', 
@@ -13,14 +14,17 @@ import { CartService } from '../services/cart.service';
   styleUrls: ['./navbar.css'],
 }) 
 export class NavbarComponent implements OnInit { 
-  private router = inject(Router); 
   
   loggedIn = false; 
   userName = ''; 
 
   cart = inject(CartService);
+  auth = inject(AuthService);
+  router = inject(Router);
 
-  goToCart() { this.router.navigate(['/cart']); }
+  goToCart() { 
+    this.router.navigate(['/cart']); 
+  }
   
     
   ngOnInit() { 
@@ -48,6 +52,7 @@ export class NavbarComponent implements OnInit {
 
     this.syncAuthState();//Actuliza navbar
 
-    this.router.navigate(['/login']); 
+    this.router.navigate(['/login']);
+    this.auth.logout(); 
   } 
 }
