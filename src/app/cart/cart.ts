@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
   standalone: true, 
   selector: 'app-cart', 
   templateUrl: './cart.html', 
+  styleUrl: './cart.css',
   imports: [CommonModule] 
 }) 
 
@@ -29,4 +30,5 @@ export class CartComponent {
       console.log('Carrito vaciado'); 
     }
   }
+
 }

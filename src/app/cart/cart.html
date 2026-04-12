@@ -1,60 +1,49 @@
-<h2 class="text-xl font-bold mb-4">Carrito de Compras</h2> 
+<h2 class="cart-title">Carrito de Compras</h2>
 
-<div *ngIf="cart.cartItems().length === 0"> 
-  <p>Tu carrito está vacío.</p> 
-</div> 
+<div *ngIf="cart.cartItems().length === 0" class="cart-empty">
+  Tu carrito está vacío.
+</div>
 
-<div *ngIf="cart.cartItems().length > 0"> 
-  <div *ngFor="let item of cart.cartItems()" class="border-b py-3 flex justify-between items-center"> 
-    <div> <p class="font-semibold">{{ item.product.name }}
+<div *ngIf="cart.cartItems().length > 0" class="cart-container">
 
-  </p> 
-    <p class="text-sm text-gray-600">Precio: {{ item.product.price }} 
-      €
-    </p> 
-    
-    <p class="text-sm text-gray-600">Subtotal: {{ item.product.price * item.quantity }} 
-      €
-    </p> 
-  </div> 
-  
-    <div class="flex items-center gap-2"> 
-    <button (click)="cart.decreaseQuantity(item.product.id)">
-      ➖
-   </button> 
-    
-    <span>{{ item.quantity }}
+  <!-- LISTA DE PRODUCTOS -->
+  <div *ngFor="let item of cart.cartItems()" class="cart-item">
 
-   </span> 
-    
-    <button (click)="cart.increaseQuantity(item.product.id)">
-      ➕
-    </button> 
-    
-    <button (click)="cart.removeFromCart(item.product.id)" class="text-red-600 ml-4"> 
-      🗑️ 
-    </button> 
-  </div> 
-</div> 
+    <div class="cart-product">
+      <img [src]="item.product.imageUrl" class="cart-img" alt="Producto" />
 
-      <p class="text-sm text-gray-600"> 
-        Artículos: {{ cart.itemCount() }} 
-      </p>
+      <div class="cart-info">
+        <p class="cart-name">{{ item.product.name }}</p>
+        <p class="cart-price">Precio: {{ item.product.price }} €</p>
+        <p class="cart-subtotal">Subtotal: {{ item.product.price * item.quantity }} €</p>
+      </div>
+    </div>
 
-    <div class="mt-4 text-right"> 
-      <p class="text-lg font-bold"> 
-        Total: {{ cart.total() }} €
-       </p> 
+    <div class="cart-actions">
+      <button (click)="cart.decreaseQuantity(item.product.id)" class="qty-btn">−</button>
+      <span class="qty">{{ item.quantity }}</span>
+      <button (click)="cart.increaseQuantity(item.product.id)" class="qty-btn">+</button>
 
-      <button (click)="checkout()" class="bg-blue-600 text-white px-4 py-2 rounded mt-2"> 
-        Proceder al Pago
-      </button>
-
-      <button (click)="confirmClearCart()" 
-        class="mt-2 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition" > 
-        Vaciar carrito
-      </button>
-
-    </div> 
+      <button (click)="cart.removeFromCart(item.product.id)" class="btn-delete">🗑️</button>
+    </div>
 
   </div>
+
+  <!-- RESUMEN FINAL (SEPARADO) -->
+  <div class="cart-summary">
+    <p class="summary-items">Artículos: {{ cart.itemCount() }}</p>
+
+    <p class="summary-total">
+      Total: <span>{{ cart.total() }} €</span>
+    </p>
+
+    <button (click)="checkout()" class="btn-primary checkout-btn">
+      Proceder al Pago
+    </button>
+
+    <button (click)="confirmClearCart()" class="btn-secondary clear-btn">
+      Vaciar carrito
+    </button>
+  </div>
+
+</div>
