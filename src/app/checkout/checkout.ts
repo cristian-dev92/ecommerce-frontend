@@ -9,6 +9,7 @@ import { Router } from "@angular/router";
     standalone: true,
     selector: 'app-checkout',
     templateUrl: './checkout.html',
+    styleUrl: './checkout.css',
     imports: [CommonModule],
 })
 export class CheckoutComponent {

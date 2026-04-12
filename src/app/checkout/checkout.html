@@ -1,26 +1,43 @@
-<h2 class="text-xl font-bold mb-4">
-    Finalizar Compra
-</h2> 
+<h2 class="checkout-title">Finalizar Compra</h2>
 
-<div *ngIf="cart.cartItems().length === 0"> 
-    <p>Tu carrito está vacío.</p> 
-</div> 
+<div *ngIf="cart.cartItems().length === 0" class="checkout-empty">
+  Tu carrito está vacío.
+</div>
 
-<div *ngIf="cart.cartItems().length > 0"> 
-    <h3 class="font-semibold mb-2">
-        Resumen del Pedido
-    </h3> 
-    <div *ngFor="let item of cart.cartItems()" class="border-b py-2"> 
-        <p>{{ item.product.name }} (x{{ item.quantity }})</p> 
-        <p class="text-sm text-gray-600"> 
-            Subtotal: {{ item.product.price * item.quantity }} € 
-        </p> 
-    </div> 
-    <p class="text-lg font-bold mt-4"> 
-        Total: {{ cart.total() }} € 
-    </p> 
-    <button (click)="confirmOrder()" 
-    class="mt-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition" > 
-    Confirmar Pedido 
-  </button> 
+<div *ngIf="cart.cartItems().length > 0" class="checkout-container">
+
+  <!-- Lista de productos -->
+  <h3 class="checkout-subtitle">Resumen del Pedido</h3>
+
+  <div *ngFor="let item of cart.cartItems()" class="checkout-item">
+
+    <div class="checkout-product">
+      <img [src]="item.product.imageUrl" class="checkout-img" alt="Producto" />
+
+      <div class="checkout-info">
+        <p class="checkout-name">{{ item.product.name }}</p>
+        <p class="checkout-qty">Cantidad: {{ item.quantity }}</p>
+        <p class="checkout-subtotal">Subtotal: {{ item.product.price * item.quantity }} €</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Resumen final -->
+  <div class="checkout-summary">
+    <p class="summary-total">
+      Total del pedido: <span>{{ cart.total() }} €</span>
+    </p>
+
+    <div class="checkout-buttons">
+      <button (click)="confirmOrder()" class="btn-primary confirm-btn">
+        Confirmar Pedido
+      </button>
+
+      <button (click)="router.navigate(['/cart'])" class="btn-secondary cancel-btn">
+        Cancelar
+      </button>
+    </div>
+  </div>
+
 </div>
