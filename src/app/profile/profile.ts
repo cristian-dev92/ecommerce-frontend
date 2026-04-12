@@ -10,7 +10,7 @@ import { OrdersHistory } from './orders-history/orders-history';
     selector: 'app-profile', 
     templateUrl: './profile.html', 
     styleUrls: ['./profile.css'],
-    imports: [CommonModule, ReactiveFormsModule, RouterOutlet, OrdersHistory] 
+    imports: [CommonModule, ReactiveFormsModule, OrdersHistory] 
 }) 
 
     export class ProfileComponent {

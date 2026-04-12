@@ -1,85 +1,79 @@
-<h2 class="text-2xl font-bold mb-6">Mi Perfil</h2> 
+<h2 class="profile-title">Mi Perfil</h2>
 
-<!-- AVATAR --> 
- <div class="mb-8"> 
-    <h3 class="font-semibold mb-2">Foto de Perfil</h3> 
+<!-- AVATAR -->
+<div class="profile-section">
+  <h3 class="section-title">Foto de Perfil</h3>
 
-     <div class="flex flex-col items-center gap-4">
+  <div class="avatar-container">
+    <img
+      [src]="avatarPreview || auth.user()?.avatarUrl || 'https://via.placeholder.com/150'"
+      class="avatar-img"
+      alt="Avatar"
+    />
 
-    <img 
-    [src]="avatarPreview || auth.user()?.avatarUrl || 'https://via.placeholder.com/120'" 
-    class="avatar rounded-full object-cover mb-4"
-    alt="Avatar"
-    /> 
+    <label for="avatarInput" class="btn-secondary small-btn">
+      Cambiar foto
+    </label>
 
-    <label for="avatarInput" class="px-4 py-2 text-sm font-medium bg-gray-100 hover:bg-gray-200 rounded-md cursor-pointer" > 
-        Cambiar foto 
-    </label> 
-    
-    <input type="file" (change)="onAvatarSelected($event)" /> 
-    
- </div> 
+    <input id="avatarInput" type="file" (change)="onAvatarSelected($event)" hidden />
+  </div>
 </div>
 
-<!-- NOMBRE --> 
- <div class="border p-4 rounded mb-6"> 
-    <h3 class="font-semibold mb-2">Cambiar Nombre</h3> 
-    
-    <form [formGroup]="nameForm" (ngSubmit)="updateName()"> 
-        <input class="border p-2 w-full mb-2" formControlName="name" placeholder="Nombre" /> 
-        <button class="bg-yellow-600 text-white px-4 py-2 rounded">Guardar Nombre</button> 
-    </form>
+<!-- CAMBIAR NOMBRE -->
+<div class="profile-section">
+  <h3 class="section-title">Cambiar Nombre</h3>
 
-<!-- EMAIL --> 
- <div class="border p-4 rounded mb-6"> 
-    <h3 class="font-semibold mb-2">Cambiar Email</h3> 
-    
-    <form [formGroup]="emailForm" (ngSubmit)="updateEmail()"> 
-        <input class="border p-2 w-full mb-2" formControlName="email" type="email" /> 
-        <button class="bg-blue-600 text-white px-4 py-2 rounded">Guardar Email</button> 
-    </form> 
-</div> 
+  <form [formGroup]="nameForm" (ngSubmit)="updateName()" class="profile-form">
+    <input class="input" formControlName="name" placeholder="Nombre" />
+    <button class="btn-primary small-btn">Guardar Nombre</button>
+  </form>
+</div>
 
-<!-- CONTRASEÑA --> <div class="border p-4 rounded mb-6">
-     <h3 class="font-semibold mb-2">Cambiar Contraseña</h3> 
-     
-     <form [formGroup]="passwordForm" (ngSubmit)="updatePassword()"> 
-        <input class="border p-2 w-full mb-2" type="password" placeholder="Contraseña actual" formControlName="currentPassword" /> 
-        <input class="border p-2 w-full mb-2" type="password" placeholder="Nueva contraseña" formControlName="newPassword" /> 
-        <button class="bg-green-600 text-white px-4 py-2 rounded">Cambiar Contraseña</button> 
-    </form> 
-</div> 
+<!-- CAMBIAR EMAIL -->
+<div class="profile-section">
+  <h3 class="section-title">Cambiar Email</h3>
 
-<!-- DIRECCIÓN --> 
- <div class="border p-4 rounded mb-6"> 
-    <h3 class="font-semibold mb-2">Dirección de Envío</h3> 
-    
-    <form [formGroup]="addressForm" (ngSubmit)="updateAddress()"> 
-        <input class="border p-2 w-full mb-2" placeholder="Calle" formControlName="street" /> 
-        <input class="border p-2 w-full mb-2" placeholder="Ciudad" formControlName="city" /> 
-        <input class="border p-2 w-full mb-2" placeholder="Código Postal" formControlName="postalCode" /> 
-        <input class="border p-2 w-full mb-2" placeholder="País" formControlName="country" /> 
-        <button class="bg-purple-600 text-white px-4 py-2 rounded">Guardar Dirección</button> 
-    </form> 
-</div> 
+  <form [formGroup]="emailForm" (ngSubmit)="updateEmail()" class="profile-form">
+    <input class="input" formControlName="email" type="email" placeholder="Email" />
+    <button class="btn-primary small-btn">Guardar Email</button>
+  </form>
+</div>
 
-<!-- HISTORIAL DE PEDIDOS --> 
- <a routerLink="/profile/orders" class="text-blue-600 underline"> 
- </a>
+<!-- CAMBIAR CONTRASEÑA -->
+<div class="profile-section">
+  <h3 class="section-title">Cambiar Contraseña</h3>
 
- <app-orders-history></app-orders-history>
+  <form [formGroup]="passwordForm" (ngSubmit)="updatePassword()" class="profile-form">
+    <input class="input" type="password" placeholder="Contraseña actual" formControlName="currentPassword" />
+    <input class="input" type="password" placeholder="Nueva contraseña" formControlName="newPassword" />
+    <button class="btn-primary small-btn">Cambiar Contraseña</button>
+  </form>
+</div>
 
- <!-- Aquí se cargan las páginas internas del perfil --> 
-  <router-outlet></router-outlet>
+<!-- DIRECCIÓN -->
+<div class="profile-section">
+  <h3 class="section-title">Dirección de Envío</h3>
 
-<!-- ELIMINAR CUENTA --> 
- <div class="border p-4 rounded mb-6"> 
-    <h3 class="font-semibold mb-2 text-red-600">Eliminar Cuenta</h3> 
+  <form [formGroup]="addressForm" (ngSubmit)="updateAddress()" class="profile-form">
+    <input class="input" placeholder="Calle" formControlName="street" />
+    <input class="input" placeholder="Ciudad" formControlName="city" />
+    <input class="input" placeholder="Código Postal" formControlName="postalCode" />
+    <input class="input" placeholder="País" formControlName="country" />
+    <button class="btn-primary small-btn">Guardar Dirección</button>
+  </form>
+</div>
 
-    <button 
-    (click)="deleteAccount()" 
-    class="bg-red-600 text-white px-4 py-2 rounded" 
-    > 
-    Eliminar Cuenta 
- </button> 
+<!-- HISTORIAL DE PEDIDOS -->
+<div class="profile-section">
+  <h3 class="section-title">Historial de Pedidos</h3>
+  <app-orders-history></app-orders-history>
+</div>
+
+<!-- ELIMINAR CUENTA -->
+<div class="profile-section danger-zone">
+  <h3 class="section-title danger-text">Eliminar Cuenta</h3>
+
+  <button (click)="deleteAccount()" class="btn-danger small-btn">
+    Eliminar Cuenta
+  </button>
 </div>
