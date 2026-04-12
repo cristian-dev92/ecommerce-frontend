@@ -3,13 +3,13 @@ import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router'; 
 import { CommonModule } from '@angular/common'; 
 import { ProductService } from '../services/product.service'; 
-import { Product } from '../models/product';
 
 @Component({
-     standalone: true,
-      selector: 'app-product-edit',
-       templateUrl: './product-edit.html', 
-       imports: [CommonModule, ReactiveFormsModule, RouterModule] 
+    standalone: true,
+    selector: 'app-product-edit',
+    templateUrl: './product-edit.html', 
+    styleUrl: './product-edit.css',
+    imports: [CommonModule, ReactiveFormsModule, RouterModule] 
     }) 
     export class ProductEditComponent {
 
@@ -20,6 +20,9 @@ import { Product } from '../models/product';
 
         imagePreview: string | ArrayBuffer | null = null;
         selectedFile: File | null = null;
+
+        // Convertir el ID a número, asegurando que no sea null
+        id = Number(this.route.snapshot.paramMap.get('id'));
         
         // Formulario NO-NULO → evita todos los errores de null/undefine
         form = this.fb.nonNullable.group({ 
@@ -29,52 +32,51 @@ import { Product } from '../models/product';
             imageUrl: ['']
         });
         
-        id = Number(this.route.snapshot.paramMap.get('id')); 
-        
-        ngOnInit() { 
-            this.productService.getProduct(this.id).subscribe(product => {
-                 this.form.patchValue({
-                 name: product.name,
-                 description: product.description,
-                 price: product.price,
-                 imageUrl: product.imageUrl
-                }); 
+        ngOnInit() {
+            const id = Number(this.route.snapshot.paramMap.get('id'));
 
-                if (product.imageUrl) { 
-                    this.imagePreview = product.imageUrl; 
-                }
-              });
-            } 
+            this.productService.getProduct(id!).subscribe(product => {
+            this.form.patchValue(product);
+            this.imagePreview = product.imageUrl; // Mostrar imagen actual
+        });
+    }
 
-            onFileSelected(event: any) { 
-                const file = event.target.files[0]; 
-                if (!file) return; 
+        onFileSelected(event: any) {
+            const file = event.target.files[0];
+            if (!file) return;
 
-                this.selectedFile = file; 
+            this.selectedFile = file;
 
-                const reader = new FileReader(); 
-                reader.onload = () => this.imagePreview = reader.result as string; 
-                reader.readAsDataURL(file); 
-            }
+            // Preview
+            const reader = new FileReader();
+            reader.onload = () => this.imagePreview = reader.result as string;
+            reader.readAsDataURL(file);
 
-            uploadImage() { 
-                if (!this.selectedFile) return; 
-                
-                const formData = new FormData(); 
-                
-                formData.append('imageUrl', this.selectedFile); 
-                this.productService.uploadImage(formData).subscribe(res => { 
-                    this.form.patchValue({ imageUrl: res.imageUrl }); 
-                }); 
-            }
-            
-            onSubmit() { 
-                if (this.form.invalid) return; 
-                
-                // Como el formulario es nonNullable, no hay nulls → TypeScript feliz
-                const updatedProduct: Partial<Product> = this.form.value;
-                this.productService.updateProduct(this.id, updatedProduct).subscribe(() => { 
-                    this.router.navigate(['/products']); 
-                }); 
-            } 
+            // 🔥 Subir imagen automáticamente SIN ID
+            const formData = new FormData();
+            formData.append('image', file);
+
+            this.productService.uploadImage(formData).subscribe({
+                next: (res) => {
+                this.form.patchValue({ imageUrl: res.imageUrl });
+                console.log("Imagen subida:", res.imageUrl);
+            },
+            error: (err) => console.error("Error subiendo imagen:", err)
+            });
         }
+
+        onSubmit() {
+            if (this.form.invalid) return;
+
+            const id = Number(this.route.snapshot.paramMap.get('id'));
+            const updatedProduct = this.form.value;
+
+            this.productService.updateProduct(id!, updatedProduct).subscribe({
+             next: () => {
+            console.log("Producto actualizado");
+            this.router.navigate(['/products']);
+            },
+        error: (err) => console.error("Error actualizando:", err)
+    });
+ }
+}    
