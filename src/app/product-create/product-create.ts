@@ -3,12 +3,12 @@ import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router'; 
 import { CommonModule } from '@angular/common'; 
 import { ProductService } from '../services/product.service'; 
-import { Product } from '../models/product';
 
 @Component({ 
     standalone: true, 
     selector: 'app-product-create', 
     templateUrl: './product-create.html', 
+    styleUrls: ['./product-create.css'],
     imports: [CommonModule, ReactiveFormsModule, RouterModule] 
 }) 
 export class ProductCreateComponent {
@@ -19,6 +19,7 @@ export class ProductCreateComponent {
 
     imagePreview: string | ArrayBuffer | null = null;
     selectedFile: File | null = null;
+    createdProductId: number = 0;
 
     form = this.fb.nonNullable.group({ 
         name: ['', Validators.required], 
@@ -36,29 +37,39 @@ export class ProductCreateComponent {
             const reader = new FileReader(); 
             reader.onload = () => this.imagePreview = reader.result as string; 
             reader.readAsDataURL(file); 
+
+            //Subir imagen automáticamente SIN ID
+            const formData = new FormData();
+            formData.append('image', file);
+
+             this.productService.uploadImage(formData).subscribe({
+                next: (res) => {
+                    // Guardamos la URL en el formulario
+                    this.form.patchValue({ imageUrl: res.imageUrl });
+                    console.log("Imagen subida correctamente:", res.imageUrl);
+                },
+                error: (err) => {
+                    console.error("Error subiendo imagen:", err);
+                }
+            });
         }
 
-         uploadImage() { 
-            if (!this.selectedFile){
-                 console.error("No hay archivo seleccionado");
-                    return;
-            } 
-                
-            const formData = new FormData(); 
-            formData.append('imageUrl', this.selectedFile); 
-            
-            this.productService.uploadImage(formData).subscribe(res => { 
-                this.form.patchValue({ imageUrl: res.imageUrl }); 
-            }); 
+        onSubmit() {
+         if (this.form.invalid) {
+            console.error("Formulario inválido");
+            return;
+         }
+
+        const newProduct = this.form.value;
+
+        this.productService.createProduct(newProduct).subscribe({
+         next: () => {
+            console.log("Producto creado correctamente");
+            this.router.navigate(['/products']);
+        },
+        error: (err) => {
+             console.error("Error creando producto:", err);
         }
-
-        onSubmit() { 
-            if (this.form.invalid) return; 
-
-            const newProduct: Partial<Product> = this.form.value;
-            
-            this.productService.createProduct(newProduct).subscribe(() => { 
-                this.router.navigate(['/products']); 
-            }); 
-        } 
-    }
+    });
+  }
+} 
