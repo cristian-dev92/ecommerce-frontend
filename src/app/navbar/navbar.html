@@ -11,7 +11,8 @@
      <div class="links"> 
       
     <!-- Enlace Productos --> 
-     <a [routerLink]="['/products']">
+     <a [routerLink]="['/products']"
+     class="link-productos">
       Productos 
     </a> 
     
@@ -35,7 +36,8 @@
   
   <!-- 🔐 Si NO está logueado --> 
    <div *ngIf="!auth.loggedIn()">
-   <a [routerLink]="['/login']">
+   <a [routerLink]="['/login']"
+   class="link-login">
     Iniciar Sesión 
   </a> 
   
@@ -46,13 +48,14 @@
 </div> 
 
 <!-- 👤 Si está logueado --> 
- <div *ngIf="auth.loggedIn()">
+ <div *ngIf="auth.loggedIn()" class="user-actions">
   <span> 
       Hola, {{ auth.userName() }} 
   </span> 
   
   <!-- Enlace Perfil -->
-  <a [routerLink]="['/profile']"> 
+  <a [routerLink]="['/profile']"
+  class="link-perfil"> 
   Mi Perfil 
 </a>
   
