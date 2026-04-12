@@ -1,42 +1,40 @@
-<h2 class="title">Catálogo de Productos de la Tienda</h2> 
+<div class="catalog-container">
 
-<!-- Tabla de productos -->
- <div class="product-grid" *ngIf="products().length > 0"> 
-  <div class="product-card" *ngFor="let product of products(); trackBy: trackById"> 
-    
-    <!-- Imagen del producto -->
-      <td class="px-6 py-4"> <img [src]="product.imageUrl" class="product-image" alt="Imagen del producto"> </td>
-    
-    <!-- Título del producto -->
-    <h3 class="product-title">{{ product.name }}</h3>
-    
-    <!-- Descripción del producto -->
-    <p class="product-description"> {{ product.description }}</p>
+  <h2 class="catalog-title">Catálogo de Productos</h2>
 
-    <!-- Pie de producto con precio y botones -->
-    <div class="product-footer"> 
-      <span class="product-price">{{ product.price | currency:'EUR':'symbol' }}</span>
+  <button *ngIf="authService.isAdmin()"
+    [routerLink]="['/products/create']"
+    class="btn-create">
+    + Crear Producto
+  </button>
 
-    <!-- Botón Añadir al carrito -->
-      <button class="btn"(click)="cartService.addToCart(product)"> 
-      Añadir al carrito 
-    </button>
+  <table class="product-table" *ngIf="products().length > 0">
+    <thead>
+      <tr>
+        <th>Imagen</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Precio</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
 
-    <!-- Botón Editar --> 
-    <div class="product-actions">
-     <a [routerLink]="['/products/edit', product.id]" class="edit-link"> 
-     Editar 
-    </a> 
-    <!-- Botón Eliminar --> 
-     <button (click)="deleteProduct(product.id)" class="delete-link"> 
-     Eliminar 
-    </button>
-   </div>
+    <tbody>
+      <tr *ngFor="let product of products(); trackBy: trackById">
+        <td><img [src]="product.imageUrl" class="product-image"></td>
+        <td>{{ product.name }}</td>
+        <td>{{ product.description }}</td>
+        <td>{{ product.price | currency:'EUR':'symbol' }}</td>
 
-  </div>
-</div>
+        <td>
+          <div class="action-buttons">
+            <button (click)="cartService.addToCart(product)" class="btn-buy">Comprar</button>
+            <a *ngIf="authService.isAdmin()" [routerLink]="['/products/edit', product.id]" class="btn-edit">Editar</a>
+            <button *ngIf="authService.isAdmin()" (click)="deleteProduct(product.id)" class="btn-delete">Eliminar</button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
-<!-- Mensaje de carga --> 
- <div *ngIf="products().length === 0" class="empty-message"> 
-  Cargando productos... (Verifique que Spring Boot esté activo en :8080) 
 </div>
