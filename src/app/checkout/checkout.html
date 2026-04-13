@@ -1,47 +1,45 @@
 <h2 class="checkout-title">Finalizar Compra</h2>
 
-<div *ngIf="cart.cartItems().length === 0" class="checkout-empty">
-  Tu carrito está vacío.
-</div>
+@if (cart.cartItems().length === 0) {
+  <div class="checkout-empty">
+    Tu carrito está vacío.
+  </div>
+} @else {
+  <div class="checkout-container">
 
-<div *ngIf="cart.cartItems().length > 0" class="checkout-container">
+    <h3 class="checkout-subtitle">Resumen del Pedido</h3>
 
-  <!-- Lista de productos -->
-  <h3 class="checkout-subtitle">Resumen del Pedido</h3>
-
-  <div *ngFor="let item of cart.cartItems()" class="checkout-item">
-
-    
-      <!-- Mostrar detalles del producto -->
-    <div class="checkout-product">
+    @for (item of cart.cartItems(); track $index) {
       @if (item.product) {
-      <img [src]="item.product.imageUrl" class="checkout-img" alt="Producto" />
+        <div class="checkout-item">
+          <div class="checkout-product">
+            <img [src]="item.product.imageUrl" class="checkout-img" alt="Producto" />
 
-      <div class="checkout-info">
-        <p class="checkout-name">{{ item.product.name }}</p>
-        <p class="checkout-qty">Cantidad: {{ item.quantity }}</p>
-        <p class="checkout-subtotal">Subtotal: {{ item.product.price * item.quantity }} €</p>
-      </div>
+            <div class="checkout-info">
+              <p class="checkout-name">{{ item.product.name }}</p>
+              <p class="checkout-qty">Cantidad: {{ item.quantity }}</p>
+              <p class="checkout-subtotal">Subtotal: {{ item.product.price * item.quantity }} €</p>
+            </div>
+          </div>
+        </div>
+      }
     }
+
+    <div class="checkout-summary">
+      <p class="summary-total">
+        Total del pedido: <span>{{ cart.total() }} €</span>
+      </p>
+
+      <div class="checkout-buttons">
+        <button (click)="confirmOrder()" class="btn-primary confirm-btn">
+          Confirmar Pedido
+        </button>
+
+        <button (click)="router.navigate(['/cart'])" class="btn-secondary cancel-btn">
+          Cancelar
+        </button>
+      </div>
     </div>
 
   </div>
-
-  <!-- Resumen final -->
-  <div class="checkout-summary">
-    <p class="summary-total">
-      Total del pedido: <span>{{ cart.total() }} €</span>
-    </p>
-
-    <div class="checkout-buttons">
-      <button (click)="confirmOrder()" class="btn-primary confirm-btn">
-        Confirmar Pedido
-      </button>
-
-      <button (click)="router.navigate(['/cart'])" class="btn-secondary cancel-btn">
-        Cancelar
-      </button>
-    </div>
-  </div>
-
-</div>
+}
