@@ -1,0 +1,8 @@
+.privacy-text {
+  font-size: 1.15rem;      /* más grande */
+  line-height: 1.75rem;    /* más espacio entre líneas */
+  color: #374151;          /* gris elegante y legible */
+  max-width: 800px;        /* evita líneas demasiado largas */
+  margin: 0 auto;          /* centra el texto */
+  white-space: nowrap;
+}
