@@ -48,7 +48,7 @@ export class LoginComponent {
         this.cd.markForCheck();
         this.router.navigate(['/']);
       },
-      error: (error) => { 
+      error: (error: any) => { 
         console.error('Error en login:', error); 
         this.isSubmitting = false; 
         
