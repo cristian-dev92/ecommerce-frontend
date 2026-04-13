@@ -2,6 +2,13 @@
 
   <h2 class="catalog-title">Catálogo de Productos</h2>
 
+  @if (loading() && showSlowServerMessage) {
+  <div class="alert alert-info">
+    🚀 <strong>Nota de la demo:</strong> El servidor de Render está "despertando". 
+    Esto puede tardar unos 30-60 segundos en la primera carga. ¡Gracias por esperar!
+  </div>
+}
+
   <!-- SOLO ADMIN -->
   <button *ngIf="auth.isAdmin()"
     [routerLink]="['/products/create']"
