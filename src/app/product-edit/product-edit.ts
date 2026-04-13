@@ -37,7 +37,7 @@ import { ProductService } from '../services/product.service';
 
             this.productService.getProduct(id!).subscribe(product => {
             this.form.patchValue(product);
-            this.imagePreview = product.imageUrl; // Mostrar imagen actual
+            this.imagePreview = product.imageUrl || null; // Mostrar imagen actual
         });
     }
 
@@ -56,7 +56,7 @@ import { ProductService } from '../services/product.service';
             const formData = new FormData();
             formData.append('image', file);
 
-            this.productService.uploadImage(formData).subscribe({
+            this.productService.uploadImage(this.id, file).subscribe({
                 next: (res: any) => {
                 this.form.patchValue({ imageUrl: res.imageUrl });
                 console.log("Imagen subida:", res.imageUrl);

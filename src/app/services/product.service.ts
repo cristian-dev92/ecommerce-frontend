@@ -7,7 +7,7 @@ import { Product } from '../models/product';
 @Injectable({
   providedIn: 'root',})
 export class ProductService {
-  private apiUrl = 'http://localhost:8080/api/products';
+  private apiUrl = 'https://ecommerce-backend-z7r5.onrender.com/api/products';
   private http = inject(HttpClient);
 
   getProducts(): Observable<Product[]> {
@@ -24,5 +24,11 @@ export class ProductService {
   }
   deleteProduct(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+  // 2. AÑADE EL MÉTODO DE UPLOAD IMAGE (que te faltaba)
+  uploadImage(id: number, file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post(`${this.apiUrl}/${id}/upload`, formData);
   }
 }

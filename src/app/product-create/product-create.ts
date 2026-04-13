@@ -42,7 +42,7 @@ export class ProductCreateComponent {
             const formData = new FormData();
             formData.append('image', file);
 
-             this.productService.uploadImage(formData).subscribe({
+             this.productService.uploadImage(this.createdProductId, file).subscribe({
                 next: (res: any) => {
                     // Guardamos la URL en el formulario
                     this.form.patchValue({ imageUrl: res.imageUrl });

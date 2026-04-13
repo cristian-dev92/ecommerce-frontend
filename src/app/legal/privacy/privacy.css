@@ -4,5 +4,5 @@
   color: #374151;          /* gris elegante y legible */
   max-width: 800px;        /* evita líneas demasiado largas */
   margin: 0 auto;          /* centra el texto */
-  white-space: nowrap;
+  white-space: nowrap;    /* evita saltos de línea */
 }
