@@ -43,12 +43,12 @@ export class ProductCreateComponent {
             formData.append('image', file);
 
              this.productService.uploadImage(formData).subscribe({
-                next: (res) => {
+                next: (res: any) => {
                     // Guardamos la URL en el formulario
                     this.form.patchValue({ imageUrl: res.imageUrl });
                     console.log("Imagen subida correctamente:", res.imageUrl);
                 },
-                error: (err) => {
+                error: (err: any) => {
                     console.error("Error subiendo imagen:", err);
                 }
             });
@@ -63,11 +63,11 @@ export class ProductCreateComponent {
         const newProduct = this.form.value;
 
         this.productService.createProduct(newProduct).subscribe({
-         next: () => {
+         next: (res: any) => {
             console.log("Producto creado correctamente");
             this.router.navigate(['/products']);
         },
-        error: (err) => {
+        error: (err: any) => {
              console.error("Error creando producto:", err);
         }
     });
