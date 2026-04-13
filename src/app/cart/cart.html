@@ -1,49 +1,51 @@
 <h2 class="cart-title">Carrito de Compras</h2>
 
-<div *ngIf="cart.cartItems().length === 0" class="cart-empty">
-  Tu carrito está vacío.
-</div>
+@if (cart.cartItems().length === 0) {
+  <div class="cart-empty">
+    Tu carrito está vacío.
+  </div>
+} @else {
+  <div class="cart-container">
 
-<div *ngIf="cart.cartItems().length > 0" class="cart-container">
+    @for (item of cart.cartItems(); track $index) {
+      @if (item.product) {
+        <div class="cart-item">
+          <div class="cart-product">
+            <img [src]="item.product.imageUrl" class="cart-img" alt="Producto" />
 
-  <!-- LISTA DE PRODUCTOS -->
-  <div *ngFor="let item of cart.cartItems()" class="cart-item">
-    @if (item.product) {
-    <div class="cart-product">
-      <img [src]="item.product.imageUrl" class="cart-img" alt="Producto" />
+            <div class="cart-info">
+              <p class="cart-name">{{ item.product.name }}</p>
+              <p class="cart-price">Precio: {{ item.product.price }} €</p>
+              <p class="cart-subtotal">Subtotal: {{ item.product.price * item.quantity }} €</p>
+            </div>
+          </div>
 
-      <div class="cart-info">
-        <p class="cart-name">{{ item.product.name }}</p>
-        <p class="cart-price">Precio: {{ item.product.price }} €</p>
-        <p class="cart-subtotal">Subtotal: {{ item.product.price * item.quantity }} €</p>
-      </div>
+          <div class="cart-actions">
+            <button (click)="cart.decreaseQuantity(item.product.id)" class="qty-btn">−</button>
+            <span class="qty">{{ item.quantity }}</span>
+            <button (click)="cart.increaseQuantity(item.product.id)" class="qty-btn">+</button>
+
+            <button (click)="cart.removeFromCart(item.product.id)" class="btn-delete">🗑️</button>
+          </div>
+        </div>
+      }
+    }
+
+    <div class="cart-summary">
+      <p class="summary-items">Artículos: {{ cart.itemCount() }}</p>
+
+      <p class="summary-total">
+        Total: <span>{{ cart.total() }} €</span>
+      </p>
+
+      <button (click)="checkout()" class="btn-primary checkout-btn">
+        Proceder al Pago
+      </button>
+
+      <button (click)="confirmClearCart()" class="btn-secondary clear-btn">
+        Vaciar carrito
+      </button>
     </div>
 
-    <div class="cart-actions">
-      <button (click)="cart.decreaseQuantity(item.product.id)" class="qty-btn">−</button>
-      <span class="qty">{{ item.quantity }}</span>
-      <button (click)="cart.increaseQuantity(item.product.id)" class="qty-btn">+</button>
-
-      <button (click)="cart.removeFromCart(item.product.id)" class="btn-delete">🗑️</button>
-    </div>
-  }
   </div>
-
-  <!-- RESUMEN FINAL (SEPARADO) -->
-  <div class="cart-summary">
-    <p class="summary-items">Artículos: {{ cart.itemCount() }}</p>
-
-    <p class="summary-total">
-      Total: <span>{{ cart.total() }} €</span>
-    </p>
-
-    <button (click)="checkout()" class="btn-primary checkout-btn">
-      Proceder al Pago
-    </button>
-
-    <button (click)="confirmClearCart()" class="btn-secondary clear-btn">
-      Vaciar carrito
-    </button>
-  </div>
-
-</div>
+}
