@@ -110,3 +110,26 @@
 .btn-delete:hover {
     background: #b91c1c;
 }
+
+/* Aviso mensaje */
+.alert {
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin: 1rem auto;
+  max-width: 700px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+/* Color del aviso */
+.alert-info {
+  background: #1e3a8a; /* azul elegante */
+  color: #fff;
+  border: 1px solid #3b82f6;
+}

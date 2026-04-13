@@ -30,7 +30,7 @@ export class ProductListComponent implements OnInit {
   ngOnInit(): void {
     // Si a los 5 segundos no han llegado los productos, activamos el mensaje
   setTimeout(() => {
-    if (this.products().length === 0 && !this.loading()) {
+    if (this.loading() && this.products().length === 0) {
       this.showSlowServerMessage.set(true);
     }
   }, 5000);
@@ -41,8 +41,8 @@ export class ProductListComponent implements OnInit {
     this.productService.getProducts().subscribe({
       next: (data) => {
         this.products.set(data);
-        this.showSlowServerMessage.set(false); // <-- Añade esto para ocultar el aviso si ya hay datos
         this.loading.set(false);
+        this.showSlowServerMessage.set(false); // <-- Añade esto para ocultar el aviso si ya hay datos
       },
       error: () => {
         this.error.set(true);
