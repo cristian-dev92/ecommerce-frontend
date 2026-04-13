@@ -11,7 +11,10 @@
 
   <div *ngFor="let item of cart.cartItems()" class="checkout-item">
 
+    
+      <!-- Mostrar detalles del producto -->
     <div class="checkout-product">
+      @if (item.product) {
       <img [src]="item.product.imageUrl" class="checkout-img" alt="Producto" />
 
       <div class="checkout-info">
@@ -19,6 +22,7 @@
         <p class="checkout-qty">Cantidad: {{ item.quantity }}</p>
         <p class="checkout-subtotal">Subtotal: {{ item.product.price * item.quantity }} €</p>
       </div>
+    }
     </div>
 
   </div>
