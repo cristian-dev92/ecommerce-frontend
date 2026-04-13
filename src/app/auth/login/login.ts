@@ -42,7 +42,7 @@ export class LoginComponent {
     };
 
     this.auth.login(credentials.email, credentials.password).subscribe({ 
-      next: () => {
+      next: (res: any) => {
         console.log('Login exitoso');
         this.isSubmitting = false;
         this.cd.markForCheck();
