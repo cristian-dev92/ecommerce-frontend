@@ -57,11 +57,11 @@ import { ProductService } from '../services/product.service';
             formData.append('image', file);
 
             this.productService.uploadImage(formData).subscribe({
-                next: (res) => {
+                next: (res: any) => {
                 this.form.patchValue({ imageUrl: res.imageUrl });
                 console.log("Imagen subida:", res.imageUrl);
             },
-            error: (err) => console.error("Error subiendo imagen:", err)
+            error: (err: any) => console.error("Error subiendo imagen:", err)
             });
         }
 
@@ -72,11 +72,11 @@ import { ProductService } from '../services/product.service';
             const updatedProduct = this.form.value;
 
             this.productService.updateProduct(id!, updatedProduct).subscribe({
-             next: () => {
+             next: (res: any) => {
             console.log("Producto actualizado");
             this.router.navigate(['/products']);
             },
-        error: (err) => console.error("Error actualizando:", err)
+        error: (err: any) => console.error("Error actualizando:", err)
     });
  }
 }    
