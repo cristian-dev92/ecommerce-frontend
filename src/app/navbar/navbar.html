@@ -48,7 +48,7 @@
 </div> 
 
 <!-- 👤 Si está logueado --> 
- <div *ngIf="auth.loggedIn()" class="user-actions">
+ <div *ngIf="auth.loggedIn()">
   <span> 
       Hola, {{ auth.userName() }} 
   </span> 

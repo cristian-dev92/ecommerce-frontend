@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core'; 
-import { RouterLink, RouterLinkActive, Router, NavigationEnd } from '@angular/router'; 
+import { RouterLink, Router, NavigationEnd } from '@angular/router'; 
 import { CommonModule } from '@angular/common'; 
 import { filter } from 'rxjs/operators';
 import { RouterModule } from '@angular/router';
@@ -9,9 +9,9 @@ import { AuthService } from '../services/auth.service';
 @Component({ 
   selector: 'app-navbar', 
   standalone: true, 
-  imports: [CommonModule, RouterLink, RouterLinkActive, RouterModule], 
+  imports: [CommonModule, RouterLink, RouterModule], 
   templateUrl: './navbar.html', 
-  styleUrls: ['./navbar.css'],
+  styleUrl: './navbar.css',
 }) 
 export class NavbarComponent implements OnInit { 
   

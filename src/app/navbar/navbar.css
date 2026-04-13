@@ -1,24 +1,120 @@
-.cart-container { 
-    position: relative; 
-    cursor: pointer; 
-    display: flex; 
-    align-items: center; 
-} 
+/* NAVBAR */
+.navbar {
+  background: #111827;
+  color: white;
+  padding: 0.75rem 1.5rem;
 
-.cart-icon { 
-    width: 24px; 
-    height: 24px; 
-    color: #333; 
-} 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
-.cart-badge { 
-    position: absolute; 
-    top: -6px; 
-    right: -10px; 
-    background: red; 
-    color: white; 
-    font-size: 10px; 
-    padding: 2px 6px; 
-    border-radius: 999px; 
-    font-weight: bold; 
+  font-family: sans-serif;
+}
+
+/* LOGO */
+.logo {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: white;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* CONTENEDOR DE LINKS */
+.links {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+}
+
+/* LINKS GENERALES */
+.links a {
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+
+/* PRODUCTOS */
+.link-productos {
+  background: #056d2b;
+  color: #ffffff;
+  padding: 0.45rem 0.9rem;
+  border-radius: 6px;
+  color: white;
+  font-weight: 500;
+}
+.link-productos:hover {
+  opacity: 0.8;
+}
+
+/* LOGIN */
+.link-login {
+  background: #7c07e9;
+  color: #ffffff;
+  padding: 0.45rem 0.9rem;
+  border-radius: 6px;
+  font-weight: 500;
+  margin-right: 1.5rem;
+}
+.link-login:hover {
+  opacity: 0.8;
+}
+
+/* PERFIL */
+.link-perfil {
+  background: #7c07e9;
+  color: #ffffff;
+  padding: 0.45rem 0.9rem;
+  border-radius: 6px;
+  font-weight: 500;
+  margin-right: 1.5rem;
+}
+.link-perfil:hover {
+  opacity: 0.8;
+}
+
+/* CARRITO */
+.cart-container {
+  padding: 0.45rem 0.9rem;
+  border-radius: 6px;
+  font-weight: 500;
+  gap: 0.4rem;
+  cursor: pointer;
+  color: #ffffff;
+  background: #9e7307;
+}
+
+.cart-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.cart-badge {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* BOTONES */
+.btn-primary {
+  background: #2563eb;
+  padding: 0.45rem 0.9rem;
+  border-radius: 6px;
+  color: white;
+  font-weight: 500;
+}
+.btn-primary:hover {
+  opacity: 0.85;
+}
+
+.btn-danger {
+  background: #dc2626;
+  padding: 0.45rem 0.9rem;
+  border-radius: 6px;
+  color: white;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+}
+.btn-danger:hover {
+  opacity: 0.85;
 }

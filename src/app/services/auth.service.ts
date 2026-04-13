@@ -76,15 +76,24 @@ export class AuthService {
   }
 
   isAdmin(): boolean {
-    const token = this.getToken();
-    if (!token) return false;
+  const token = this.getToken();
+  if (!token) return false;
 
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    const roles = payload.roles || payload.authorities || payload.role || payload.authority || [];
+  const payload = JSON.parse(atob(token.split('.')[1]));
 
-    if (Array.isArray(roles)) return roles.includes('ROLE_ADMIN');
-    return roles === 'ROLE_ADMIN';
+  const roles =
+    payload.roles ||
+    payload.authorities ||
+    payload.role ||
+    payload.authority ||
+    [];
+
+  if (Array.isArray(roles)) {
+    return roles.includes('ROLE_ADMIN');
   }
+
+  return roles === 'ROLE_ADMIN';
+ }
 
   private getAuthHeaders() {
     const token = localStorage.getItem('authToken');

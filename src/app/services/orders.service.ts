@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 export class OrdersService { 
     
      http = inject(HttpClient); 
-     private apiUrl = 'http://localhost:8080/api/orders';
+     private apiUrl = 'https://ecommerce-backend-z7r5.onrender.com/api/orders';
     
     createOrder(order: any): Observable<any> { 
         return this.http.post(this.apiUrl, order); 

@@ -2,7 +2,8 @@
 
   <h2 class="catalog-title">Catálogo de Productos</h2>
 
-  <button *ngIf="authService.isAdmin()"
+  <!-- SOLO ADMIN -->
+  <button *ngIf="auth.isAdmin()"
     [routerLink]="['/products/create']"
     class="btn-create">
     + Crear Producto
@@ -28,9 +29,26 @@
 
         <td>
           <div class="action-buttons">
-            <button (click)="cartService.addToCart(product)" class="btn-buy">Comprar</button>
-            <a *ngIf="authService.isAdmin()" [routerLink]="['/products/edit', product.id]" class="btn-edit">Editar</a>
-            <button *ngIf="authService.isAdmin()" (click)="deleteProduct(product.id)" class="btn-delete">Eliminar</button>
+
+            <!-- USER y ADMIN pueden comprar -->
+            <button (click)="cartService.addToCart(product)" class="btn-buy">
+              Comprar
+            </button>
+
+            <!-- SOLO ADMIN -->
+            <a *ngIf="auth.isAdmin()" 
+               [routerLink]="['/products/edit', product.id]" 
+               class="btn-edit">
+              Editar
+            </a>
+
+            <!-- SOLO ADMIN -->
+            <button *ngIf="auth.isAdmin()" 
+                    (click)="deleteProduct(product.id)" 
+                    class="btn-delete">
+              Eliminar
+            </button>
+
           </div>
         </td>
       </tr>

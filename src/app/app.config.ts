@@ -1,6 +1,6 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { provideHttpClient, withInterceptors, withFetch } from '@angular/common/http'; // <-- 1. IMPORTAR ESTO
+import { provideHttpClient, withInterceptors, withFetch} from '@angular/common/http'; // <-- 1. IMPORTAR ESTO
 
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
@@ -13,7 +13,7 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(withEventReplay()),
     // 2. AÑADIR ESTO a la lista de proveedores
     provideHttpClient(
-      withFetch(), // Opcional, para usar fetch en lugar de XMLHttpRequest 
+      withFetch(), // <-- AÑADIR ESTO para usar fetch en lugar de XMLHttpRequest
       withInterceptors([authInterceptor])
     ),
   ],
