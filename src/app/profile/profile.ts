@@ -1,8 +1,7 @@
 import { Component, inject } from '@angular/core'; 
 import { CommonModule } from '@angular/common'; 
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms'; 
-import { AuthService } from '../services/auth.service'; 
-import { RouterOutlet } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 import { OrdersHistory } from './orders-history/orders-history';
 
     @Component({ 
