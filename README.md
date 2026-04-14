@@ -14,6 +14,14 @@ Incluye autenticación JWT, guards, servicios centralizados, componentes standal
 - **HTTPClient**
 - **CSS modular**
 
+🌐 Demo pública
+
+Frontend desplegado en Vercel. 
+
+🔗 Demo: https://ecommerce-frontend-seven-psi.vercel.app/
+
+El backend está en Render y puede tardar 20–60 segundos en despertar en la primera carga.
+
 ## 📦 Instalación
 
 Clona el repositorio:
@@ -109,12 +117,6 @@ src/app/
 │   ├── chekout.ts
 
 │   └── chekout.html
-
-├── core/
-
-│   ├── interceptors/
-
-│   └── auth.interceptor.ts
 
 ├── guards/
 
