@@ -3,274 +3,100 @@
 Frontend moderno desarrollado en **Angular 21** para una aplicación de comercio en general.  
 Incluye autenticación JWT, guards, servicios centralizados, componentes standalone y una arquitectura limpia y escalable.
 
+## 🌐 Demo pública
+
+Frontend desplegado en Vercel.
+
+🔗 Demo: <https://ecommerce-frontend-seven-psi.vercel.app/>
+
+El backend está en Render y puede tardar 20–60 segundos en despertar en la primera carga.
+
 ## 🚀 Tecnologías principales
 
 - **Angular 21**
 - **TypeScript**
 - **Standalone Components**
 - **Signals (estado reactivo)**
-- **Angular Router**
+- **Angular Router & Guards**
 - **Reactive Forms**
 - **HTTPClient**
 - **CSS modular**
 
-🌐 Demo pública
+## 🗂️ Estructura y Organización (src/app)
 
-Frontend desplegado en Vercel. 
+    🔑 auth/: Componentes de Login y Register. Gestionan el acceso del usuario.
 
-🔗 Demo: https://ecommerce-frontend-seven-psi.vercel.app/
+    🛒 cart/: Lógica del carrito de compras. Visualiza y gestiona los productos seleccionados.
 
-El backend está en Render y puede tardar 20–60 segundos en despertar en la primera carga.
+    💳 checkout/: Proceso final de compra y pasarela de pago simulada.
+
+    🛡️ guards/: Protectores de rutas. Controlan quién puede entrar a qué página (ej. AuthGuard).
+
+    🔌 interceptors/: Modifican las peticiones HTTP automáticamente (ej. añadir el token JWT).
+
+    ⚖️ legal/: Páginas de términos de servicio y políticas de privacidad.
+
+    📝 models/: Interfaces de TypeScript que definen la forma de los datos (Product, User, Order).
+
+    🧭 navbar/: Componente global dinámico que cambia según si estás logueado o no.
+
+    🏗️ product-create/edit/list/: Módulos para la gestión completa del inventario (CRUD).
+
+    👤 profile/: Gestión de datos del usuario y visualización del Historial de Pedidos.
+
+    ⚙️ services/: La lógica de comunicación con la API (Auth, Cart, Products, Users).
+
+    🌐 environments/: Configuración de variables según el entorno (Local vs Producción).
+
+    🌐 api-constants.ts: Archivo centralizado para gestionar las URLs del backend.
+
+## 🔐 Autenticación
+
+    El frontend gestiona la seguridad mediante JWT (JSON Web Tokens):
+
+    Login: Envía credenciales y recibe un token.
+
+    Persistencia: El token se guarda en localStorage.
+
+    Estado Reactivo: Usamos Signals (loggedIn, userName) para que toda la web se entere al instante cuando inicias o cierras sesión.
+
+    Protección: Los Guards evitan que usuarios no registrados entren al perfil o al carrito.
 
 ## 📦 Instalación
 
 Clona el repositorio:
 
-``bash
-git clone https://github.com/cristianalhambra/ecommerce-frontend.git
-cd ecommerce-frontend
+    git clone <https://github.com/cristianalhambra/ecommerce-frontend.git>
+    cd ecommerce-frontend
 
 Instala dependencias:
-bash
 
-npm install
+    npm install
 
 ▶️ Ejecutar en desarrollo
-bash
 
-ng serve
+    ng serve
 
-La aplicación estará disponible en:
-Código
+Nota: Accede a <http://localhost:4200/> (Asegúrate de tener el Backend en el puerto 8080).
 
-http://localhost:4200/
+## 🧪 Scripts Útiles
 
-🔐 Autenticación
+    ng serve: Inicia el servidor de desarrollo.
 
-El frontend se conecta al backend Spring Boot mediante JWT.
-Flujo implementado:
+    ng build: Compila la aplicación para producción (listo para Vercel).
 
-  Login con email y contraseña
+    ng test: Ejecuta las pruebas unitarias con Karma/Jasmine.
 
-  Guardado del token en localStorage
+## 🔗 Conexión con el backend
 
-  Signals para estado global:
+La aplicación está preparada para trabajar en dos escenarios:
 
-  loggedIn
+    Local: El backend debe estar corriendo en <http://localhost:8080>
 
-  userName
+    Producción: Se conecta automáticamente a la API alojada en Render.
 
-  Logout con limpieza de estado
+    Nota: Los endpoints principales consumidos son /auth, /products, /users y /orders.
 
-  Interceptor (pendiente de implementar)
+## 👨‍💻 Autor
 
-   Guards:
-
-  AuthGuard → protege rutas privadas
-
-  AuthRedirectGuard → evita acceder a login/register si ya estás autenticado
-
-🧭 Navbar dinámico
-
-El navbar se actualiza automáticamente según el estado de autenticación:
-
-  Si el usuario no está logueado → muestra Login / Register
-
-  Si el usuario está logueado → muestra nombre + Logout
-
-Implementado como Standalone Component.
-🗂️ Estructura del proyecto
-Código
-
-src/app/
-
-│
-
-├── auth/
-
-│   ├── login/
-
-│   └──  login.ts
-
-│   └── login.html
-
-│   └──  login.css
-
-│   ├── register/
-
-│   └──  register.ts
-
-│   └── register.html
-
-│   └──  register.css
-
-├── cart/
-
-│   └──  cart.ts
-
-│   └── cart.html
-
-│   └──  cart.css
-
-├── chekout/
-
-│   ├── chekout.ts
-
-│   └── chekout.html
-
-├── guards/
-
-│   ├── auth-guard.ts
-
-│   └── auth-redirect-guard.ts
-
-├── interceptors/
-
-│   ├── auth.interceptor.ts
-
-├── legal/
-
-│   ├── privacy/
-
-│   ├── privacy.ts
-
-│   └── privacy.html
-
-│   └──  privacy.css
-
-│   ├── terms/
-
-│   ├── terms.ts
-
-│   └── terms.html
-
-│   └──  terms.css
-
-├──  models/
-
-│   ├── order.ts
-
-│   ├── product.ts
-
-│   └── user.ts
-
-├──  navbar/
-
-│   ├── navbar.ts
-
-│   ├── navbar.html
-
-│   └── unavbar.css
-
-├──  product-create/
-
-│   ├── product-create.ts
-
-│   ├── product-create.html
-
-│   └── product-create.css
-
-├──  product-edit/
-
-│   ├── product-edit.ts
-
-│   ├── product-edit.html
-
-│   └── product-edit.css
-
-├──  product-list/
-
-│   ├── nproduct-list.ts
-
-│   ├── product-list.html
-
-│   └── product-list.css
-
-├──  profile/
-
-│   ├── orders-history/
-
-│   ├── orders-history.ts
-
-│   ├── orders-history.html
-
-│   └── orders-history.css
-
-│   ├── profile.ts
-
-│   ├── profile.html
-
-│   └── pprofile.css
-
-├── services/
-
-│   ├── auth.service.ts
-
-│   └── cart.service.ts
-
-│   └── orders.service.ts
-
-│   └── product.service.ts
-
-│   └── user.service.ts
-
-└── api-constants.ts
-
-└── app.config.server.ts
-
-└── app.config.ts
-
-└── app.css
-
-└── app.html
-
-└── app.routes.server.ts
-
-└── app.routes.ts
-
-└── app.ts
-
-🔗 Conexión con el backend
-
-El backend debe estar corriendo en:
-Código
-
-http://localhost:8080
-
-Endpoints usados:
-
-  POST /api/v1/auth/login
-
-  POST /api/v1/auth/register
-
-  GET /api/v1/products (protegido)
-
-Configurable desde user.service.ts.
-🧪 Testing
-
-Incluye archivos .spec.ts generados por Angular para pruebas unitarias.
-
-Ejecutar tests:
-bash
-
-ng test
-
-📄 Scripts útiles
-
-ng serve	Ejecuta el servidor de desarrollo
-
-ng build	Compila para producción
-
-ng test	Ejecuta pruebas unitarias
-
-ng generate component	Crea un componente
-
-ng generate service	Crea un servicio
-
-👨‍💻 Autor
-
-Cristian Alhambra  
-Desarrollador Full‑Stack (Angular + Spring Boot)
-
-📜 Licencia
-Proyecto de uso personal y educativo.
+Cristian Alhambra - Desarrollador Full‑Stack (Angular + Spring Boot)
