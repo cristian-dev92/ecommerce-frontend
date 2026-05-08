@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms'; 
 import { AuthService } from '../services/auth.service';
 import { OrdersHistory } from './orders-history/orders-history';
+import { UserService } from '../services/user.service';
+
 
     @Component({ 
     standalone: true, 
@@ -13,9 +15,10 @@ import { OrdersHistory } from './orders-history/orders-history';
 }) 
 
     export class ProfileComponent {
+
     auth = inject(AuthService); 
     fb = inject(FormBuilder); 
-    
+    userService = inject(UserService);
     // FORMULARIO EMAIL 
     emailForm = this.fb.group({ 
     email: ['', [Validators.required, Validators.email]] 
@@ -39,7 +42,8 @@ import { OrdersHistory } from './orders-history/orders-history';
 });
 
     // AVATAR 
-    avatarPreview: string | null = null; 
+    avatarPreview: string | null = null;
+        user: any;
 
     onAvatarSelected(event: any) { 
     const file = event.target.files[0]; 
@@ -54,26 +58,40 @@ import { OrdersHistory } from './orders-history/orders-history';
     }); 
 } 
 
-    ngOnInit() { 
-    // Inicializar email con el usuario cargado 
-    const user = this.auth.user(); 
-
-    if (user) { 
-        this.nameForm.patchValue({ name: user.name });
-        this.emailForm.patchValue({ email: user.email }); 
-
-        if(user.address) {
-        this.addressForm.patchValue({ 
-            street: user.address.street, 
-            city: user.address.city, 
-            postalCode: user.address.postalCode, 
-            country: user.address.country  
-        }); 
+    ngOnInit() {
+    // 1. Intentamos cargar desde la API para tener los datos más recientes (incluida la dirección)
+    this.userService.getUserProfile().subscribe({
+        next: (user: any) => {
+        this.user = user;
+        this.fillForm(user);
+    },
+        error: (err: any) => {
+        console.error("Error cargando perfil, usando datos locales:", err);
+        // Si falla la API (401), intentamos usar lo que haya en el AuthService
+        const localUser = this.auth.user();
+        if (localUser) {
+            this.user = localUser;
+            this.fillForm(localUser);
+      }
     }
-    this.avatarPreview = user.avatarUrl || null; 
+  });
+}
+
+// Crea esta pequeña función de ayuda para no repetir código
+fillForm(user: any) {
+  this.nameForm.patchValue({ name: user.name });
+  this.emailForm.patchValue({ email: user.email });
+  this.avatarPreview = user.avatarUrl || null;
+
+  if (user.address) {
+    this.addressForm.patchValue({
+      street: user.address.street,
+      city: user.address.city,
+      postalCode: user.address.postalCode,
+      country: user.address.country
+    });
   }
 }
-    
     updateName() { 
     if (this.nameForm.invalid) return; 
 
@@ -97,13 +115,54 @@ import { OrdersHistory } from './orders-history/orders-history';
         ).subscribe(() => alert('Contraseña actualizada')); 
     } 
     
-    updateAddress() { 
-        if (this.addressForm.invalid) return; 
-        this.auth.updateAddress(this.addressForm.value) 
-        .subscribe(() => alert('Dirección guardada')); 
-        this.ngOnInit(); // Actualizar el formulario con los nuevos datos
-    } 
-    
+    updateAddress() {
+        if (this.addressForm.invalid) return;
+
+        this.auth.updateAddress(this.addressForm.value).subscribe({
+            next: () => {
+            alert('Dirección guardada correctamente');
+      
+        // ¡ESTO ES LO IMPORTANTE! 
+        // Pedimos los datos nuevos y actualizamos la interfaz sin F5
+        this.auth.refreshUser().subscribe({
+            next: (updatedUser) => {
+            this.user = updatedUser; // Actualizamos la variable local
+            console.log("Datos refrescados con éxito");
+        }
+      });
+    },
+    error: (err) => {
+      console.error("Error al guardar:", err);
+      // Si te sale 401 aquí, es que updateAddress no envía el token
+        }
+      });
+    }
+
+    updateAvatar(newUrl: string) {
+        if (!newUrl) return;
+
+        this.userService.updateAvatarUrl(newUrl).subscribe({
+        next: (res: any) => {
+        console.log("¡Avatar actualizado!", res);
+      
+        // 1. Actualiza la variable que usa el HTML (asumiendo que se llama 'user')
+        if (this.user) {
+        this.user.avatarUrl = newUrl; 
+        }
+
+         // 2. Opcional: Si guardas el usuario en el localStorage para la sesión
+        const userData = JSON.parse(localStorage.getItem('user') || '{}');
+        userData.avatarUrl = newUrl;
+        localStorage.setItem('user', JSON.stringify(userData));
+
+        // Ya no necesitas window.location.reload(); 
+    },
+        error: (err: any) => {
+        console.error("Error al actualizar:", err);
+        alert("Error: Comprueba que el backend está guardando el dato.");
+    }
+    });
+    }
     
     deleteAccount() { 
         if (!confirm('¿Seguro que quieres eliminar tu cuenta? Esta acción es irreversible.')) return; 

@@ -197,7 +197,7 @@ export class AuthService {
   }
 
   refreshUser() {
-    return this.http.get(`${this.apiUrl}/users/me`, {
+    return this.http.get(`${this.apiUrl}/users/profile`, {
       headers: this.getAuthHeaders()
     }).pipe(
       tap((user: any) => this.saveUser(user))

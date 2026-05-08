@@ -6,16 +6,27 @@
 
   <div class="avatar-container">
     <img
-      [src]="avatarPreview || auth.user()?.avatarUrl || 'https://via.placeholder.com/150'"
+      [src]="user?.avatarUrl || 'https://via.placeholder.com/150'"
       class="avatar-img"
       alt="Avatar"
     />
 
-    <label for="avatarInput" class="btn-secondary small-btn">
-      Cambiar foto
-    </label>
-
-    <input id="avatarInput" type="file" (change)="onAvatarSelected($event)" hidden />
+    <div class="form-group">
+      <label for="avatarUrlInput">URL de tu foto</label>
+      <input 
+        id="avatarUrlInput"
+        type="text" 
+        class="input"
+        placeholder="Pega la URL de tu foto aquí"
+        #avatarInput
+      />
+      <button 
+        type="button" 
+        class="btn-secondary small-btn" 
+        (click)="updateAvatar(avatarInput.value)">
+        Actualizar Foto
+      </button>
+    </div>
   </div>
 </div>
 
