@@ -60,7 +60,7 @@ export class ProductCreateComponent {
             return;
          }
 
-        const newProduct = this.form.value;
+        const newProduct = this.form.getRawValue();
 
         this.productService.createProduct(newProduct).subscribe({
          next: (res: any) => {
