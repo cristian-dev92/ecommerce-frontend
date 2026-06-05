@@ -1,58 +1,57 @@
-import { Component, signal, WritableSignal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink, RouterModule } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
-import { environment } from '../../../environments/environment';
-
+import { Router, RouterModule } from '@angular/router';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { UiService } from '../../services/ui.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './register.html',
-  styleUrl: './register.css',
+  styleUrl: './register.scss'
 })
-
 export class RegisterComponent {
-  name: WritableSignal<string> = signal('');
-  email: WritableSignal<string> = signal('');
-  password: WritableSignal<string> = signal('');
-  message: WritableSignal<string | null> = signal(null);
-  isError: WritableSignal<boolean> = signal(false);
-  isLoading: WritableSignal<boolean> = signal(false);
+  private fb = inject(FormBuilder);
+  private auth = inject(AuthService);
+  private router = inject(Router);
+  private ui = inject(UiService);
 
-  constructor(
-    private http: HttpClient,
-    private router: Router,
-  ) {}
+  registerForm: FormGroup;
+  isLoading = signal<boolean>(false);
+  http: any;
+
+  constructor() {
+    this.registerForm = this.fb.group({
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
+    });
+  }
 
   onSubmit() {
-    if (!this.name() || !this.email() || !this.password()) {
-      this.message.set('Por favor completa todos los campos');
-      this.isError.set(true);
+    if (this.registerForm.invalid || this.isLoading()) {
+      this.ui.warning('Por favor, rellena todos los campos correctamente.');
       return;
     }
 
     this.isLoading.set(true);
-    const payload = {
-      name: this.name(),
-      email: this.email(),
-      password: this.password(),
-    };
 
-    this.http.post(`${environment.apiUrl}/auth/register`, payload).subscribe({
-      next: (response: any) => {
-        this.message.set('¡Registro exitoso! Redirigiendo...');
-        this.isError.set(false);
+    const formValues = this.registerForm.value;
+
+    this.auth.register(formValues.name, formValues.email, formValues.password).subscribe({
+      next: () => {
+        this.ui.success('¡Registro exitoso! Redirigiendo al login...');
         this.isLoading.set(false);
-        setTimeout(() => this.router.navigate(['/login']), 2000);
+        setTimeout(() => this.router.navigate(['/login']), 1500);
       },
       error: (error: any) => {
-        this.message.set(error.error?.message || 'Email ya registrado');
-        this.isError.set(true);
+        const errorMsg = error.error?.message || 'Hubo un problema al registrar la cuenta.';
+        this.ui.error(errorMsg);
         this.isLoading.set(false);
-      },
+      }
     });
   }
+
 }

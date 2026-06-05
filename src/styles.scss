@@ -1,0 +1,125 @@
+/* src/styles.css */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* Paleta de Colores Moderna */
+  --bg-principal: #f8fafc;
+  --bg-tarjeta: #ffffff;
+  --color-texto-p: #0f172a;
+  --color-texto-s: #475569;
+  
+  /* Colores de marca (Un violeta/indigo eléctrico espectacular) */
+  --primario: #6366f1;
+  --primario-hover: #4f46e5;
+  --primario-light: #e0e7ff;
+  
+  /* Estados */
+  --exito: #10b981;
+  --alerta: #f59e0b;
+  --error: #ef4444;
+  
+  /* Bordes y Sombras Premium */
+  --radio-tarjeta: 16px;
+  --radio-boton: 12px;
+  --sombra-suave: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  --sombra-premium: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  
+  --transicion: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+body {
+  background-color: var(--bg-principal);
+  color: var(--color-texto-p);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Botones Globales Espectaculares */
+.btn-premium {
+  background: var(--primario);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radio-boton);
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transicion);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-premium:hover {
+  background: var(--primario-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+}
+
+.btn-premium:active {
+  transform: translateY(0);
+}
+
+/* Estilos globales para el Toast Premium */
+.global-toast-container {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 1rem 1.25rem;
+  border-radius: var(--radio-boton);
+  background: white;
+  box-shadow: var(--sombra-premium);
+  border: 1px solid #e2e8f0;
+  cursor: pointer;
+  max-width: 380px;
+  animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: var(--transicion);
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  .toast-message {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--color-texto-p);
+    line-height: 1.4;
+  }
+
+  /* Variaciones de color según el tipo de alerta */
+  &.success {
+    border-left: 5px solid var(--exito);
+    .toast-icon-box { color: var(--exito); }
+  }
+
+  &.error {
+    border-left: 5px solid var(--error);
+    .toast-icon-box { color: var(--error); }
+  }
+
+  &.warning {
+    border-left: 5px solid var(--alerta);
+    .toast-icon-box { color: var(--alerta); }
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(40px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}

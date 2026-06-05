@@ -1,97 +1,112 @@
-import { Injectable, signal, computed } from '@angular/core'; 
+import { Injectable, signal, computed, inject } from '@angular/core'; 
 import { Product } from '../models/product'; 
+import { UiService } from './ui.service';
 
 @Injectable({ 
     providedIn: 'root'
  }) 
  export class CartService { 
-    
-    private items = signal<{ product: Product; quantity: number }[]>([]); 
+
+    private ui = inject(UiService);
+
+    // Signal interno que gestiona el array de productos y cantidades
+    private itemsSignal = signal<{ product: Product; quantity: number }[]>([]);
 
     //Restaurar carrito desde el almacenamiento local al iniciar el servicio
     constructor() { 
-        const saved = localStorage.getItem('cart'); 
-        if (saved) { 
-            try {
-            this.items.set(JSON.parse(saved)); 
-        } catch {
-            this.items.set([]);
-        }
+    const saved = localStorage.getItem('cart'); 
+    if (saved) { 
+      try {
+        this.itemsSignal.set(JSON.parse(saved)); 
+      } catch {
+        this.itemsSignal.set([]);
       }
     }
+  }
 
     // Suscribirse a los cambios en los ítems del carrito para guardar en el almacenamiento local
     private saveCart() { 
-        localStorage.setItem('cart', JSON.stringify(this.items())); 
+        localStorage.setItem('cart', JSON.stringify(this.itemsSignal())); 
     }
 
     
-    // Computed property para obtener los ítems del carrito
-    cartItems = computed(() => this.items());
+    // 💡 Exponemos los ítems con el nombre estandarizado
+    items = computed(() => this.itemsSignal());
 
-    // Computed property para obtener el total del carrito
-    total = computed(() => 
-        this.items().reduce((sum, item) => sum + item.product.price * item.quantity, 0) 
- );
- 
- // Nuevo método para contar la cantidad total de ítems en el carrito
-    itemCount = computed(() => 
-         this.items().reduce((count, item) => count + item.quantity, 0)
+    // Computed para obtener el total económico (redondeado a 2 decimales para evitar bugs de JS)
+    total = computed(() => {
+        const rawTotal = this.itemsSignal().reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+        return Math.round((rawTotal + Number.EPSILON) * 100) / 100;
+    });
+
+    // 💡 Sincronizado con la Navbar: cambiamos itemCount por totalItems
+    totalItems = computed(() => 
+        this.itemsSignal().reduce((count, item) => count + item.quantity, 0)
     );
     
- addToCart(product: Product) { 
-    const current = this.items(); 
+    addToCart(product: Product) { 
+    const current = this.itemsSignal(); 
     const existing = current.find(i => i.product.id === product.id); 
     
-    if (existing) { 
-        existing.quantity++; 
-        this.items.set([...current]); 
+    if (existing) {
+      // 💡 Validación de stock de seguridad
+      if (existing.quantity >= product.stock) {
+        this.ui.warning(`Lo sentimos, no hay más stock disponible de ${product.name}.`);
+        return;
+      }
+      existing.quantity++; 
+      this.itemsSignal.set([...current]); 
     } else { 
-        this.items.set([...current, { product, quantity: 1 }]); 
+      if (product.stock <= 0) {
+        this.ui.error(`El producto ${product.name} no tiene stock disponible.`);
+        return;
+      }
+      this.itemsSignal.set([...current, { product, quantity: 1 }]); 
     } 
 
     this.saveCart();
- } 
+  } 
 
-// Nuevo método para eliminar un ítem del carrito
- removeFromCart(productId: number) { 
-    this.items.set(this.items().filter(i => i.product.id !== productId)); 
-    this.saveCart();
- } 
-
- // Nuevo método para limpiar el carrito
- clearCart() { 
-    this.items.set([]); 
-    this.saveCart();
- } 
-
- // Nuevo método para aumentar la cantidad de un ítem en el carrito
- increaseQuantity(productId: number) { 
-    const current = this.items(); 
-    const item = current.find(i => i.product.id === productId); 
-    
-    if (item) { 
-        item.quantity++; 
-        this.items.set([...current]);
-        this.saveCart(); 
-    } 
-} 
-
- // Nuevo método para disminuir la cantidad de un ítem en el carrito
- decreaseQuantity(productId: number) { 
-    const current = this.items(); 
-    const item = current.find(i => i.product.id === productId); 
-    
-    if (item) { 
-        if (item.quantity > 1) { 
-            item.quantity--; 
-            this.items.set([...current]); 
-        } else { 
-            // Si llega a 1 y restas, se elimina del carrito 
-            this.removeFromCart(productId);
-            return; 
-         }
+    removeFromCart(productId: number) { 
+        this.itemsSignal.set(this.itemsSignal().filter(i => i.product.id !== productId)); 
         this.saveCart();
+    } 
+
+    clearCart() { 
+        this.itemsSignal.set([]); 
+        this.saveCart();
+    } 
+
+    increaseQuantity(productId: number) { 
+        const current = this.itemsSignal(); 
+        const item = current.find(i => i.product.id === productId); 
+    
+        if (item) { 
+        // 💡 Volvemos a validar contra el stock real del producto antes de incrementar
+        if (item.quantity >= item.product.stock) {
+            this.ui.warning(`No puedes añadir más unidades. Límite de stock alcanzado.`);
+            return;
+        }
+        item.quantity++; 
+        this.itemsSignal.set([...current]);
+        this.saveCart(); 
         } 
     } 
+
+    decreaseQuantity(productId: number) { 
+        const current = this.itemsSignal(); 
+        const item = current.find(i => i.product.id === productId); 
+    
+        if (item) { 
+            if (item.quantity > 1) { 
+                item.quantity--; 
+                this.itemsSignal.set([...current]); 
+                this.saveCart();
+             } else { 
+                // Si reduce a 0, se elimina automáticamente
+                this.removeFromCart(productId);
+        } 
+      } 
+    } 
+
 }

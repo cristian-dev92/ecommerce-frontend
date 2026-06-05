@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { ProductListComponent } from './product-list/product-list.component';
+import { ProductListComponent } from './product-list/product-list';
 import { RegisterComponent } from './auth/register/register';
 import { authGuard } from './guards/auth-guard';
 import { authRedirectGuard } from './guards/auth-redirect-guard';
@@ -47,13 +47,6 @@ export const routes: Routes = [
     component: LoginComponent, 
     canActivate: [authRedirectGuard],
     title: 'Iniciar Sesión' },
-
-  //Ruta para crear el perfil de usuario(PRIVADOS - requiere autenticación)
-  { path: 'profile',
-    loadComponent: () => import('./profile/profile').then(m => m.ProfileComponent),
-    canActivate: [authGuard],
-    title: 'Mi Perfil'
-  },
 
   //Ruta para el carrito de compras (Standalone Component)
   { path: 'cart', 

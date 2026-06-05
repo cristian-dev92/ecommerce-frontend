@@ -12,4 +12,6 @@ export interface Order {
     status: string; 
     total: number; 
     items: OrderItem[];
+    hasInvoice?: boolean; 
+    invoiceUrl?: string;
 }

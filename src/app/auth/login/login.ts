@@ -1,65 +1,57 @@
-import { Component, inject, ChangeDetectorRef } from '@angular/core'; 
+import { Component, inject, signal } from '@angular/core'; 
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router'; 
 import { AuthService } from '../../services/auth.service'; 
 import { CommonModule} from '@angular/common'; 
+import { UiService } from '../../services/ui.service';
 
 @Component({ 
   selector: 'app-login', 
   standalone: true, 
   imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './login.html',
-  styleUrl: './login.css'
+  styleUrl: './login.scss'
 }) 
 export class LoginComponent { 
 
   private fb = inject(FormBuilder);
   private auth = inject(AuthService); 
   private router = inject(Router); 
-  private cd = inject(ChangeDetectorRef);
+  private ui = inject(UiService);
   
    loginForm: FormGroup; 
-   isSubmitting = false; 
-   errorMessage: string | null = null;
+   isSubmitting = signal<boolean>(false);
 
    constructor() { 
     this.loginForm = this.fb.group({ 
-       username: ['', [Validators.required, Validators.email]],
+       email: ['', [Validators.required, Validators.email]],
        password: ['', Validators.required], 
       }); 
     }
   
   onSubmit() { 
-    if (this.loginForm.invalid) return; 
+   if (this.loginForm.invalid || this.isSubmitting()) {
+    this.ui.warning('Por favor, revisa los campos del formulario.');
+    return;
+  }
     
-    this.isSubmitting = true; 
-    this.errorMessage = null;
-    this.cd.markForCheck();
-    
-    const credentials = { 
-      email: this.loginForm.value.username, 
-      password: this.loginForm.value.password 
-    };
+    this.isSubmitting.set(true); 
+    const { email, password } = this.loginForm.value;
 
-    this.auth.login(credentials.email, credentials.password).subscribe({ 
-      next: (res: any) => {
-        console.log('Login exitoso');
-        this.isSubmitting = false;
-        this.cd.markForCheck();
-        this.router.navigate(['/']);
+    this.auth.login(email, password).subscribe({ 
+      next: () => {
+        this.ui.success('¡Bienvenido de nuevo! Iniciando sesión...');
+        this.isSubmitting.set(false);
+        
+        // Redirección inmediata a la raíz
+        this.router.navigate(['/products']);
       },
       error: (error: any) => { 
-        console.error('Error en login:', error); 
-        this.isSubmitting = false; 
-        
-        this.errorMessage = 
-        error.error?.error ||
-        error.error?.message || 
-        error.error?.errorMessage || 
-        'Email o contraseña incorrectos.';
-
-        this.cd.detectChanges();
+        this.isSubmitting.set(false); 
+        const msg = error.error?.message || 'Email o contraseña incorrectos.';
+        this.ui.error(msg);
       } 
     }); 
-  } 
+  }
+  
 }

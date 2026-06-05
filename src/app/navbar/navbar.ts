@@ -1,58 +1,47 @@
-import { Component, inject, OnInit } from '@angular/core'; 
-import { RouterLink, Router, NavigationEnd } from '@angular/router'; 
+import { Component, inject, computed } from '@angular/core'; 
+import { RouterLink, Router, RouterModule } from '@angular/router'; 
 import { CommonModule } from '@angular/common'; 
-import { filter } from 'rxjs/operators';
-import { RouterModule } from '@angular/router';
 import { CartService } from '../services/cart.service';
 import { AuthService } from '../services/auth.service';
+import { UiService } from '../services/ui.service';
 
 @Component({ 
   selector: 'app-navbar', 
   standalone: true, 
   imports: [CommonModule, RouterLink, RouterModule], 
   templateUrl: './navbar.html', 
-  styleUrl: './navbar.css',
+  styleUrl: './navbar.scss',
 }) 
-export class NavbarComponent implements OnInit { 
-  
-  loggedIn = false; 
-  userName = ''; 
+export class NavbarComponent { 
+  // Inyecciones modernas
+  public cart = inject(CartService);
+  public auth = inject(AuthService);
+  private router = inject(Router);
+  private ui = inject(UiService);
 
-  cart = inject(CartService);
-  auth = inject(AuthService);
-  router = inject(Router);
+  // 💡 USAMOS COMPUTED SIGNALS (Reaccionan solos si tu AuthService usa signals)
+  // Si tu AuthService guarda el usuario en un signal, la Navbar se redibuja sola al instante
+  public isLoggedIn = computed(() => this.auth.isLoggedIn());
+  public currentUser = computed(() => this.auth.currentUser());
+
+  // Si tu AuthService aún no usa Signals, puedes usar este fallback temporal leyendo de localStorage:
+  // (Aunque lo ideal es que migremos el AuthService a Signals más adelante)
+  get userNameFallback(): string {
+    return localStorage.getItem('userName') ?? '';
+  }
+
+  get isLoggedInFallback(): boolean {
+    return !!localStorage.getItem('authToken');
+  }
 
   goToCart() { 
     this.router.navigate(['/cart']); 
   }
   
-    
-  ngOnInit() { 
-    //se ejecuta después del renderizado
-    this.syncAuthState();
-
-   // 🔥 Cada vez que cambie la ruta, actualizamos el estado 
-      this.router.events 
-        .pipe(filter(event => event instanceof NavigationEnd)) 
-        .subscribe(() => { 
-          this.syncAuthState(); 
-        }); 
-      }
-    
-    //metodo central para sincronizar el estado de autenticación
-    syncAuthState() {
-    this.loggedIn = !!localStorage.getItem('authToken'); 
-    this.userName = localStorage.getItem('userName') ?? ''; 
-  }
-
-  
   logout() { 
-    localStorage.removeItem('authToken'); 
-    localStorage.removeItem('userName'); 
-
-    this.syncAuthState();//Actuliza navbar
-
-    this.router.navigate(['/login']);
+    // Limpieza total y feedback premium con tu UiService
     this.auth.logout(); 
+    this.ui.success('Sesión cerrada correctamente. ¡Hasta pronto!');
+    this.router.navigate(['/login']);
   } 
 }

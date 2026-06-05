@@ -1,6 +1,6 @@
 <h2 class="checkout-title">Finalizar Compra</h2>
 
-@if (cart.cartItems().length === 0) {
+@if (cart.items().length === 0) {
   <div class="checkout-empty">
     Tu carrito está vacío.
   </div>
@@ -9,7 +9,7 @@
 
     <h3 class="checkout-subtitle">Resumen del Pedido</h3>
 
-    @for (item of cart.cartItems(); track $index) {
+    @for (item of cart.items(); track $index) {
       @if (item.product) {
         <div class="checkout-item">
           <div class="checkout-product">

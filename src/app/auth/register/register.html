@@ -1,64 +1,86 @@
-<div class="register-container">
-  <div class="register-card">
-
-    <h2 class="register-title">Crear Cuenta</h2>
-    <p class="register-subtitle">Únete a nuestra tienda y gestiona tus pedidos.</p>
-
-    <form (ngSubmit)="onSubmit()" class="register-form">
-
-      <!-- Username -->
-      <div class="form-group">
-        <label for="username">Nombre de Usuario</label>
-        <input
-          id="username"
-          type="text"
-          placeholder="Ej: tuusuario"
-          [value]="name()"
-          (input)="name.set($any($event.target).value)"
-        />
-      </div>
-
-      <!-- Email -->
-      <div class="form-group">
-        <label for="email">Correo Electrónico</label>
-        <input
-          id="email"
-          type="email"
-          placeholder="tucorreo@ejemplo.com"
-          [value]="email()"
-          (input)="email.set($any($event.target).value)"
-        />
-      </div>
-
-      <!-- Password -->
-      <div class="form-group">
-        <label for="password">Contraseña</label>
-        <input
-          id="password"
-          type="password"
-          placeholder="Mínimo 6 caracteres"
-          [value]="password()"
-          (input)="password.set($any($event.target).value)"
-        />
-      </div>
-
-      <!-- Botón -->
-      <button type="submit" [disabled]="isLoading()" class="btn-submit">
-        <span *ngIf="!isLoading()">Registrarse</span>
-        <span *ngIf="isLoading()" class="loader"></span>
-      </button>
-
-      <!-- Mensaje -->
-      <p class="error-text general-error" *ngIf="message()">
-        {{ message() }}
-      </p>
-
-    </form>
-
-    <p class="login-text">
-      ¿Ya tienes una cuenta?
-      <a routerLink="/login">Inicia Sesión</a>
-    </p>
-
+<div class="auth-container">
+  
+  <div class="auth-visual-panel">
+    <div class="visual-content">
+      <span class="badge-tech">Únete a la comunidad</span>
+      <h1 class="visual-title">Crea tu cuenta en unos segundos.</h1>
+      <p class="visual-description">Guarda tus configuraciones, gestiona tu carrito en cualquier dispositivo y accede al historial de tus pedidos de manera instantánea.</p>
+    </div>
+    <div class="visual-footer">
+      <p class="footer-text">© 2026 DevShop. Todos los derechos reservados.</p>
+    </div>
   </div>
+
+  <div class="auth-form-panel">
+    <div class="form-box">
+      <div class="form-header">
+        <h2 class="header-title">Empezar es gratis 🚀</h2>
+        <p class="header-subtitle">Regístrate para empezar a gestionar tus compras.</p>
+      </div>
+
+      <form class="modern-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        
+        <div class="input-group">
+          <label class="form-label" for="name">Nombre completo</label>
+          <div class="input-wrapper">
+            <input 
+              class="form-input" 
+              type="text" 
+              id="name" 
+              formControlName="name" 
+              autocomplete="name"
+              [class.input-error]="registerForm.get('name')?.touched && registerForm.get('name')?.invalid"
+            >
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label class="form-label" for="email">Correo electrónico</label>
+          <div class="input-wrapper">
+            <input 
+              class="form-input" 
+              type="email" 
+              id="email" 
+              formControlName="email" 
+              autocomplete="email"
+              [class.input-error]="registerForm.get('email')?.touched && registerForm.get('email')?.invalid"
+            >
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label class="form-label" for="password">Contraseña</label>
+          <div class="input-wrapper">
+            <input 
+              class="form-input" 
+              type="password" 
+              id="password" 
+              formControlName="password" 
+              autocomplete="new-password"
+              placeholder="min 6"
+              [class.input-error]="registerForm.get('password')?.touched && registerForm.get('password')?.invalid"
+            >
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit" [disabled]="registerForm.invalid || isLoading()">
+          <span class="btn-text">{{ isLoading() ? 'Creando cuenta...' : 'Registrarse' }}</span>
+          
+          @if (!isLoading()) {
+            <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="8.5" cy="7" r="4"></circle>
+              <line x1="20" y1="8" x2="20" y2="14"></line>
+              <line x1="23" y1="11" x2="17" y2="11"></line>
+            </svg>
+          }
+        </button>
+
+        <p class="switch-auth">
+          ¿Ya tienes una cuenta? <a class="switch-link" routerLink="/login">Inicia sesión</a>
+        </p>
+      </form>
+    </div>
+  </div>
+
 </div>

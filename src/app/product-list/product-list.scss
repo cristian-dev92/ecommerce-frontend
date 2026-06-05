@@ -1,0 +1,299 @@
+.catalog-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+
+  /* --- Cabecera --- */
+  .catalog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+    gap: 1.5rem;
+
+    .catalog-title {
+      font-size: 2.25rem;
+      font-weight: 700;
+      color: var(--color-texto-p);
+      letter-spacing: -0.02em;
+      margin-bottom: 0.25rem;
+    }
+
+    .catalog-subtitle {
+      color: var(--color-texto-s);
+      font-size: 1rem;
+    }
+
+    .btn-create {
+      background: var(--primario);
+      color: white;
+      padding: 0.75rem 1.25rem;
+      border-radius: var(--radio-boton);
+      border: none;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      transition: var(--transicion);
+
+      &:hover {
+        background: var(--primario-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.2);
+      }
+    }
+  }
+
+  /* --- Estados de Carga y Alertas --- */
+  .loading-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5rem 0;
+    gap: 1.5rem;
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid var(--primario-light);
+      border-top-color: var(--primario);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    .loading-text {
+      color: var(--color-texto-s);
+      font-weight: 500;
+    }
+
+    .server-alert {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background-color: #fffbeb;
+      border: 1px solid #fde68a;
+      color: #b45309;
+      padding: 0.75rem 1.25rem;
+      border-radius: var(--radio-boton);
+      font-size: 0.9rem;
+      font-weight: 500;
+      max-width: 600px;
+      text-align: center;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+  }
+
+  /* --- Rejilla de Productos (Grid Responsivo) --- */
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+
+  /* --- Tarjeta de Producto --- */
+  .product-card {
+    background: var(--bg-tarjeta);
+    border-radius: var(--radio-tarjeta);
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+    box-shadow: var(--sombra-suave);
+    display: flex;
+    flex-direction: column;
+    transition: var(--transicion);
+
+    &:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--sombra-premium);
+      border-color: #cbd5e1;
+    }
+
+    .product-image-box {
+      width: 100%;
+      height: 200px;
+      background-color: #f1f5f9;
+      position: relative;
+      overflow: hidden;
+
+      .product-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: var(--transicion);
+      }
+
+      .badge-stock {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        padding: 0.35rem 0.75rem;
+        border-radius: 100px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+
+        &.out {
+          background-color: #fef2f2;
+          color: var(--error);
+          border: 1px solid #fee2e2;
+        }
+
+        &.low {
+          background-color: #fffbeb;
+          color: var(--alerta);
+          border: 1px solid #fde68a;
+        }
+      }
+    }
+
+    &:hover .product-img {
+      transform: scale(1.05);
+    }
+
+    .product-info {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+
+      .product-name {
+        font-size: 1.15rem;
+        font-weight: 600;
+        color: var(--color-texto-p);
+        margin-bottom: 0.5rem;
+        line-height: 1.4;
+      }
+
+      .product-description {
+        font-size: 0.9rem;
+        color: var(--color-texto-s);
+        line-height: 1.5;
+        margin-bottom: 1.5rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .product-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: auto;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #f1f5f9;
+
+        .product-price {
+          font-size: 1.35rem;
+          font-weight: 700;
+          color: var(--primario);
+        }
+
+        .product-stock-count {
+          font-size: 0.8rem;
+          color: var(--color-texto-s);
+          font-weight: 500;
+        }
+      }
+
+      /* Botoneras y paneles de acción */
+      .product-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 1rem;
+        gap: 0.75rem;
+
+        .btn-add-cart {
+          flex-grow: 1;
+          background-color: var(--bg-principal);
+          color: var(--color-texto-p);
+          border: 1px solid #e2e8f0;
+          padding: 0.65rem 1rem;
+          border-radius: var(--radio-boton);
+          font-weight: 600;
+          font-size: 0.9rem;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+          cursor: pointer;
+          transition: var(--transicion);
+
+          &:hover:not(:disabled) {
+            background-color: var(--primario);
+            color: white;
+            border-color: var(--primario);
+          }
+
+          &:disabled {
+            background-color: #f1f5f9;
+            color: #94a3b8;
+            border-color: #e2e8f0;
+            cursor: not-allowed;
+          }
+        }
+
+        .admin-actions {
+          display: flex;
+          gap: 0.4rem;
+
+          .btn-admin {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 0.65rem;
+            border-radius: var(--radio-boton);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transicion);
+
+            &.edit {
+              color: var(--color-texto-s);
+              &:hover {
+                border-color: #cbd5e1;
+                background-color: #f8fafc;
+              }
+            }
+
+            &.delete {
+              color: var(--error);
+              &:hover {
+                background-color: #fef2f2;
+                border-color: #fee2e2;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Vista Móvil --- */
+@media (max-width: 640px) {
+  .catalog-container {
+    padding: 2rem 1rem;
+    
+    .catalog-header {
+      flex-direction: column;
+      align-items: flex-start;
+      
+      .btn-create {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  }
+}

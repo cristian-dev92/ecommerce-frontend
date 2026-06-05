@@ -20,7 +20,7 @@ export class CheckoutComponent {
     confirmOrder() {
 
         const payload = { 
-            items: this.cart.cartItems().map(item => ({ 
+            items: this.cart.items().map((item: { product: any; quantity: number }) => ({
                 productId: item.product.id, 
                 productName: item.product.name,
                 price: item.product.price, 

@@ -68,7 +68,7 @@ import { UserService } from '../services/user.service';
         error: (err: any) => {
         console.error("Error cargando perfil, usando datos locales:", err);
         // Si falla la API (401), intentamos usar lo que haya en el AuthService
-        const localUser = this.auth.user();
+        const localUser = this.auth.currentUser();
         if (localUser) {
             this.user = localUser;
             this.fillForm(localUser);
