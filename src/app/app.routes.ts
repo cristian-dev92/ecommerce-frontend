@@ -19,6 +19,7 @@ export const routes: Routes = [
     loadComponent: () => 
       import('./product-create/product-create').then(m => m.ProductCreateComponent), 
     canActivate: [authGuard], 
+    data: { roles: ['ROLE_ADMIN'] },
     title: 'Crear Producto' 
   }, 
 
@@ -28,6 +29,7 @@ export const routes: Routes = [
      loadComponent: () => 
       import('./product-edit/product-edit').then(m => m.ProductEditComponent), 
      canActivate: [authGuard], 
+     data: { roles: ['ROLE_ADMIN'] },
      title: 'Editar Producto' 
     },
 

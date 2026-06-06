@@ -1,46 +1,35 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({providedIn: 'root',})
+
 export class UserService {
+
+  private http = inject(HttpClient);
     
-  private apiUrl = 'http://localhost:8080/api/';
+  private apiUrl = 'https://ecommerce-backend-z7r5.onrender.com/api';
   
-  updateAvatarUrl(url: string): Observable<any> {
-      const token = localStorage.getItem('token'); // O donde guardes tu JWT
-      const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-     return this.http.post(
-    `${this.apiUrl}users/upload-avatar`, 
-    { avatarUrl: url }, 
-    { headers } // <--- ¡AQUÍ ESTÁ LA LLAVE!
-   );
-  }
-
-  constructor(private http: HttpClient) { }
-
-  register(user: any): Observable<any> {
+ register(user: any): Observable<any> { 
     return this.http.post(`${this.apiUrl}/register`, user);
   }
   
-   login(credentials: any): Observable<any> { 
+  login(credentials: any): Observable<any> { 
     return this.http.post(`${this.apiUrl}/login`, credentials);
   }
 
   getUserProfile(): Observable<any> {
-    const token = localStorage.getItem('token'); 
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`); 
-    return this.http.get(`${this.apiUrl}users/profile`, { headers }); 
+    // 💡 Limpio: Tu HTTP Interceptor meterá el token automáticamente
+    return this.http.get(`${this.apiUrl}/users/profile`); 
   }
 
   updateAddress(addressData: any): Observable<any> {
-  const token = localStorage.getItem('token');
-  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-  
-  // Enviamos el objeto del formulario directamente
-  return this.http.put(`${this.apiUrl}users/update-address`, addressData, { headers });
+    return this.http.put(`${this.apiUrl}/users/update-address`, addressData);
+  }
+
+  updateAvatarUrl(url: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/users/upload-avatar`, { avatarUrl: url });
+  }
+
 }
   
-}

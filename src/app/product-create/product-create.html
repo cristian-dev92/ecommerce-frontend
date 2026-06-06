@@ -1,80 +1,195 @@
-<h2 class="title">Crear Producto</h2>
+<div class="admin-container">
+  <div class="admin-header">
+    <a routerLink="/products" class="btn-back">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+      Volver al catálogo
+    </a>
+    <h1>Panel de Control: Añadir Producto</h1>
+    <p>Introduce las especificaciones técnicas, precio y existencias del nuevo artículo.</p>
+  </div>
 
-<form [formGroup]="form" (ngSubmit)="onSubmit()" class="form">
+  <div class="admin-grid">
+    
+    <div class="preview-panel">
+      <div class="admin-card text-center">
+        <h3 class="card-subtitle">Previsualización de Tarjeta</h3>
+        
+        <div class="product-card-mockup">
+          <div class="mockup-image-zone">
+            @if (imagePreview()) {
+              <img [src]="imagePreview()" alt="Vista previa" class="img-fluid">
+            } @else {
+              <div class="mockup-placeholder">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                <p>Sin imagen seleccionada</p>
+              </div>
+            }
+            @if (isLoading()) {
+              <div class="mockup-loader">
+                <div class="spinner"></div>
+                <span>Subiendo a Render...</span>
+              </div>
+            }
+          </div>
+          
+          <div class="mockup-details">
+            <span class="mockup-badge">Admin Stock: {{ form.get('stock')?.value || 0 }} ud.</span>
+            <h4 class="mockup-title">{{ form.get('name')?.value || 'Nombre del Componente' }}</h4>
+            <p class="mockup-desc">{{ form.get('description')?.value || 'Aquí se mostrará la descripción técnica corta del artículo en venta...' }}</p>
+            <div class="mockup-footer">
+              <span class="mockup-price">{{ (form.get('price')?.value || 0) | currency:'EUR' }}</span>
+            </div>
+          </div>
+        </div>
 
-    <!-- Nombre -->
-    <div class="form-group">
-        <label for="name">Nombre</label>
-        <input
-            id="name"
-            formControlName="name"
-            class="input"
-            placeholder="Nombre del producto"
-        />
+      </div>
     </div>
 
-    <!-- Descripción -->
-    <div class="form-group">
-        <label for="description">Descripción</label>
-        <textarea
-            id="description"
-            formControlName="description"
-            class="input"
-            placeholder="Descripción del producto"
-        ></textarea>
+    <div class="form-panel">
+      <div class="admin-card">
+        <h2 class="panel-title">Información del Producto</h2>
+        
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="modern-form">
+          
+          <div class="input-group">
+            <label class="form-label">Imagen promocional del producto</label>
+            <div class="file-upload-wrapper">
+              <label for="file-upload" class="file-upload-label" [class.disabled]="isLoading()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                <span>{{ selectedFile() ? selectedFile()?.name : 'Seleccionar archivo de imagen...' }}</span>
+              </label>
+              <input 
+                id="file-upload" 
+                type="file" 
+                accept="image/*" 
+                (change)="onFileSelected($event)"
+              >
+            </div>
+            <div class="url-input-wrapper" style="margin-top: 12px;">
+              <input 
+                type="text" 
+                class="form-input" 
+                formControlName="imageUrl" 
+                placeholder="O pega una URL existente de Cloudinary (https://res.cloudinary.com/...)"
+                (input)="onUrlInput($event)"
+                style="width: 100%; box-sizing: border-box; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.92rem;"
+              >
+              <small style="color: #64748b; font-size: 0.78rem; display: block; margin-top: 4px; margin-left: 2px;">
+                Si decides reutilizar una URL existente, pégala aquí y se previsualizará arriba.
+              </small>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label class="form-label" for="name">Nombre del producto</label>
+            <input 
+              id="name" 
+              type="text" 
+              class="form-input" 
+              formControlName="name"
+              placeholder="Ej. Teclado Mecánico Custom RGB"
+              [class.input-error]="form.get('name')?.touched && form.get('name')?.invalid"
+            >
+          </div>
+
+          <div class="input-group">
+            <label class="form-label" for="description">Descripción completa</label>
+            <textarea 
+              id="description" 
+              class="form-input form-textarea" 
+              formControlName="description"
+              placeholder="Escribe los detalles y características técnicas clave del producto..."
+              [class.input-error]="form.get('description')?.touched && form.get('description')?.invalid"
+            ></textarea>
+          </div>
+
+          <div class="form-row-twin">
+            <div class="input-group">
+              <label class="form-label" for="price">Precio base (€)</label>
+              <input 
+                id="price" 
+                type="number" 
+                step="0.01" 
+                class="form-input" 
+                formControlName="price"
+                [class.input-error]="form.get('price')?.touched && form.get('price')?.invalid"
+              >
+            </div>
+
+            <div class="input-group">
+              <label class="form-label" for="stock">Unidades en Stock</label>
+              <input 
+                id="stock" 
+                type="number" 
+                class="form-input" 
+                formControlName="stock"
+                [class.input-error]="form.get('stock')?.touched && form.get('stock')?.invalid"
+              >
+            </div>
+          </div>
+
+            <div class="form-row-twin" style="margin-top: 1rem;">
+             <div class="input-group">
+              <label class="form-label" for="discount">Descuento (%)</label>
+              <input 
+                id="discount"                  
+                type="number" 
+                formControlName="discount" 
+                class="form-control" 
+                min="0" 
+                max="100"
+                class="form-input" 
+                formControlName="discount"
+                [class.input-error]="form.get('discount')?.touched && form.get('discount')?.invalid"
+              >
+            </div>
+
+            <div class="input-group">
+             <label class="form-label" for="taxes">Impuestos / IVA (%)</label>
+              <input 
+                id="taxes" 
+                type="number" 
+                class="form-input" 
+                formControlName="taxes"
+                [class.input-error]="form.get('taxes')?.touched && form.get('taxes')?.invalid"
+                >
+             </div>
+            </div>
+
+            <div class="form-group">
+             <label for="category">Categoría del Producto</label>
+              <select 
+                id="category" 
+                name="category"
+                [ngModel]="productForm().category"
+                (ngModelChange)="updateFormField('category', $event)"
+                required>
+                <option value="" disabled selected>-- Selecciona una categoría --</option>
+                <option value="Informática">🌐 Informática</option>
+                <option value="Telefonía">📱 Telefonía</option>
+                <option value="Televisión">📺 TV</option>
+                <option value="Consolas y Videojuegos">🎮 Zona Gaming</option>
+                <option value="Electrodomésticos">🔌 Electrodomésticos</option>
+                <option value="Ofertas">🔥 OFERTAS</option>
+              </select>
+            </div>
+
+          <div class="form-actions-admin">
+            <button 
+              type="submit" 
+              class="btn-admin-submit" 
+              [disabled]="form.invalid || isSubmitting() || isLoading()"
+            >
+              <span>{{ isSubmitting() ? 'Guardando artículo...' : 'Registrar Producto' }}</span>
+              @if (!isSubmitting()) {
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+              }
+            </button>
+          </div>
+
+        </form>
+      </div>
     </div>
 
-    <!-- Precio -->
-    <div class="form-group">
-        <label for="price">Precio (€)</label>
-        <input
-            id="price"
-            type="number"
-            formControlName="price"
-            class="input"
-            placeholder="0.00"
-            step="0.01"
-            min="0"
-        />
-    </div>
-
-    <!-- Subir imagen -->
-    <div class="form-group">
-        <label for="imageUrl">URL de la imagen</label>
-        <input
-            id="imageUrl"
-            formControlName="imageUrl"
-            class="input"
-            placeholder="Pega la URL de la imagen aquí"
-        />
-    </div>
-
-    <!-- Campo oculto URL -->
-    <input formControlName="imageUrl" type="hidden" />
-
-    <!-- Vista previa -->
-    <div *ngIf="form.value.imageUrl" class="preview-container">
-        <p>Vista previa:</p>
-        <img
-            [src]="form.value.imageUrl"
-            class="preview-img"
-            alt="Vista previa"
-        />
-    </div>
-
-    <!-- Botones -->
-    <div class="button-row">
-        <button type="submit" class="btn-primary" [disabled]="form.invalid">
-            Guardar
-        </button>
-
-        <button
-            type="button"
-            class="btn-secondary"
-            (click)="router.navigate(['/products'])"
-        >
-            Cancelar
-        </button>
-    </div>
-
-</form>
+  </div>
+</div>

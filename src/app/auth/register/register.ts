@@ -21,6 +21,13 @@ export class RegisterComponent {
   registerForm: FormGroup;
   isLoading = signal<boolean>(false);
   http: any;
+  loading = signal<boolean>(false);
+  showSlowServerMessage = signal<boolean>(false);
+  error = signal<boolean>(false);
+  private serverTimer: any;
+  form: any;
+  authService: any;
+
 
   constructor() {
     this.registerForm = this.fb.group({
@@ -51,6 +58,33 @@ export class RegisterComponent {
         this.ui.error(errorMsg);
         this.isLoading.set(false);
       }
+    });
+
+    if (this.form.invalid) return;
+
+    this.loading.set(true);
+    this.error.set(false);
+    this.showSlowServerMessage.set(false);
+
+    //Si a los 4 segundos Render no ha respondido, activamos el mensaje de aviso
+    this.serverTimer = setTimeout(() => {
+        if (this.loading()) {
+            this.showSlowServerMessage.set(true);
+        }
+    }, 4000);
+
+    this.authService.loginOrRegister(this.form.value).subscribe({
+        next: () => {
+            clearTimeout(this.serverTimer); // Limpiamos el timer si responde rápido
+            this.loading.set(false);
+            // Redirigir al home o guardar sesión...
+        },
+        error: (err: any) => {
+            clearTimeout(this.serverTimer);
+            this.loading.set(false);
+            this.error.set(true);
+            console.error(err);
+        }
     });
   }
 

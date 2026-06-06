@@ -5,6 +5,9 @@ export interface Product {
   name: string;
   description: string;
   price: number;
+  discount: number;
+  taxes: number;
   imageUrl?: string;
   stock: number;
+  visible?: boolean;
 }

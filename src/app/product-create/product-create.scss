@@ -1,0 +1,327 @@
+.admin-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 24px;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  color: #1e293b;
+
+  .admin-header {
+    margin-bottom: 32px;
+    
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #64748b;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 16px;
+      transition: color 0.2s;
+
+      &:hover { color: #0f172a; }
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 6px;
+    }
+    p { color: #64748b; font-size: 0.95rem; }
+  }
+
+  .admin-grid {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 32px;
+    align-items: start;
+
+    @media (max-width: 968px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  // Tarjetas base admin
+  .admin-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    
+    &.text-center { text-align: center; }
+  }
+
+  .panel-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #0f172a;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 12px;
+  }
+
+  .card-subtitle {
+    font-size: 0.95rem;
+    color: #64748b;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 16px;
+  }
+
+  // Zona Mockup del producto interactivo
+  .product-card-mockup {
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    overflow: hidden;
+    text-align: left;
+    background: #f8fafc;
+
+    .mockup-image-zone {
+      height: 200px;
+      background: #f1f5f9;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+
+      .img-fluid {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .mockup-placeholder {
+        text-align: center;
+        color: #94a3b8;
+        svg { margin-bottom: 8px; }
+        p { font-size: 0.85rem; }
+      }
+
+      .mockup-loader {
+        position: absolute;
+        inset: 0;
+        background: rgba(255, 255, 255, 0.8);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        font-size: 0.85rem;
+        color: #2563eb;
+        font-weight: 500;
+
+        .spinner {
+          width: 28px;
+          height: 28px;
+          border: 3px solid #e2e8f0;
+          border-top-color: #2563eb;
+          border-radius: 50%;
+          animation: spin 0.8s linear infinite;
+        }
+      }
+    }
+
+    .mockup-details {
+      padding: 16px;
+
+      .mockup-badge {
+        font-size: 0.75rem;
+        background: #e0f2fe;
+        color: #0369a1;
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-weight: 600;
+      }
+
+      .mockup-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #0f172a;
+        margin: 10px 0 6px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .mockup-desc {
+        font-size: 0.85rem;
+        color: #64748b;
+        height: 40px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        line-height: 1.4;
+      }
+
+      .mockup-footer {
+        margin-top: 14px;
+        padding-top: 12px;
+        border-top: 1px solid #e2e8f0;
+        
+        .mockup-price {
+          font-size: 1.25rem;
+          font-weight: 700;
+          color: #1e3a8a;
+        }
+      }
+    }
+  }
+
+  // Estilos del Formulario Moderno
+  .modern-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+
+    .form-row-twin {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-label {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #334155;
+    }
+
+    .form-input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 0.92rem;
+      color: #0f172a;
+      transition: all 0.2s;
+
+      &:focus {
+        outline: none;
+        border-color: #2563eb;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+      }
+
+      &.input-error {
+        border-color: #ef4444;
+        background-color: #fef2f2;
+      }
+    }
+
+    .form-textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    // Input personalizado para ficheros
+    .file-upload-wrapper {
+      position: relative;
+      
+      input[type="file"] {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        opacity: 0; cursor: pointer;
+      }
+
+      .file-upload-label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px;
+        border: 2px dashed #cbd5e1;
+        border-radius: 10px;
+        background: #f8fafc;
+        color: #475569;
+        font-size: 0.88rem;
+        cursor: pointer;
+        transition: all 0.2s;
+
+        &:hover { background: #f1f5f9; border-color: #94a3b8; }
+        &.disabled { background: #e2e8f0; cursor: not-allowed; opacity: 0.6; }
+      }
+    }
+  }
+
+  .form-actions-admin {
+    margin-top: 12px;
+  }
+
+  .btn-admin-submit {
+    width: 100%;
+    background: #0f172a; // Negro carbón elegante de administrador
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: background 0.2s;
+
+    &:hover:not(:disabled) { background: #1e293b; }
+
+    &:disabled {
+      background: #cbd5e1;
+      color: #94a3b8;
+      cursor: not-allowed;
+    }
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+
+  label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-texto-p);
+  }
+
+  select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: var(--radio-boton, 8px);
+    color: var(--color-texto-p);
+    font-size: 0.95rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: var(--transicion);
+    appearance: none; /* Quita el diseño por defecto */
+    
+    /* Añadimos una flechita personalizada sutil a la derecha */
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1em;
+
+    &:focus {
+      outline: none;
+      border-color: var(--primario);
+      background-color: #ffffff;
+      box-shadow: 0 0 0 3px var(--primario-light);
+    }
+  }
+}

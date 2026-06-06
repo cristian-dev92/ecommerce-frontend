@@ -1,30 +1,55 @@
-<h2 class="orders-title">Mis pedidos</h2>
-
-<div *ngIf="orders().length === 0" class="orders-empty">
-  No tienes pedidos todavía.
-</div>
-
-<div *ngFor="let order of orders()" class="order-card">
-
-  <div class="order-header">
-    <p class="order-id">Pedido #{{ order.id }}</p>
-    <p class="order-date">Fecha: {{ order.createdAt | date:'short' }}</p>
-    <p class="order-status">Estado: {{ order.status }}</p>
-  </div>
-
-  <div class="order-items">
-    <p class="items-title">Artículos:</p>
-
-    <div *ngFor="let item of order.items" class="order-item">
-      <div class="item-left">
-      <span class="item-name">{{ item.productName }}</span>
-      <span class="item-qty">x{{ item.quantity }}</span>
+<div class="orders-history-container">
+  
+  @if (isLoading()) {
+    <div class="orders-loader">
+      <div class="spinner"></div>
+      <p>Recuperando tus compras desde Render...</p>
     </div>
-    <span class="item-subtotal">{{ item.subtotal }} €</span>
-  </div>
+  } @else {
+    
+    @if (orders().length === 0) {
+      <div class="no-orders-box">
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+        <h4>Aún no has realizado ningún pedido</h4>
+        <p>Tu historial de compras aparecerá aquí en cuanto completes tu primer pedido en la pasarela de Checkout.</p>
+      </div>
+    } @else {
+      <div class="orders-list">
+        @for (order of orders(); track order.id) {
+          <div class="order-ticket-card">
+            
+            <div class="ticket-header">
+              <div class="ticket-meta">
+                <span class="order-id-label">Pedido #{{ order.id }}</span>
+                <span class="order-date">{{ order.createdAt | date:'dd/MM/yyyy - HH:mm' }}</span>
+              </div>
+              
+              <span class="status-badge" [ngClass]="order.status.toLowerCase()">
+                {{ order.status || 'Procesando' }}
+              </span>
+            </div>
 
-  <div class="order-total">
-    Total del pedido: <span>{{ order.total }} €</span>
-  </div>
+            <div class="ticket-body">
+              @for (item of order.items; track $index) {
+                <div class="ticket-item-row">
+                  <div class="item-info">
+                    <span class="item-qty">{{ item.quantity }}x</span>
+                    <p class="item-name">Artículo Técnico (Ref: #{{ item.productId }})</p>
+                  </div>
+                  <span class="item-price">{{ (item.price * item.quantity) | currency:'EUR' }}</span>
+                </div>
+              }
+            </div>
 
+            <div class="ticket-footer">
+              <span class="total-text">Total Pagado:</span>
+              <span class="total-amount">{{ order.total | currency:'EUR' }}</span>
+            </div>
+
+          </div>
+        }
+      </div>
+    }
+
+  }
 </div>

@@ -45,6 +45,52 @@
     }
   }
 
+  /* Estilos para el Menú de Filtros por Categorías */
+  .catalog-categories-badge-menu {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 2.5rem;
+    overflow-x: auto;
+    padding: 0.25rem 0;
+    
+    // Ocultar barra de scroll para mantener la limpieza visual
+    &::-webkit-scrollbar { display: none; }
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    .cat-badge {
+      background-color: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      padding: 0.5rem 1.1rem;
+      border-radius: 30px; // Estilo píldora limpia
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--color-texto-s);
+      cursor: pointer;
+      transition: var(--transicion);
+      white-space: nowrap;
+
+      &:hover {
+        background-color: var(--primario-light);
+        color: var(--primario);
+        border-color: var(--primario-light);
+      }
+    }
+
+    .offer-badge {
+      background-color: #fef2f2;
+      color: #ef4444;
+      font-weight: 600;
+      border-color: #fee2e2;
+      
+      &:hover {
+        background-color: #fee2e2;
+        color: #dc2626;
+        border-color: #fca5a5;
+      }
+    }
+  }
+
   /* --- Estados de Carga y Alertas --- */
   .loading-state {
     display: flex;

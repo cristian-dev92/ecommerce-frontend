@@ -18,6 +18,21 @@
     gap: 2rem;
   }
 
+  // Agrupadores flex para mantener el orden
+  .nav-left-group {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+  }
+
+  .nav-right-group {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex: 1;
+    justify-content: flex-end;
+  }
+
   /* --- Marca / Logo --- */
   .nav-brand {
     display: flex;
@@ -53,7 +68,7 @@
   .nav-links {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 1rem;
     list-style: none;
 
     .nav-link {
@@ -84,13 +99,54 @@
     }
   }
 
+  /* 🚀 Buscador Compacto y Elegante */
+  .nav-search-bar {
+    max-width: 240px;
+    width: 100%;
+    transition: var(--transicion);
+
+    form {
+      position: relative;
+    }
+
+    input {
+      width: 100%;
+      background-color: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      color: var(--color-texto-p);
+      padding: 0.45rem 2.2rem 0.45rem 0.85rem;
+      border-radius: 20px; // Redondeado sutil y moderno
+      font-size: 0.85rem;
+      transition: var(--transicion);
+
+      &:focus {
+        outline: none;
+        border-color: var(--primario);
+        background-color: #ffffff;
+        box-shadow: 0 0 0 3px var(--primario-light);
+      }
+    }
+
+    .btn-search-icon {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      color: var(--color-texto-s);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
+  }
+
   /* --- Acciones (Derecha) --- */
   .nav-actions {
     display: flex;
     align-items: center;
     gap: 1.25rem;
 
-    /* Botón Carrito */
     .btn-cart {
       background: transparent;
       border: 1px solid #e2e8f0;
@@ -128,7 +184,6 @@
       }
     }
 
-    /* Menú Perfil / Logged In */
     .user-profile-menu {
       display: flex;
       align-items: center;
@@ -163,14 +218,12 @@
       }
     }
 
-    /* Botones Auth / Desconectado */
     .auth-buttons {
       display: flex;
       align-items: center;
       gap: 0.75rem;
     }
 
-    /* Clases de Botones Reutilizables de Navbar */
     .btn-nav-primary {
       background-color: var(--color-texto-p);
       color: white;
@@ -184,7 +237,6 @@
 
       &:hover {
         background-color: #1e293b;
-        transform: translateY(-1px);
       }
     }
 
@@ -212,9 +264,8 @@
 @media (max-width: 768px) {
   .main-navbar {
     padding: 0.75rem 1rem;
-
-    .nav-links, .welcome-text {
-      display: none; /* Ocultamos enlaces y textos largos en móvil para simplificar */
+    .nav-links, .welcome-text, .nav-search-bar {
+      display: none;
     }
   }
 }

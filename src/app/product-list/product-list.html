@@ -3,7 +3,7 @@
   <header class="catalog-header">
     <div class="header-info">
       <h1 class="catalog-title">Catálogo de Productos</h1>
-      <p class="catalog-subtitle">Explora nuestra selección de componentes y herramientas premium.</p>
+      <p class="catalog-subtitle">Explora nuestra selección de articulos</p>
     </div>
     
     @if (auth.isAdmin()) {
@@ -14,6 +14,16 @@
     }
   </header>
 
+  <div class="catalog-categories-badge-menu">
+    <button class="cat-badge" (click)="fetchFilteredProducts('', '', false)">✨ Todos los productos</button>
+    <button class="cat-badge" (click)="fetchFilteredProducts('','Informática',false)">🌐 Informática</button>
+    <button class="cat-badge" (click)="fetchFilteredProducts('','Telefonía',false)">📱 Telefonía</button>
+    <button class="cat-badge" (click)="fetchFilteredProducts('','Televisión',false)">📺 TV</button>
+    <button class="cat-badge" (click)="fetchFilteredProducts('','Consolas y Videojuegos',false)">🎮 Zona Gaming</button>
+    <button class="cat-badge" (click)="fetchFilteredProducts('','Electrodomésticos',false)">🔌 Electrodomésticos</button>
+    <button class="cat-badge offer-badge" (click)="fetchFilteredProducts('','Ofertas',true)">🔥 OFERTAS</button>
+  </div>
+
   @if (loading()) {
     <div class="loading-state">
       <div class="spinner"></div>
@@ -22,7 +32,7 @@
       @if (showSlowServerMessage()) {
         <div class="server-alert">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-          <span>El servidor gratuito de Render está despertando (puede tardar unos 30-60 seg). Gracias por tu paciencia.</span>
+          <span>El servidor de Render está despertando (puede tardar unos 30-60 seg). Gracias por tu paciencia.</span>
         </div>
       }
     </div>
@@ -31,7 +41,7 @@
   @if (!loading() && error()) {
     <div class="error-state">
       <p class="error-message">Vaya, parece que no hemos podido recuperar los productos.</p>
-      <button class="btn-retry" (click)="getProducts()">Reintentar carga</button>
+      <button class="btn-retry" (click)="products()">Reintentar carga</button>
     </div>
   }
 

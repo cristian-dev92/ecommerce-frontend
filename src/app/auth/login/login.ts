@@ -19,8 +19,15 @@ export class LoginComponent {
   private router = inject(Router); 
   private ui = inject(UiService);
   
-   loginForm: FormGroup; 
-   isSubmitting = signal<boolean>(false);
+  loginForm: FormGroup; 
+  isSubmitting = signal<boolean>(false);
+
+  loading = signal<boolean>(false);
+  showSlowServerMessage = signal<boolean>(false);
+  error = signal<boolean>(false);
+  private serverTimer: any;
+  form: any;
+  authService: any;
 
    constructor() { 
     this.loginForm = this.fb.group({ 
@@ -52,6 +59,33 @@ export class LoginComponent {
         this.ui.error(msg);
       } 
     }); 
+
+    if (this.form.invalid) return;
+
+    this.loading.set(true);
+    this.error.set(false);
+    this.showSlowServerMessage.set(false);
+
+    //Si a los 4 segundos Render no ha respondido, activamos el mensaje de aviso
+    this.serverTimer = setTimeout(() => {
+        if (this.loading()) {
+            this.showSlowServerMessage.set(true);
+        }
+    }, 4000);
+
+    this.authService.loginOrRegister(this.form.value).subscribe({
+        next: () => {
+            clearTimeout(this.serverTimer); // Limpiamos el timer si responde rápido
+            this.loading.set(false);
+            // Redirigir al home o guardar sesión...
+        },
+        error: (err: any) => {
+            clearTimeout(this.serverTimer);
+            this.loading.set(false);
+            this.error.set(true);
+            console.error(err);
+        }
+    });
   }
   
 }
