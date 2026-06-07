@@ -1,0 +1,50 @@
+<div class="help-container">
+  <div class="help-header">
+    <h1>Centro de Ayuda y Soporte 🚀</h1>
+    <p>¿Tienes dudas con tu pedido de hardware? Encuentra soluciones rápidas aquí.</p>
+  </div>
+
+  <div class="help-tabs">
+    <button [class.active]="activeTab() === 'faqs'" (click)="setTab('faqs')">Preguntas Frecuentes</button>
+    <button [class.active]="activeTab() === 'shipping'" (click)="setTab('shipping')">Envíos y Entregas</button>
+    <button [class.active]="activeTab() === 'returns'" (click)="setTab('returns')">Devoluciones</button>
+  </div>
+
+  <div class="help-content animate-fade-in">
+    
+    @if (activeTab() === 'faqs') {
+      <div class="tab-panel">
+        <div class="faq-item">
+          <h3>¿Los productos tienen garantía?</h3>
+          <p>Sí, todos nuestros componentes tecnológicos disponen de la garantía legal de 3 años.</p>
+        </div>
+        <div class="faq-item">
+          <h3>¿Cómo puedo hacer el seguimiento de mi pedido?</h3>
+          <p>Una vez completado el pago, podrás ver el estado de tu compra en tiempo real desde tu panel de "Mi Perfil" en el Historial de Pedidos.</p>
+        </div>
+      </div>
+    }
+
+    @if (activeTab() === 'shipping') {
+      <div class="tab-panel">
+        <h3>Métodos de Envío y Plazos</h3>
+        <p>Procesamos los pedidos de forma inmediata a través de nuestro pool logístico:</p>
+        <ul>
+          <li><strong>Envío Express (24h):</strong> Gratuito para pedidos superiores a 50€.</li>
+          <li><strong>Zonas de reparto:</strong> Realizamos entregas en toda España Peninsular e Islas Baleares.</li>
+        </ul>
+      </div>
+    }
+
+    @if (activeTab() === 'returns') {
+      <div class="tab-panel">
+        <h3>Política de Devoluciones Irreversible</h3>
+        <p>¿No estás satisfecho con tu placa base o periférico? Tienes 14 días naturales para solicitar la devolución.</p>
+        <div class="alert-box-info">
+          💡 <strong>Cómo proceder:</strong> Copia el <strong>ID de Pedido</strong> desde tu historial de compras, vete a nuestra sección de <strong>Contacto</strong> y envíanos un mensaje solicitando la etiqueta de recogida de forma gratuita.
+        </div>
+      </div>
+    }
+
+  </div>
+</div>

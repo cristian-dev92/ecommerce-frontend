@@ -7,16 +7,18 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     const token = auth.getToken();
 
     console.log('[INTERCEPTOR] URL:', req.url);
-    console.log('[INTERCEPTOR] TOKEN:', token);
     
     if (!token) { 
         console.log('[INTERCEPTOR] No hay token, se envía petición limpia.');
         return next(req); 
     } 
 
-    const cleanToken = token.trim().replace(/^["']|["']$/g, '');
+    const cleanToken = token
+        .replace(/^["']|["']$/g, '') // Quita comillas al principio y al final
+        .replace(/\s+/g, '')        // Elimina absolutamente todos los saltos de línea (\n, \r) y espacios internos
+        .trim();
 
-    console.log('[INTERCEPTOR] TOKEN LIMPIO:', cleanToken);
+    console.log('[INTERCEPTOR] HEADER ENVIADO:', `Bearer ${cleanToken}`);
     
     const authReq = req.clone({ 
         setHeaders: { 

@@ -22,15 +22,10 @@ export class NavbarComponent {
 
   searchQuery = signal<string>('');
 
-  // 💡 USAMOS COMPUTED SIGNALS (Reaccionan solos si tu AuthService usa signals)
+  // USAMOS COMPUTED SIGNALS (Reaccionan solos si tu AuthService usa signals)
   // Si tu AuthService guarda el usuario en un signal, la Navbar se redibuja sola al instante
   public isLoggedIn = computed(() => this.auth.isLoggedIn());
   public currentUser = computed(() => this.auth.currentUser());
-
-  // Si tu AuthService aún no usa Signals, puedes usar este fallback temporal leyendo de localStorage:
-  get userNameFallback(): string {
-    return localStorage.getItem('userName') ?? '';
-  }
 
   get isLoggedInFallback(): boolean {
     return !!localStorage.getItem('authToken');

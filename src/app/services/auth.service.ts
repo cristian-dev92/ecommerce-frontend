@@ -182,16 +182,27 @@ export class AuthService {
       tap(() => this.logout())
     );
   }
-
-  uploadAvatar(file: File) {
+  /**
+   * OPCIÓN A: Enviar archivo real del PC (Formulario Binario)
+   * Golpea al método de Java con @RequestParam("file")
+   */
+  uploadAvatarFile(file: File) {
     const formData = new FormData();
-    formData.append('avatar', file);
+    formData.append('file', file); // 💡 Cambiado de 'avatar' a 'file' para casar con tu @RequestParam("file") de Spring
 
     return this.http.post(`${this.apiUrl}/users/upload-avatar`, formData, {
       headers: this.getAuthHeaders()
-    }).pipe(
-      switchMap(() => this.refreshUser())
-    );
+    });
+  }
+
+  /**
+   * OPCIÓN B: Enviar URL de texto directa (JSON plano)
+   * Golpea al método de Java con @RequestBody Map<String, String>
+   */
+  uploadAvatarUrl(payload: { avatarUrl: string }) {
+    return this.http.post(`${this.apiUrl}/users/upload-avatar-url`, payload, {
+      headers: this.getAuthHeaders()
+    });
   }
 
   refreshUser() {
@@ -206,4 +217,5 @@ export class AuthService {
     localStorage.setItem('currentUser', JSON.stringify(user));
     this.currentUser.set(user);
   }
+
 }

@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core'; 
-import { FormBuilder, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms'; 
+import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms'; 
 import { Router, RouterModule } from '@angular/router'; 
 import { CommonModule } from '@angular/common'; 
 import { ProductService } from '../services/product.service'; 
@@ -10,7 +10,7 @@ import { UiService } from '../services/ui.service';
     selector: 'app-product-create', 
     templateUrl: './product-create.html', 
     styleUrl: './product-create.scss',
-    imports: [CommonModule, ReactiveFormsModule, RouterModule, FormsModule] 
+    imports: [CommonModule, ReactiveFormsModule, RouterModule] 
 }) 
 export class ProductCreateComponent {
      
@@ -27,30 +27,19 @@ export class ProductCreateComponent {
     // 💡 Añadido el campo 'stock' exigido por tu lógica de negocio del carrito
     form = this.fb.nonNullable.group({ 
         name: ['', [Validators.required, Validators.minLength(3)]], 
+        brand: ['', Validators.required], 
+        category: ['', Validators.required],
         description: ['', Validators.required], 
+        technicalDescription: ['', Validators.required], 
         price: [0, [Validators.required, Validators.min(0.01)]],
         stock: [1, [Validators.required, Validators.min(0)]],
         discount: [0, [Validators.required, Validators.min(0), Validators.max(100)]],
         taxes: [21, [Validators.required, Validators.min(0)]],
-        imageUrl: ['', Validators.required] 
-    }); 
-
-    productForm = signal({
-    name: '',
-    description: '',
-    price: 0,
-    stock: 0,
-    imageUrl: '',
-    category: '' // Aquí se guardará lo que elijas en el select
-  });
-
-    // Método para actualizar dinámicamente los campos del Signal
-     updateFormField(field: string, value: any): void {
-        this.productForm.update(current => ({
-        ...current,
-        [field]: value
-        }));
-    }
+        imageUrl: ['', Validators.required],
+        manufacturer: ['', Validators.required], 
+        warranty: ['', Validators.required],
+        gallery: [[] as string[]]  
+    });
 
     onFileSelected(event: any) { 
         const file = event.target.files[0]; 
@@ -82,9 +71,11 @@ export class ProductCreateComponent {
     onUrlInput(event: any) {
         const url = event.target.value;
         if (url && url.trim().startsWith('http')) {
+            this.form.patchValue({ imageUrl: url });
             // Actualizamos el signal de vista previa dinámicamente con la URL pegada
             this.imagePreview.set(url);
         } else if (!url) {
+            this.form.patchValue({ imageUrl: '' });
             this.imagePreview.set(null);
         }
     }

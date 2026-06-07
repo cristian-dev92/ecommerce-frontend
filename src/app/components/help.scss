@@ -1,0 +1,67 @@
+.help-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 24px;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+
+  .help-header {
+    text-align: center;
+    margin-bottom: 40px;
+    h1 { color: #0f172a; font-size: 2rem; font-weight: 700; margin-bottom: 8px; }
+    p { color: #64748b; font-size: 1rem; }
+  }
+
+  .help-tabs {
+    display: flex;
+    gap: 12px;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 12px;
+    margin-bottom: 32px;
+
+    button {
+      background: none;
+      border: none;
+      padding: 10px 20px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #64748b;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.2s;
+
+      &:hover { color: #2563eb; background: #f1f5f9; }
+      &.active { color: #2563eb; background: #eff6ff; box-shadow: inset 0 -2px 0 #2563eb; }
+    }
+    @media (max-width: 640px) { flex-direction: column; gap: 4px; }
+  }
+
+  .tab-panel {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+
+    h3 { color: #0f172a; margin-top: 0; margin-bottom: 16px; font-size: 1.2rem; }
+    p { color: #334155; line-height: 1.6; font-size: 0.95rem; }
+    ul { padding-left: 20px; color: #334155; font-size: 0.95rem; li { margin-bottom: 8px; } }
+  }
+
+  .faq-item {
+    margin-bottom: 24px;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 16px;
+    &:last-child { margin-bottom: 0; border: none; padding-bottom: 0; }
+    h3 { font-size: 1.05rem; margin-bottom: 8px; color: #1e293b; }
+  }
+
+  .alert-box-info {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: #166534;
+    padding: 16px;
+    border-radius: 12px;
+    margin-top: 20px;
+    font-size: 0.9rem;
+  }
+}

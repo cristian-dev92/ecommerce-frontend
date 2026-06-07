@@ -31,12 +31,18 @@ export class ProductEditComponent implements OnInit {
     // Formulario reactivo blindado con campo Stock incluido
     form = this.fb.nonNullable.group({ 
         name: ['', [Validators.required, Validators.minLength(3)]], 
+        brand: ['', Validators.required], 
+        category: ['', Validators.required],
         description: ['', Validators.required], 
+        technicalDescription: ['', Validators.required], 
         price: [0, [Validators.required, Validators.min(0.01)]],
         stock: [0, [Validators.required, Validators.min(0)]],
         discount: [0, [Validators.required, Validators.min(0), Validators.max(100)]],
         taxes: [21, [Validators.required, Validators.min(0)]],
-        imageUrl: ['', Validators.required]
+        imageUrl: ['', Validators.required], 
+        manufacturer: ['', Validators.required], 
+        warranty: ['', Validators.required],
+        gallery: [[] as string[]] 
     });
     
     ngOnInit() {

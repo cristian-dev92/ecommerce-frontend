@@ -65,6 +65,7 @@ import { UiService } from './ui.service';
     } 
 
     this.saveCart();
+    this.ui.success(`${product.name} añadido al carrito.`);
   } 
 
     removeFromCart(productId: number) { 

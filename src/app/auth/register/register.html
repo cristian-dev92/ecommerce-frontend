@@ -83,10 +83,10 @@
           </div>
         </div>
 
-        <button type="submit" class="btn-submit" [disabled]="registerForm.invalid || isLoading()">
-          <span class="btn-text">{{ isLoading() ? 'Creando cuenta...' : 'Registrarse' }}</span>
+        <button type="submit" class="btn-submit" [disabled]="registerForm.invalid || loading()">
+          <span class="btn-text">{{ loading() ? 'Creando cuenta...' : 'Registrarse' }}</span>
           
-          @if (!isLoading()) {
+          @if (!loading()) {
             <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
               <circle cx="8.5" cy="7" r="4"></circle>

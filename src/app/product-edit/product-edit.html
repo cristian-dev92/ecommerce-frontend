@@ -98,12 +98,22 @@
           </div>
 
           <div class="input-group">
-            <label class="form-label" for="description">Descripción técnica</label>
+            <label class="form-label" for="description">Descripción del producto</label>
             <textarea 
               id="description" 
               class="form-input form-textarea" 
               formControlName="description"
               [class.input-error]="form.get('description')?.touched && form.get('description')?.invalid"
+            ></textarea>
+          </div>
+
+          <div class="input-group">
+            <label class="form-label" for="technicalDescription">Descripción Técnica</label>
+            <textarea 
+              id="technicalDescription" 
+              class="form-input form-textarea" 
+              formControlName="technicalDescription"
+              [class.input-error]="form.get('technicalDescription')?.touched && form.get('technicalDescription')?.invalid"
             ></textarea>
           </div>
 
@@ -159,6 +169,32 @@
                 >
              </div>
             </div>
+
+            <div class="form-row-twin" style="margin-top: 1rem;">
+            <div class="input-group">
+              <label class="form-label" for="manufacturer">Fabricante / Marca Técnica</label>
+              <input 
+                id="manufacturer" 
+                type="text" 
+                class="form-input" 
+                formControlName="manufacturer"
+                [class.input-error]="form.get('manufacturer')?.touched && form.get('manufacturer')?.invalid"
+                placeholder="Ej: Logitech, Sony..."
+              >
+            </div>
+
+            <div class="input-group">
+              <label class="form-label" for="warranty">Garantía Ofrecida</label>
+              <input 
+                id="warranty" 
+                type="text" 
+                class="form-input" 
+                formControlName="warranty"
+                [class.input-error]="form.get('warranty')?.touched && form.get('warranty')?.invalid"
+                placeholder="Ej: 3 años del fabricante"
+              >
+            </div>
+          </div>
 
           <div class="form-actions-admin">
             <button 

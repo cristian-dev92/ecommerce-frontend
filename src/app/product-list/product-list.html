@@ -15,14 +15,65 @@
   </header>
 
   <div class="catalog-categories-badge-menu">
-    <button class="cat-badge" (click)="fetchFilteredProducts('', '', false)">✨ Todos los productos</button>
-    <button class="cat-badge" (click)="fetchFilteredProducts('','Informática',false)">🌐 Informática</button>
-    <button class="cat-badge" (click)="fetchFilteredProducts('','Telefonía',false)">📱 Telefonía</button>
-    <button class="cat-badge" (click)="fetchFilteredProducts('','Televisión',false)">📺 TV</button>
-    <button class="cat-badge" (click)="fetchFilteredProducts('','Consolas y Videojuegos',false)">🎮 Zona Gaming</button>
-    <button class="cat-badge" (click)="fetchFilteredProducts('','Electrodomésticos',false)">🔌 Electrodomésticos</button>
-    <button class="cat-badge offer-badge" (click)="fetchFilteredProducts('','Ofertas',true)">🔥 OFERTAS</button>
+    <button class="cat-badge" [routerLink]="[]" [queryParams]="{ category: null, offers: null, page: null }">✨ Todos los productos</button>
+    <button class="cat-badge" [routerLink]="[]" [queryParams]="{ category: 'Informática', offers: null, page: null }">🌐 Informática</button>
+    <button class="cat-badge" [routerLink]="[]" [queryParams]="{ category: 'Telefonía', offers: null, page: null }">📱 Telefonía</button>
+    <button class="cat-badge" [routerLink]="[]" [queryParams]="{ category: 'Televisión', offers: null, page: null }">📺 TV</button>
+    <button class="cat-badge" [routerLink]="[]" [queryParams]="{ category: 'Consolas y Videojuegos', offers: null, page: null }">🎮 Zona Gaming</button>
+    <button class="cat-badge" [routerLink]="[]" [queryParams]="{ category: 'Electrodomésticos', offers: null, page: null }">🔌 Electrodomésticos</button>
+    <button class="cat-badge offer-badge" [routerLink]="[]" [queryParams]="{ category: null, offers: 'true', page: null }">🔥 OFERTAS</button>
   </div>
+
+  <div class="shop-layout">
+    
+    <aside class="filters-sidebar">
+      <div class="sidebar-header">
+        <h2>Filtros</h2>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label">Ordenar por</label>
+        <select class="filter-select" [ngModel]="filters().sortBy" (ngModelChange)="updateSort($event)">
+          <option value="default">Relevancia</option>
+          <option value="priceAsc">Precio: de menor a mayor</option>
+          <option value="priceDesc">Precio: de mayor a menor</option>
+          <option value="newest">Más nuevos</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label">Precio Máximo</label>
+        <div class="price-range-inputs">
+          <input type="number" class="price-input" [ngModel]="filters().minPrice" (ngModelChange)="updateMinPrice($event)" placeholder="Min">
+          <span>al</span>
+          <input type="number" class="price-input" [ngModel]="filters().maxPrice" (ngModelChange)="updateMaxPrice($event)" placeholder="Max">
+        </div>
+        <input type="range" min="0" max="9999" step="10" [ngModel]="filters().maxPrice" (ngModelChange)="updateMaxPrice($event)" class="price-slider">
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label">Marcas</label>
+        <div class="brands-checkbox-list">
+          @for (brand of availableBrands(); track brand) {
+            <label class="checkbox-container">
+              <input type="checkbox" [checked]="filters().selectedBrands.has(brand)" (change)="toggleBrand(brand)">
+              <span class="checkbox-text">{{ brand }}</span>
+            </label>
+          } @empty {
+            <p class="no-brands-text">No hay marcas disponibles</p>
+          }
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <label class="checkbox-container">
+          <input type="checkbox" [ngModel]="filters().onlyStock" (ngModelChange)="updateOnlyStock($event)">
+          <span class="checkbox-text stock-text">Solo productos en stock</span>
+        </label>
+      </div>
+    </aside>
+
+  <main class="catalog-main-content">
 
   @if (loading()) {
     <div class="loading-state">
@@ -41,7 +92,7 @@
   @if (!loading() && error()) {
     <div class="error-state">
       <p class="error-message">Vaya, parece que no hemos podido recuperar los productos.</p>
-      <button class="btn-retry" (click)="products()">Reintentar carga</button>
+      <button class="btn-retry" (click)="fetchFilteredProducts('', '', false, 0, true)">Reintentar carga</button>
     </div>
   }
 
@@ -56,8 +107,11 @@
       @for (product of products(); track product.id) {
         <article class="product-card">
           
-          <div class="product-image-box">
+          <div class="product-image-box" [routerLink]="['/products', product.id]" style="cursor: pointer;" title="Ver ficha del producto">
             <img class="product-img" [src]="product.imageUrl || 'assets/placeholder.jpg'" [alt]="product.name">
+            @if (product.discount > 0) {
+              <span class="badge-discount">-{{ product.discount }}%</span>
+            }
             @if (product.stock <= 0) {
               <span class="badge-stock out">Agotado</span>
             } @else if (product.stock <= 5) {
@@ -66,11 +120,11 @@
           </div>
 
           <div class="product-info">
-            <h3 class="product-name">{{ product.name }}</h3>
+            <h3 class="product-name" [routerLink]="['/products', product.id]" style="cursor: pointer;">{{ product.name }}</h3>
             <p class="product-description">{{ product.description }}</p>
             
             <div class="product-footer">
-              <span class="product-price">{{ product.price | currency:'EUR':'symbol':'1.2-2' }}</span>
+              <span class="product-price">{{ product.finalPrice | currency:'EUR':'symbol':'1.2-2' }}</span>
               <span class="product-stock-count">Stock: {{ product.stock }} ud.</span>
             </div>
 
@@ -91,11 +145,32 @@
                 </div>
               }
             </div>
-
           </div>
         </article>
       }
     </div>
-  }
+    <div class="pagination-wrapper">
+        <button 
+          class="btn-pagination" 
+          [disabled]="currentPage() === 0" 
+          (click)="prevPage()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          <span>Anterior</span>
+        </button>
 
+        <div class="pagination-info">
+          Página <strong>{{ currentPage() + 1 }}</strong> de <strong>{{ totalPages() }}</strong>
+        </div>
+
+        <button 
+          class="btn-pagination" 
+          [disabled]="isLastPage()" 
+          (click)="nextPage()">
+          <span>Siguiente</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      </div>
+    }
+  </main>
+ </div>
 </div>

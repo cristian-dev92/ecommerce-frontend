@@ -11,9 +11,22 @@
             <span>{{ (user()?.name?.charAt(0) || 'U') | uppercase }}</span>
           </div>
         }
-        <label for="avatar-upload" class="avatar-change-btn" title="Cambiar imagen de perfil">
+        <button type="button" class="avatar-change-btn" (click)="toggleAvatarMenu($event)" title="Cambiar imagen de perfil">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
-        </label>
+        </button>
+
+         @if (showAvatarMenu()) {
+          <div class="avatar-dropdown-menu">
+            <label for="avatar-upload" class="dropdown-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+              Desde mi PC
+            </label>
+            <button type="button" class="dropdown-item" (click)="promptAvatarUrl()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+              URL de Cloudinary / Internet
+            </button>
+          </div>
+        }
         <input id="avatar-upload" type="file" accept="image/*" (change)="onAvatarSelected($event)" style="display: none;">
       </div>
       
@@ -116,14 +129,35 @@
       </div>
 
       <div class="danger-zone-box">
-        <h4>Zona de riesgo</h4>
+        <h4>Zona de borrado de cuenta</h4>
         <p>Si eliminas tu cuenta, se borrará de forma permanente todos tus datos de envío e historial de compras.</p>
-        <button type="button" class="btn-delete-account" (click)="deleteAccount()">
-          Eliminar cuenta permanentemente
+        @if (!isConfirmingDelete()) {
+    <button class="btn-delete-account" (click)="deleteAccount()">
+      Eliminar mi cuenta permanentemente
+    </button>
+  } @else {
+    <div class="delete-confirmation-wrapper animate-fade-in" style="display: flex; flex-direction: column; gap: 10px;">
+      <span style="color: #b91c1c; font-size: 0.85rem; font-weight: 700; text-align: center; display: block; background: #fee2e2; padding: 8px; border-radius: 8px;">
+        ⚠️ ¿Estás completamente seguro? Haz clic de nuevo en el botón rojo para confirmar definitivamente.
+      </span>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+        <button 
+          class="btn-profile-submit variant-dark" 
+          style="background: #33169e; color: white; border-color: #5014db; padding: 10px; font-size: 0.85rem;" 
+          (click)="cancelDeleteAccount()">
+          No, cancelar
+        </button>
+        <button 
+          class="btn-delete-account" 
+          style="background: #9e1616; color: white; border-color: #991b1b; padding: 10px;" 
+          (click)="deleteAccount()">
+          Sí, eliminar ya
         </button>
       </div>
-
     </div>
+    }
+   </div>
+  </div>
 
     <div class="orders-column">
       <div class="profile-card orders-card">

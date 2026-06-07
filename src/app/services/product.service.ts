@@ -17,7 +17,15 @@ export class ProductService {
   }
   // Detalle de un producto por ID (Mapea a tu @GetMapping("/{id}"))
   getProduct(id: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/${id}`);
+  //Recuperamos el token (ajústalo según cómo lo guardéis: localStorage, sessionStorage, etc.)
+  const token = localStorage.getItem('token') || ''; 
+  // Limpiamos de forma agresiva cualquier espacio, tabulación o salto de línea invisible
+  const cleanToken = token.replace(/\s+/g, '').trim();
+  // Si usáis interceptor esto no haría falta, pero al meterlo aquí directo y te aseguras de que para la edición pase el filtro sí o sí:
+  const headers = {
+    'Authorization': `Bearer ${cleanToken}`
+  };
+  return this.http.get<any>(`${this.apiUrl}/${id}`, { headers });
   }
   // Crear producto (Mapea a tu @PostMapping público/admin)
   createProduct(product: Partial<Product>): Observable<Product> {
@@ -39,7 +47,7 @@ export class ProductService {
     return this.http.post<{ url: string }>(`${this.apiUrl}/upload-image`, formData);
   }
   // Tu motor dinámico mapea exactamente a @GetMapping("/search")
-  searchAndFilter(query: string, category: string): Observable<Product[]> {
+  searchAndFilter(query: string, category: string, page: number, pageSize: number): Observable<Product[]> {
     let params = new HttpParams();
     if (query) params = params.set('query', query);
     if (category) params = params.set('category', category);
@@ -53,8 +61,17 @@ export class ProductService {
     return this.http.get<any>(`${this.apiUrl}/category/${category}`, { params });
   }
   //Mapea directo a tu @GetMapping("/offers")
-  getOffers(): Observable<Product[]> {
+  getOffers(page: number, pageSize: number): Observable<Product[]> {
     return this.http.get<Product[]>(`${this.apiUrl}/offers`);
+  }
+
+  getProductsPaginated(page: number, size: number): Observable<any> {
+    // Añadimos los parámetros ?page=X&size=Y a la URL de forma limpia
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.get<any>(this.apiUrl, { params });
   }
 
 }

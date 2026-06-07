@@ -26,8 +26,6 @@ export class LoginComponent {
   showSlowServerMessage = signal<boolean>(false);
   error = signal<boolean>(false);
   private serverTimer: any;
-  form: any;
-  authService: any;
 
    constructor() { 
     this.loginForm = this.fb.group({ 
@@ -38,53 +36,39 @@ export class LoginComponent {
   
   onSubmit() { 
    if (this.loginForm.invalid || this.isSubmitting()) {
-    this.ui.warning('Por favor, revisa los campos del formulario.');
-    return;
-  }
-    
+      this.ui.warning('Por favor, revisa los campos del formulario.');
+      return;
+    }
+     
     this.isSubmitting.set(true); 
-    const { email, password } = this.loginForm.value;
-
-    this.auth.login(email, password).subscribe({ 
-      next: () => {
-        this.ui.success('¡Bienvenido de nuevo! Iniciando sesión...');
-        this.isSubmitting.set(false);
-        
-        // Redirección inmediata a la raíz
-        this.router.navigate(['/products']);
-      },
-      error: (error: any) => { 
-        this.isSubmitting.set(false); 
-        const msg = error.error?.message || 'Email o contraseña incorrectos.';
-        this.ui.error(msg);
-      } 
-    }); 
-
-    if (this.form.invalid) return;
-
     this.loading.set(true);
     this.error.set(false);
     this.showSlowServerMessage.set(false);
 
-    //Si a los 4 segundos Render no ha respondido, activamos el mensaje de aviso
+    // Si a los 4 segundos Render está dormido, avisamos
     this.serverTimer = setTimeout(() => {
-        if (this.loading()) {
-            this.showSlowServerMessage.set(true);
-        }
+      if (this.loading()) {
+        this.showSlowServerMessage.set(true);
+      }
     }, 4000);
 
-    this.authService.loginOrRegister(this.form.value).subscribe({
-        next: () => {
-            clearTimeout(this.serverTimer); // Limpiamos el timer si responde rápido
-            this.loading.set(false);
-            // Redirigir al home o guardar sesión...
-        },
-        error: (err: any) => {
-            clearTimeout(this.serverTimer);
-            this.loading.set(false);
-            this.error.set(true);
-            console.error(err);
-        }
+    const { email, password } = this.loginForm.value;
+
+    this.auth.login(email, password).subscribe({ 
+      next: () => {
+        clearTimeout(this.serverTimer);
+        this.ui.success('¡Bienvenido de nuevo! Iniciando sesión...');
+        this.isSubmitting.set(false);
+        this.loading.set(false);
+        this.router.navigate(['/products']);
+      },
+      error: (error: any) => { 
+        clearTimeout(this.serverTimer);
+        this.isSubmitting.set(false); 
+        this.loading.set(false);
+        const msg = error.error?.message || 'Email o contraseña incorrectos.';
+        this.ui.error(msg);
+      } 
     });
   }
   

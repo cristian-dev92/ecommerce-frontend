@@ -4,6 +4,10 @@ import { RegisterComponent } from './auth/register/register';
 import { authGuard } from './guards/auth-guard';
 import { authRedirectGuard } from './guards/auth-redirect-guard';
 import { LoginComponent } from './auth/login/login';
+import { Privacy } from './legal/privacy/privacy';
+import { Terms } from './legal/terms/terms';
+import { Cookies } from './legal/cookies/cookies';
+import { HelpComponent } from './components/help';
 
 
 export const routes: Routes = [
@@ -23,15 +27,21 @@ export const routes: Routes = [
     title: 'Crear Producto' 
   }, 
 
-  // Edición de productos con parámetro dinámico :id(PRIVADOS - REQUIERE AUTENTICACIÓN )
+  // 🌐 VISTA PÚBLICA: Ficha de producto para el cliente (Sin guardas de seguridad)
+  { 
+    path: 'products/:id', 
+    loadComponent: () => import('./product-detail/product-detail').then(m => m.ProductDetailComponent),
+    title: 'Detalle del Producto'
+  },
+
+  // 🛡️ VISTA PRIVADA: Formulario de edición para el Admin (Con canActivate)
   { 
     path: 'products/edit/:id',
-     loadComponent: () => 
-      import('./product-edit/product-edit').then(m => m.ProductEditComponent), 
-     canActivate: [authGuard], 
-     data: { roles: ['ROLE_ADMIN'] },
-     title: 'Editar Producto' 
-    },
+    loadComponent: () => import('./product-edit/product-edit').then(m => m.ProductEditComponent), 
+    canActivate: [authGuard], 
+    data: { roles: ['ROLE_ADMIN'] },
+    title: 'Editar Producto' 
+  },
 
   // Ruta por defecto: REDIRIGE a /products.
   { path: '', 
@@ -85,6 +95,46 @@ export const routes: Routes = [
         loadComponent: () => import('./profile/orders-history/orders-history').then(m => m.OrdersHistory) 
       }
     ]
+  },
+
+  { 
+    path: 'legal/privacy', 
+    component: Privacy, 
+    title: 'DevShop | Política de Privacidad' 
+  },
+
+  { 
+    path: 'legal/terms', 
+    component: Terms, 
+    title: 'DevShop | Términos y Condiciones' 
+  },
+  
+  { 
+    path: 'legal/cookies', 
+    component: Cookies, 
+    title: 'DevShop | Política de Cookies' 
+  },
+
+  { 
+    path: 'help', 
+    component: HelpComponent, 
+    title: 'DevShop | Centro de Ayuda' 
+  },
+
+  { path: 'shipping', 
+    component: HelpComponent, 
+    title: 'DevShop | Envíos' 
+  },
+
+  { path: 'returns', 
+    component: HelpComponent, 
+    title: 'DevShop | Devoluciones' 
+  },
+  
+  // Ruta de contacto (puedes crear un formulario básico o mandarlo también a help temporalmente)
+  { path: 'contact', 
+    component: HelpComponent, 
+    title: 'DevShop | Soporte' 
   },
 
   //Ruta para cualquier otra URL no definida(404 - Not Found)

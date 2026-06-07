@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core'; 
+import { Component, inject, OnInit, signal, HostListener } from '@angular/core'; 
 import { CommonModule } from '@angular/common'; 
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms'; 
 import { AuthService } from '../services/auth.service';
@@ -24,6 +24,8 @@ export class ProfileComponent implements OnInit {
     user = signal<any>(null);
     avatarPreview = signal<string | null>(null);
     isLoading = signal<boolean>(false);
+    showAvatarMenu = signal<boolean>(false);
+    isConfirmingDelete = signal<boolean>(false);
 
     // FORMULARIOS NO-NULOS Y SEGUROS
     emailForm = this.fb.nonNullable.group({ 
@@ -80,34 +82,69 @@ export class ProfileComponent implements OnInit {
         if (userData.address) {
             this.addressForm.patchValue({
                 address: userData.address || '',
-                city: userData.address || '',
-                postalCode: userData.address || '',
+                city: userData.city || '',
+                postalCode: userData.postalCode || '',
                 province: userData.province || '',
-                country: userData.address || ''
+                country: userData.country || ''
             });
         }
     }
 
+    // 💻 OPCIÓN A: Subir imagen real desde el PC (Binary/Multipart)
     onAvatarSelected(event: any) { 
         const file = event.target.files[0]; 
         if (!file) return; 
         
+        // Renderizar la preview instantánea en el cliente
         const reader = new FileReader(); 
         reader.onload = () => this.avatarPreview.set(reader.result as string); 
         reader.readAsDataURL(file); 
-        
-        // 💡 Mandamos la imagen al backend de Render usando el servicio unificado
-        this.auth.uploadAvatar(file).subscribe({
+
+        this.isLoading.set(true);
+
+        // Enviamos el archivo binario real directamente (El servicio montará el FormData)
+        this.auth.uploadAvatarFile(file).subscribe({
             next: (res: any) => {
                 this.ui.success('Imagen de avatar actualizada correctamente');
-                // Si el endpoint devuelve la URL, la inyectamos
                 if (res?.avatarUrl) {
                     this.updateAvatarLocalState(res.avatarUrl);
                 }
+                this.isLoading.set(false);
             },
             error: (err) => {
                 console.error("Error subiendo avatar:", err);
-                this.ui.error('No se pudo subir la imagen del avatar.');
+                this.ui.error('No se pudo subir la imagen desde el ordenador.');
+                this.isLoading.set(false);
+            }
+        }); // ✅ Llaves cerradas limpiamente aquí
+    }
+
+    // 🌐 OPCIÓN B: Guardar avatar mediante URL externa (Cloudinary / Internet)
+    promptAvatarUrl() {
+        this.showAvatarMenu.set(false); 
+        const url = prompt("Introduce la URL de tu imagen de Cloudinary o Internet:");
+    
+        if (!url || !url.trim().startsWith('http')) {
+            if (url) this.ui.error('Por favor, introduce una URL válida (http/https)');
+            return;
+        }
+
+        this.isLoading.set(true);
+    
+        // Llama al endpoint de JSON plano del backend: /upload-avatar-url
+        this.auth.uploadAvatarUrl({ avatarUrl: url.trim() }).subscribe({
+            next: (res: any) => {
+                this.ui.success('Avatar actualizado desde URL con éxito');
+                if (res?.avatarUrl) {
+                    this.avatarPreview.set(res.avatarUrl);
+                    this.updateAvatarLocalState(res.avatarUrl);
+                }
+                this.isLoading.set(false);
+            },
+            error: (err) => {
+                console.error("Error al guardar URL de avatar:", err);
+                this.ui.error('No se pudo asociar la URL del avatar.');
+                this.isLoading.set(false);
             }
         });
     }
@@ -183,14 +220,43 @@ export class ProfileComponent implements OnInit {
     }
     
     deleteAccount() { 
-        if (!confirm('¿Seguro que quieres eliminar tu cuenta? Esta acción es irreversible y perderás tu historial de pedidos.')) return; 
-        
-        this.auth.deleteAccount().subscribe({
-            next: () => { 
-                this.ui.success('Cuenta eliminada correctamente. Esperamos verte pronto.'); 
-                this.auth.logout(); 
-            },
-            error: () => this.ui.error('Error al intentar eliminar la cuenta de la base de datos.')
-        });
-    } 
+    // Si es la primera vez que pulsa, no borramos: activamos el estado de alerta visual
+    if (!this.isConfirmingDelete()) {
+        this.isConfirmingDelete.set(true);
+        this.ui.warning('¡Atención! Has solicitado eliminar tu cuenta. Revisa los avisos antes de continuar.', 4000);
+        return;
+    }
+  
+    // Si vuelve a pulsar estando activo, procedemos con la destrucción segura
+    this.auth.deleteAccount().subscribe({
+      next: () => { 
+          this.ui.success('Tu cuenta ha sido eliminada con éxito. Esperamos volver a verte por aquí pronto. ¡Adiós!'); 
+          // Nota: tu auth.logout() ya limpia el storage y redirige a /login
+          this.auth.logout(); 
+      },
+      error: (err: any) => {
+          this.ui.error('No se ha podido procesar la baja. Por favor, inténtalo de nuevo más tarde.');
+          this.isConfirmingDelete.set(false); // Reseteamos el estado por seguridad
+          console.error(err);
+      }
+     });
+    }
+
+    // Método extra por si se arrepiente y hace clic fuera
+    cancelDeleteAccount() {
+        this.isConfirmingDelete.set(false);
+    }
+
+    // Abre/Cierra el menú al pulsar el botón
+    toggleAvatarMenu(event: Event) {
+     event.stopPropagation();
+        this.showAvatarMenu.set(!this.showAvatarMenu());
+        }   
+
+    // Escuchador global para cerrar el menú si pinchas en cualquier otro lado de la pantalla
+    @HostListener('document:click')
+    closeAvatarMenu() {
+        this.showAvatarMenu.set(false);
+    }
+
 }

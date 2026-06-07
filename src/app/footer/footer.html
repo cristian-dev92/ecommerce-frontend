@@ -1,0 +1,81 @@
+<footer class="modern-footer">
+  <div class="footer-container">
+    
+    <div class="footer-column brand-info">
+      <div class="footer-brand" routerLink="/">
+        <div class="brand-logo-footer">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+            <polyline points="10 12 8 14 10 16"></polyline>
+            <polyline points="14 12 16 14 14 16"></polyline>
+          </svg>
+        </div>
+        <span class="brand-title">DevShop</span>
+      </div>
+      <p class="brand-description">
+        Tu tienda electrónica de confianza. Todo tipo de productos con envío garantizado en 24 horas desde nuestro almacén central.
+      </p>
+    </div>
+
+    <div class="footer-column">
+      <h3 class="footer-heading">Atención al cliente</h3>
+      <ul class="footer-links">
+        <li><a routerLink="/help">Centro de ayuda</a></li>
+        <li><a routerLink="/contact">Contacto</a></li>
+        <li><a routerLink="/returns">Devoluciones</a></li>
+        <li><a routerLink="/shipping">Envíos y entregas</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-column">
+      <h3 class="footer-heading">Información Legal</h3>
+      <ul class="footer-links">
+        <li><a routerLink="/legal/terms">Terminos & Condiciones</a></li>
+        <li><a routerLink="/legal/privacy">Política de privacidad</a></li>
+        <li><a routerLink="/legal/cookies">Política de cookies</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-column newsletter-box">
+      <h3 class="footer-heading">Boletín de ofertas</h3>
+      <p class="newsletter-text">Suscríbete para recibir chollos exclusivos antes que nadie.</p>
+      
+      @if (!newsletterSubscribed()) {
+        <form class="newsletter-form" (ngSubmit)="subscribeNewsletter($event)">
+          <input 
+            type="email" 
+            placeholder="Tu correo electrónico..." 
+            class="newsletter-input" 
+            required
+          >
+          <button type="submit" class="newsletter-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+          </button>
+        </form>
+      } @else {
+        <div class="newsletter-success animate-fade-in">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <span>¡Suscrito con éxito! Revisa tu bandeja de entrada.</span>
+        </div>
+      }
+
+      <div class="secure-badge">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        <span>Pago 100% seguro garantizado</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <div class="bottom-container">
+      <p class="copyright">© 2026 DevShop. Todos los derechos reservados.</p>
+      <div class="region-badge">
+        <span class="flag">🇪🇸</span>
+        <span class="country">España (EUR)</span>
+      </div>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,62 @@
+@if (product(); as p) {
+  <div class="product-detail-container">
+    
+    <div class="product-main-view">
+      
+      <div class="product-gallery-box">
+        <img [src]="p.imageUrl" [alt]="p.name" class="main-image">
+      </div>
+
+      <div class="product-info-box">
+        <span class="product-brand">{{ p.brand }}</span>
+        <h1 class="product-title">{{ p.name }}</h1>
+        <p class="product-description">{{ p.description }}</p>
+
+        <div class="price-section">
+          @if (p.discount > 0) {
+            <div class="old-price">{{ p.price }}€</div>
+          }
+          <div class="current-price">
+            {{ (p.price - (p.price * p.discount / 100)).toFixed(2) }}€
+            @if (p.discount > 0) {
+              <span class="discount-tag">-{{ p.discount }}%</span>
+            }
+          </div>
+          <div class="tax-info">IVA incluido ({{ p.taxes }}%)</div>
+        </div>
+
+        <div class="stock-badge" [class.in-stock]="p.stock > 0" [class.out-of-stock]="p.stock === 0">
+          {{ p.stock > 0 ? 'En stock (' + p.stock + ' unidades)' : 'Agotado' }}
+        </div>
+
+        <button class="btn-add-to-cart" (click)="addToCart()" [disabled]="p.stock === 0">
+          @if (p.stock > 0) {
+            <span>Añadir al carrito</span>
+          } @else {
+            <span>Sin existencias</span>
+          }
+        </button>
+      </div>
+    </div>
+
+    <div class="product-specs-section">
+      <h2>Especificaciones Técnicas</h2>
+      <div class="specs-grid">
+        
+        <ul class="technical-sheet">
+          <li><span>Fabricante:</span> <span>{{ p.manufacturer }}</span></li>
+          <li><span>Marca:</span> <span>{{ p.brand }}</span></li>
+          <li><span>Categoría:</span> <span>{{ p.category }}</span></li>
+          <li><span>Garantía:</span> <span>{{ p.warranty }}</span></li>
+        </ul>
+
+        <div class="technical-text-box">
+          {{ p.technicalDescription }}
+        </div>
+      </div>
+    </div>
+
+  </div>
+} @else {
+  <div class="loading">Cargando producto...</div>
+}
