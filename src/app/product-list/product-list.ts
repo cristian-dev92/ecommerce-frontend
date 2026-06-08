@@ -46,59 +46,67 @@ export class ProductListComponent implements OnInit {
     searchBrand: '',
     selectedBrands: new Set<string>(),
     minPrice: 0,
-    maxPrice: 2000,
+    maxPrice: 9999,
     onlyStock: false,
     sortBy: 'default' // 'default', 'priceAsc', 'priceDesc', 'newest'
   });
 
-  availableBrands = computed(() => {
-    const brands = this.products().map(p => p.brand).filter(Boolean);
-    return [...new Set(brands)];
-  });
+  availableBrands = signal<string[]>([]);
 
   // EL MOTOR DEL FILTRADO: Filtra y ordena en tiempo real sin peticiones extra
   filteredProducts = computed(() => {
-    let result = [...this.products()];
+    // 1. Extraemos los valores de las señales primero para que Angular registre la dependencia reactiva
+    const currentProducts = this.products();
     const f = this.filters();
 
-    // Filtro por Marcas (si hay alguna seleccionada)
-    if (f.selectedBrands.size > 0) {
-      result = result.filter(p => f.selectedBrands.has(p.brand));
+    if (!currentProducts || currentProducts.length === 0) {
+      return [];
     }
 
-    // Filtro por Rango de Precio (usa finalPrice o price si no existe)
-    result = result.filter(p => {
+    // 2. Filtramos el rango de precios y stock creando un nuevo array
+    let result = currentProducts.filter(p => {
       const price = p.finalPrice ?? p.price;
-      return price >= f.minPrice && price <= f.maxPrice;
+      const matchesPrice = price >= f.minPrice && price <= f.maxPrice;
+      const matchesStock = !f.onlyStock || p.stock > 0;
+      
+      return matchesPrice && matchesStock;
     });
-
-    // Filtro por Stock
-    if (f.onlyStock) {
-      result = result.filter(p => p.stock > 0);
-    }
-
-    // Ordenación
+    // 3. Ordenamos de forma segura
     if (f.sortBy === 'priceAsc') {
       result.sort((a, b) => (a.finalPrice ?? a.price) - (b.finalPrice ?? b.price));
     } else if (f.sortBy === 'priceDesc') {
       result.sort((a, b) => (b.finalPrice ?? b.price) - (a.finalPrice ?? a.price));
     } else if (f.sortBy === 'newest') {
+      result.sort((a, b) => b.id - a.id);
     }
 
     return result;
   });
 
   ngOnInit(): void {
+    this.productService.getBrands().subscribe({
+      next: (brands) => this.availableBrands.set(brands),
+      error: (err) => console.error('Error cargando marcas globales:', err)
+    });
     // Escuchamos de forma reactiva los parámetros de la URL (?search o ?category o ?offers)
     this.route.queryParams.subscribe(params => {
       this.loading.set(true);
       this.error.set(false);
       
       const search = params['search'] || '';
+      // Sincroniza la señal de filtros con la URL
+      this.filters.update(f => ({ ...f, searchBrand: search }));
       const category = params['category'] || '';
       const offers = params['offers'] === 'true';
       // Si no viene página en la URL, por defecto la 0
       const page = Number(params['page']) || 0;
+      const isBrand = this.availableBrands().includes(search);
+      this.filters.update(f => ({ 
+        ...f, 
+        searchBrand: isBrand ? search : '' 
+      }));
+
+      this.currentPage.set(page);
       // Si a los 5 segundos Render sigue dormido, avisamos con elegancia
     setTimeout(() => {
       if (this.loading() && this.products().length === 0) {
@@ -117,6 +125,9 @@ export class ProductListComponent implements OnInit {
     page: number = 0, 
     updateUrl: boolean = true
    ): void {
+   if (!updateUrl) {
+      this.currentPage.set(page);
+    }
     this.loading.set(true);
     this.error.set(false);
 
@@ -137,32 +148,33 @@ export class ProductListComponent implements OnInit {
     // Nota: Aquí mapeas a los métodos de tu ProductService en Angular. 
     // Si tu Service tiene un método unificado para filtros úsalo, si no, llamamos por separado:
     let request$;
-    const pageSize = 10;
+    const pageSize = 8;
+
+    const activeBrand = this.filters().searchBrand;
 
     if (offers) {
       // Si va a por las ofertas, llamamos a tu @GetMapping("/offers")
       request$ = this.productService.getOffers(page, pageSize);
     } 
-    else if (category && !search) {
-      //Si solo clican en una categoría de la sub-navbar sin buscar texto, llamamos a tu @GetMapping("/category/{category}")
-      request$ = this.productService.getProductsByCategory(category, page, pageSize);
-    } 
-    else if (search) {
-      // Si hay texto en el buscador (vaya solo o con categoría), usamos el súper-filtro dinámico @GetMapping("/search")
-      request$ = this.productService.searchAndFilter(search, category, page, pageSize); 
-    } 
     else {
       // Catálogo por defecto sin filtros (@GetMapping en la raíz)
-      request$ = this.productService.getProducts(page, pageSize); 
+      request$ = this.productService.searchAndFilter(search, category, activeBrand, page, pageSize);
     }
 
     // El bloque del subscribe se queda exactamente igual abajo:
     request$.subscribe({
       next: (data: any) => {
-        this.products.set(data.content || data);
-        // Seteamos los metadatos de control de las páginas
-        this.totalPages.set(data.totalPages || 1);
-        this.isLastPage.set(data.last ?? true);
+        if (offers) {
+          // Si son ofertas (List), mostramos todo en una página simulada
+          this.products.set(data);
+          this.totalPages.set(1);
+          this.isLastPage.set(true);
+        } else {
+          // Si viene de endpoints paginados (Page), extraemos el contenido real de Spring
+          this.products.set(data.content || []);
+          this.totalPages.set(data.totalPages || 1);
+          this.isLastPage.set(data.last ?? true);
+        }
         this.loading.set(false);
         this.showSlowServerMessage.set(false);
       },
@@ -236,27 +248,24 @@ export class ProductListComponent implements OnInit {
   
   // Helper para controlar los Checkboxes de marcas de forma reactiva
   toggleBrand(brand: string) {
-    const current = this.filters();
-    const newBrands = new Set(current.selectedBrands);
+    const currentParams = this.route.snapshot.queryParams;
+    const busquedaActual = currentParams['search'] || '';
     
-    if (newBrands.has(brand)) {
-      newBrands.delete(brand);
-    } else {
-      newBrands.add(brand);
-    }
-
-    this.filters.set({ ...current, selectedBrands: newBrands });
+    // Si el usuario clica en la marca que ya estaba buscando, la limpiamos (desmarcar)
+    if (busquedaActual === brand) {
+    // Si desmarca
+    this.filters.update(f => ({ ...f, searchBrand: '' }));
+    this.fetchFilteredProducts('', currentParams['category'] || '', currentParams['offers'] === 'true', 0, true);
+  } else {
+    // Si marca una nueva
+    this.filters.update(f => ({ ...f, searchBrand: brand }));
+    this.fetchFilteredProducts(brand, currentParams['category'] || '', currentParams['offers'] === 'true', 0, true);
   }
-  
-  updateStockFilter(value: boolean) {
-  this.filters.set({
-    ...this.filters(),
-    onlyStock: value
-  });
- }
+}
 
   updateSort(value: string): void {
     this.filters.update(f => ({ ...f, sortBy: value }));
+    this.resetPaginationUrl();
   }
 
   updateMinPrice(value: number): void {
@@ -269,6 +278,15 @@ export class ProductListComponent implements OnInit {
 
   updateOnlyStock(value: boolean): void {
     this.filters.update(f => ({ ...f, onlyStock: value }));
+  }
+
+  // Método privado para limpiar la página actual de la URL al filtrar
+  private resetPaginationUrl(): void {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { page: null },
+      queryParamsHandling: 'merge'
+    });
   }
 
 }

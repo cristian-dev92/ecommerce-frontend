@@ -40,7 +40,7 @@ export class OrdersHistory implements OnInit {
   downloadInvoice(orderId: number) {
     this.ui.success('Generando tu factura PDF...');
 
-    this.ordersService.ownloadOrderInvoice(orderId).subscribe({
+    this.ordersService.downloadOrderInvoice(orderId).subscribe({
       next: (blob: Blob) => {
         // 💡 Truco JS estándar para forzar la descarga de un archivo en el navegador
         const url = window.URL.createObjectURL(blob);

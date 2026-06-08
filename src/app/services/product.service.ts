@@ -47,7 +47,7 @@ export class ProductService {
     return this.http.post<{ url: string }>(`${this.apiUrl}/upload-image`, formData);
   }
   // Tu motor dinámico mapea exactamente a @GetMapping("/search")
-  searchAndFilter(query: string, category: string, page: number, pageSize: number): Observable<Product[]> {
+  searchAndFilter(query: string, category: string, activeBrand: string, page: number, pageSize: number): Observable<Product[]> {
     let params = new HttpParams();
     if (query) params = params.set('query', query);
     if (category) params = params.set('category', category);
@@ -73,5 +73,9 @@ export class ProductService {
 
     return this.http.get<any>(this.apiUrl, { params });
   }
+
+  getBrands(): Observable<string[]> {
+  return this.http.get<string[]>(`${this.apiUrl}/brands`);
+ }
 
 }

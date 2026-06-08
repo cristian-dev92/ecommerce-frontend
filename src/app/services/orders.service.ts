@@ -21,7 +21,7 @@ export class OrdersService {
     }
 
     // 🚀 Método para descargar el PDF de la factura
-    ownloadOrderInvoice(orderId: number): Observable<Blob> {
+    downloadOrderInvoice(orderId: number): Observable<Blob> {
     return this.http.get(`${this.apiUrl}/${orderId}/invoice`, {
       responseType: 'blob' // 💡 CRÍTICO: Indica a Angular que es un archivo binario
     });

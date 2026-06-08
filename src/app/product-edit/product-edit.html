@@ -97,6 +97,30 @@
             >
           </div>
 
+          <div class="form-row-twin">
+             <div class="input-group">
+              <label class="form-label" for="brand">Marca</label>
+              <input 
+                id="brand" 
+                type="text" 
+                class="form-input" 
+                formControlName="brand"
+                [class.input-error]="form.get('brand')?.touched && form.get('brand')?.invalid"
+                >
+            </div>
+
+            <div class="input-group">
+             <label class="form-label" for="manufacturer">Fabricante</label>
+              <input 
+                id="manufacturer" 
+                type="text" 
+                class="form-input" 
+                formControlName="manufacturer"
+                [class.input-error]="form.get('manufacturer')?.touched && form.get('manufacturer')?.invalid"
+                >
+             </div>
+            </div>
+
           <div class="input-group">
             <label class="form-label" for="description">Descripción del producto</label>
             <textarea 
@@ -170,19 +194,6 @@
              </div>
             </div>
 
-            <div class="form-row-twin" style="margin-top: 1rem;">
-            <div class="input-group">
-              <label class="form-label" for="manufacturer">Fabricante / Marca Técnica</label>
-              <input 
-                id="manufacturer" 
-                type="text" 
-                class="form-input" 
-                formControlName="manufacturer"
-                [class.input-error]="form.get('manufacturer')?.touched && form.get('manufacturer')?.invalid"
-                placeholder="Ej: Logitech, Sony..."
-              >
-            </div>
-
             <div class="input-group">
               <label class="form-label" for="warranty">Garantía Ofrecida</label>
               <input 
@@ -194,7 +205,22 @@
                 placeholder="Ej: 3 años del fabricante"
               >
             </div>
-          </div>
+
+            <div class="input-group">
+             <label class="form-label" for="category">Categoría del Producto</label>
+              <select 
+                id="category" 
+                class="form-input"
+                formControlName="category"
+              >
+                <option value="" disabled selected>-- Selecciona una categoría --</option>
+                <option value="Informática">🌐 Informática</option>
+                <option value="Telefonía">📱 Telefonía</option>
+                <option value="Televisión">📺 TV</option>
+                <option value="Consolas y Videojuegos">🎮 Zona Gaming</option>
+                <option value="Electrodomésticos">🔌 Electrodomésticos</option>
+              </select>
+            </div>
 
           <div class="form-actions-admin">
             <button 

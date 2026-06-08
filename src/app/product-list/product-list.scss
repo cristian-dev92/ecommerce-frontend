@@ -511,3 +511,103 @@
 .catalog-main-content {
   flex-grow: 1;
 }
+
+.pagination-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background-color: #ffffff; // O el color de tu tarjeta/fondo
+  border-radius: 8px;
+  margin-bottom: 1.5rem; // Espacio antes de que empiece la rejilla de productos
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+
+  .pagination-count-text {
+    font-size: 0.9rem;
+    color: #666;
+    strong {
+      color: #333;
+    }
+  }
+
+  .pagination-mini-actions {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .btn-pagination-mini {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    background-color: #fff;
+    color: #4a5568;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover:not(:disabled) {
+      background-color: #f7fafc;
+      color: #3182ce; // Cambia por tu color corporativo primario
+      border-color: #cbd5e0;
+    }
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      background-color: #edf2f7;
+    }
+  }
+}
+
+.pagination-bottom-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background-color: #ffffff; // O el color de tu tarjeta/fondo
+  border-radius: 8px;
+  margin-bottom: 1.5rem; // Espacio antes de que empiece la rejilla de productos
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+
+  .pagination-count-text {
+    font-size: 0.9rem;
+    color: #666;
+    strong {
+      color: #333;
+    }
+  }
+
+  .pagination-mini-actions {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .btn-pagination-mini {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    background-color: #fff;
+    color: #4a5568;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover:not(:disabled) {
+      background-color: #f7fafc;
+      color: #3182ce; // Cambia por tu color corporativo primario
+      border-color: #cbd5e0;
+    }
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      background-color: #edf2f7;
+    }
+  }
+}
