@@ -2,10 +2,12 @@
   position: sticky;
   top: 0;
   z-index: 1000;
-  background-color: rgba(255, 255, 255, 0.8);
+  // 🌓 Usamos rgba adaptado al fondo de la tarjeta del tema para el efecto blur
+  background-color: var(--bg-tarjeta); 
+  opacity: 0.95; // Le da ese toque premium traslúcido
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+  border-bottom: 1px solid var(--border-color); // Dinámico
   padding: 0.75rem 2rem;
   transition: var(--transicion);
 
@@ -86,6 +88,7 @@
       }
     }
 
+    /* Panel Admin (Estilo Neo-retro adaptado) */
     .admin-badge-link {
       color: #b45309;
       background-color: #fffbeb;
@@ -111,18 +114,19 @@
 
     input {
       width: 100%;
-      background-color: #f1f5f9;
-      border: 1px solid #e2e8f0;
-      color: var(--color-texto-p);
+      // 🌓 Cambia de gris claro a un fondo oscuro integrado en modo noche
+      background-color: var(--bg-principal); 
+      border: 1px solid var(--border-color);
+      color: var(--color-texto-p) !important;
       padding: 0.45rem 2.2rem 0.45rem 0.85rem;
-      border-radius: 20px; // Redondeado sutil y moderno
+      border-radius: 20px;
       font-size: 0.85rem;
       transition: var(--transicion);
 
       &:focus {
         outline: none;
         border-color: var(--primario);
-        background-color: #ffffff;
+        background-color: var(--bg-tarjeta); // Se ilumina según el tema
         box-shadow: 0 0 0 3px var(--primario-light);
       }
     }
@@ -147,9 +151,30 @@
     align-items: center;
     gap: 1.25rem;
 
+    /* 🌓 Botón de cambiar tema */
+    .btn-theme-toggle {
+      background: none;
+      border: none;
+      color: var(--color-texto-s);
+      cursor: pointer;
+      padding: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: var(--transicion);
+
+      &:hover {
+        background-color: var(--bg-principal);
+        color: var(--color-texto-p);
+        transform: scale(1.05);
+      }
+    }
+
+    /* 🛒 Botón del Carrito */
     .btn-cart {
       background: transparent;
-      border: 1px solid #e2e8f0;
+      border: 1px solid var(--border-color);
       padding: 0.6rem;
       border-radius: var(--radio-boton);
       cursor: pointer;
@@ -157,9 +182,9 @@
       transition: var(--transicion);
 
       &:hover {
-        background-color: #f8fafc;
+        background-color: var(--bg-principal);
         color: var(--color-texto-p);
-        border-color: #cbd5e1;
+        border-color: var(--primario);
       }
 
       .cart-icon-wrapper {
@@ -177,18 +202,19 @@
           font-weight: 700;
           padding: 0.15rem 0.4rem;
           border-radius: 100px;
-          border: 2px solid white;
+          border: 2px solid var(--bg-tarjeta); // Bordes limpios con el fondo actual
           min-width: 18px;
           text-align: center;
         }
       }
     }
 
+    /* Perfil del usuario */
     .user-profile-menu {
       display: flex;
       align-items: center;
       gap: 1rem;
-      border-left: 1px solid #e2e8f0;
+      border-left: 1px solid var(--border-color);
       padding-left: 1.25rem;
 
       .welcome-text {
@@ -213,7 +239,7 @@
 
         &:hover {
           color: var(--error);
-          background-color: #fef2f2;
+          background-color: rgba(239, 68, 68, 0.1); // Rojo sutil
         }
       }
     }
@@ -224,9 +250,10 @@
       gap: 0.75rem;
     }
 
+    /* 🚀 Registrarse (¡CORREGIDO!) Ahora usa tu morado eléctrico premium */
     .btn-nav-primary {
-      background-color: var(--color-texto-p);
-      color: white;
+      background-color: var(--primario) !important; 
+      color: white !important; // Siempre blanco para contrastar
       border: none;
       padding: 0.6rem 1.2rem;
       font-size: 0.9rem;
@@ -236,14 +263,17 @@
       transition: var(--transicion);
 
       &:hover {
-        background-color: #1e293b;
+        background-color: var(--primario-hover) !important;
+        transform: translateY(-1px);
       }
+      &:active { transform: translateY(0); }
     }
 
+    /* 🔓 Ingresar / Mi Perfil */
     .btn-nav-secondary {
       background-color: transparent;
       color: var(--color-texto-s);
-      border: 1px solid #e2e8f0;
+      border: 1px solid var(--border-color);
       padding: 0.6rem 1.2rem;
       font-size: 0.9rem;
       font-weight: 600;
@@ -252,9 +282,9 @@
       transition: var(--transicion);
 
       &:hover {
-        background-color: #f8fafc;
+        background-color: var(--bg-principal);
         color: var(--color-texto-p);
-        border-color: #cbd5e1;
+        border-color: var(--primario);
       }
     }
   }
@@ -274,13 +304,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;  // Ajusta el tamaño que quieras para el contenedor
+  width: 40px;
   height: 40px;
   overflow: hidden;
 
   .logo-img {
     width: 100%;
     height: 100%;
-    object-fit: contain; // Hace que el icono mantenga su proporción sin deformarse
+    object-fit: contain;
   }
 }

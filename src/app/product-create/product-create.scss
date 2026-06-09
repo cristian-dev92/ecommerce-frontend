@@ -3,7 +3,7 @@
   margin: 40px auto;
   padding: 0 24px;
   font-family: 'Segoe UI', system-ui, sans-serif;
-  color: #1e293b;
+  color: var(--color-texto-p);
 
   .admin-header {
     margin-bottom: 32px;
@@ -12,23 +12,23 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      color: #64748b;
+      color: var(--color-texto-s);
       text-decoration: none;
       font-size: 0.9rem;
       font-weight: 500;
       margin-bottom: 16px;
-      transition: color 0.2s;
+      transition: var(--transicion);
 
-      &:hover { color: #0f172a; }
+      &:hover { color: var(--color-texto-p); }
     }
 
     h1 {
       font-size: 2rem;
       font-weight: 700;
-      color: #0f172a;
+      color: var(--color-texto-p);
       margin-bottom: 6px;
     }
-    p { color: #64748b; font-size: 0.95rem; }
+    p { color: var(--color-texto-s); font-size: 0.95rem; }
   }
 
   .admin-grid {
@@ -42,13 +42,13 @@
     }
   }
 
-  // Tarjetas base admin
+  // Tarjetas base admin adaptables
   .admin-card {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
+    background: var(--bg-tarjeta);
+    border: 1px solid var(--border-color);
     border-radius: 16px;
     padding: 24px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--sombra-suave);
     
     &.text-center { text-align: center; }
   }
@@ -56,32 +56,32 @@
   .panel-title {
     font-size: 1.25rem;
     font-weight: 600;
-    color: #0f172a;
+    color: var(--color-texto-p);
     margin-bottom: 24px;
-    border-bottom: 1px solid #f1f5f9;
+    border-bottom: 1px solid var(--border-color);
     padding-bottom: 12px;
   }
 
   .card-subtitle {
     font-size: 0.95rem;
-    color: #64748b;
+    color: var(--color-texto-s);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     margin-bottom: 16px;
   }
 
-  // Zona Mockup del producto interactivo
+  // Zona Mockup del producto interactivo (Previsualización en tiempo real)
   .product-card-mockup {
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--border-color);
     border-radius: 14px;
     overflow: hidden;
     text-align: left;
-    background: #f8fafc;
+    background: var(--bg-principal);
 
     .mockup-image-zone {
       height: 200px;
-      background: #f1f5f9;
+      background: var(--border-color);
       position: relative;
       display: flex;
       align-items: center;
@@ -96,7 +96,7 @@
 
       .mockup-placeholder {
         text-align: center;
-        color: #94a3b8;
+        color: var(--color-texto-s);
         svg { margin-bottom: 8px; }
         p { font-size: 0.85rem; }
       }
@@ -104,21 +104,21 @@
       .mockup-loader {
         position: absolute;
         inset: 0;
-        background: rgba(255, 255, 255, 0.8);
+        background: rgba(15, 23, 42, 0.7); // Oscurecimiento limpio en ambos modos durante subidas
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         gap: 10px;
         font-size: 0.85rem;
-        color: #2563eb;
+        color: white;
         font-weight: 500;
 
         .spinner {
           width: 28px;
           height: 28px;
-          border: 3px solid #e2e8f0;
-          border-top-color: #2563eb;
+          border: 3px solid rgba(255, 255, 255, 0.2);
+          border-top-color: var(--primario);
           border-radius: 50%;
           animation: spin 0.8s linear infinite;
         }
@@ -130,8 +130,8 @@
 
       .mockup-badge {
         font-size: 0.75rem;
-        background: #e0f2fe;
-        color: #0369a1;
+        background: rgba(14, 165, 233, 0.15); // Badge informativo azul cielo traslúcido
+        color: #38bdf8;
         padding: 2px 8px;
         border-radius: 12px;
         font-weight: 600;
@@ -140,7 +140,7 @@
       .mockup-title {
         font-size: 1.1rem;
         font-weight: 600;
-        color: #0f172a;
+        color: var(--color-texto-p);
         margin: 10px 0 6px;
         white-space: nowrap;
         overflow: hidden;
@@ -149,7 +149,7 @@
 
       .mockup-desc {
         font-size: 0.85rem;
-        color: #64748b;
+        color: var(--color-texto-s);
         height: 40px;
         display: -webkit-box;
         -webkit-line-clamp: 2;
@@ -161,12 +161,12 @@
       .mockup-footer {
         margin-top: 14px;
         padding-top: 12px;
-        border-top: 1px solid #e2e8f0;
+        border-top: 1px solid var(--border-color);
         
         .mockup-price {
           font-size: 1.25rem;
           font-weight: 700;
-          color: #1e3a8a;
+          color: var(--primario); // Destaca el precio con la identidad de marca
         }
       }
     }
@@ -193,28 +193,29 @@
     .form-label {
       font-size: 0.88rem;
       font-weight: 600;
-      color: #334155;
+      color: var(--color-texto-p);
     }
 
     .form-input {
       width: 100%;
       box-sizing: border-box;
       padding: 10px 14px;
-      border: 1px solid #cbd5e1;
+      background: var(--bg-principal);
+      border: 1px solid var(--border-color);
       border-radius: 10px;
       font-size: 0.92rem;
-      color: #0f172a;
-      transition: all 0.2s;
+      color: var(--color-texto-p);
+      transition: var(--transicion);
 
       &:focus {
         outline: none;
-        border-color: #2563eb;
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        border-color: var(--primario);
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
       }
 
       &.input-error {
-        border-color: #ef4444;
-        background-color: #fef2f2;
+        border-color: var(--error);
+        background-color: rgba(239, 68, 68, 0.08);
       }
     }
 
@@ -223,7 +224,7 @@
       resize: vertical;
     }
 
-    // Input personalizado para ficheros
+    // Input personalizado para subida de ficheros/imágenes
     .file-upload-wrapper {
       position: relative;
       
@@ -238,16 +239,16 @@
         align-items: center;
         gap: 10px;
         padding: 12px;
-        border: 2px dashed #cbd5e1;
+        border: 2px dashed var(--border-color);
         border-radius: 10px;
-        background: #f8fafc;
-        color: #475569;
+        background: var(--bg-principal);
+        color: var(--color-texto-s);
         font-size: 0.88rem;
         cursor: pointer;
-        transition: all 0.2s;
+        transition: var(--transicion);
 
-        &:hover { background: #f1f5f9; border-color: #94a3b8; }
-        &.disabled { background: #e2e8f0; cursor: not-allowed; opacity: 0.6; }
+        &:hover { background: var(--bg-tarjeta); border-color: var(--primario); }
+        &.disabled { background: var(--border-color); cursor: not-allowed; opacity: 0.6; }
       }
     }
   }
@@ -256,13 +257,14 @@
     margin-top: 12px;
   }
 
+  // Botón unificado con el comportamiento global de envío
   .btn-admin-submit {
     width: 100%;
-    background: #0f172a; // Negro carbón elegante de administrador
+    background: var(--primario);
     color: white;
     border: none;
     padding: 14px;
-    border-radius: 10px;
+    border-radius: var(--radio-boton);
     font-size: 0.95rem;
     font-weight: 600;
     cursor: pointer;
@@ -270,14 +272,20 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
-    transition: background 0.2s;
+    transition: var(--transicion);
 
-    &:hover:not(:disabled) { background: #1e293b; }
+    &:hover:not(:disabled) { 
+      background: var(--primario-hover); 
+      transform: translateY(-1px);
+    }
 
     &:disabled {
-      background: #cbd5e1;
-      color: #94a3b8;
+      background: var(--bg-principal);
+      color: var(--color-texto-s);
+      border: 1px solid var(--border-color);
       cursor: not-allowed;
+      transform: none;
+      opacity: 0.6;
     }
   }
 }
@@ -286,6 +294,7 @@
   to { transform: rotate(360deg); }
 }
 
+// Selectores desplegables
 .form-group {
   display: flex;
   flex-direction: column;
@@ -301,18 +310,18 @@
   select {
     width: 100%;
     padding: 0.75rem 1rem;
-    background-color: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: var(--radio-boton, 8px);
+    background-color: var(--bg-principal);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radio-boton);
     color: var(--color-texto-p);
     font-size: 0.95rem;
     font-family: inherit;
     cursor: pointer;
     transition: var(--transicion);
-    appearance: none; /* Quita el diseño por defecto */
+    appearance: none;
     
-    /* Añadimos una flechita personalizada sutil a la derecha */
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+    // Flecha SVG que hereda dinámicamente un trazo limpio gris/slate
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
     background-repeat: no-repeat;
     background-position: right 1rem center;
     background-size: 1em;
@@ -320,8 +329,7 @@
     &:focus {
       outline: none;
       border-color: var(--primario);
-      background-color: #ffffff;
-      box-shadow: 0 0 0 3px var(--primario-light);
+      background-color: var(--bg-tarjeta);
     }
   }
 }

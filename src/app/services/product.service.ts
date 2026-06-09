@@ -48,10 +48,13 @@ export class ProductService {
   }
   // Tu motor dinámico mapea exactamente a @GetMapping("/search")
   searchAndFilter(query: string, category: string, activeBrand: string, page: number, pageSize: number): Observable<Product[]> {
-    let params = new HttpParams();
+    let params = new HttpParams()
+    .set('page', page.toString())    
+    .set('size', pageSize.toString());
+
     if (query) params = params.set('query', query);
     if (category) params = params.set('category', category);
-
+    if (activeBrand) params = params.set('brand', activeBrand);
     // Asumiendo que tu controlador expone el filtro en '/search' o en la raíz con params
     return this.http.get<Product[]>(`${this.apiUrl}/search`, { params });
   }

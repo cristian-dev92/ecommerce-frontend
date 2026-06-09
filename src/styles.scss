@@ -1,14 +1,18 @@
 /* src/styles.css */
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
 
+// ==========================================
+// MODO CLARO (Por defecto)
+// ==========================================
 :root {
-  /* Paleta de Colores Moderna */
   --bg-principal: #f8fafc;
   --bg-tarjeta: #ffffff;
   --color-texto-p: #0f172a;
   --color-texto-s: #475569;
-  
-  /* Colores de marca (Un violeta/indigo eléctrico espectacular) */
+  --border-color: #e2e8f0;      // Guardamos tu color de borde gris claro
+  --bg-toast: #ffffff;
+
+  /* Colores de marca */
   --primario: #6366f1;
   --primario-hover: #4f46e5;
   --primario-light: #e0e7ff;
@@ -18,13 +22,27 @@
   --alerta: #f59e0b;
   --error: #ef4444;
   
-  /* Bordes y Sombras Premium */
+  /* Bordes y Sombras */
   --radio-tarjeta: 16px;
   --radio-boton: 12px;
   --sombra-suave: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
   --sombra-premium: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-  
   --transicion: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+// ==========================================
+//  MODO OSCURO (Dinámico)
+// ==========================================
+:root.dark-theme {
+  --bg-principal: #0f172a;       // Slate 900 (Un azul/gris oscuro espectacular)
+  --bg-tarjeta: #1e293b;         // Slate 800 (Para las cards y el formulario)
+  --color-texto-p: #f8fafc;      // Texto principal casi blanco
+  --color-texto-s: #94a3b8;      // Texto secundario gris suave
+  --border-color: #334155;       // Bordes oscuros integrados (Slate 700)
+  --bg-toast: #1e293b;
+
+  /* Suavizamos el destello focus en modo oscuro */
+  --primario-light: rgba(99, 102, 241, 0.2); 
 }
 
 * {
@@ -39,87 +57,116 @@ body {
   color: var(--color-texto-p);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease; // Transición suave global
 }
 
-/* Botones Globales Espectaculares */
-.btn-premium {
-  background: var(--primario);
-  color: white;
-  padding: 0.75rem 1.5rem;
-  border-radius: var(--radio-boton);
-  border: none;
-  font-weight: 600;
-  cursor: pointer;
+// ==========================================
+// 🚀 BLINDAJE GLOBAL DE INPUTS (CLARO/OSCURO)
+// ==========================================
+input, textarea, select {
+  background-color: var(--bg-tarjeta) !important; // Evita que se queden blancos en modo oscuro
+  color: var(--color-texto-p) !important;       // Evita que la letra se vuelva invisible
+  border: 1px solid var(--border-color);
   transition: var(--transicion);
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
+  
+  &:focus {
+    outline: none;
+    border-color: var(--primario);
+    box-shadow: 0 0 0 4px var(--primario-light);
+  }
+
+  // Corrige el color feo que mete el navegador al autocompletar credenciales
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover, 
+  &:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--color-texto-p) !important;
+    -webkit-box-shadow: 0 0 0px 1000px var(--bg-tarjeta) inset !important;
+    transition: background-color 5000s ease-in-out 0s;
+  }
 }
 
-.btn-premium:hover {
-  background: var(--primario-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+// Si salta un error de validación en Angular, el borde se pone rojo pero la letra se sigue viendo
+input.ng-invalid.ng-touched {
+  border-color: var(--error) !important;
+  background-color: var(--bg-tarjeta) !important;
+  color: var(--color-texto-p) !important;
 }
 
-.btn-premium:active {
-  transform: translateY(0);
-}
+// ==========================================
+// COMPONENTES GLOBALES
+// ==========================================
 
-/* Estilos globales para el Toast Premium */
+/* 🔮 MAQUETACIÓN ABSOLUTA DEL TOAST GLOBAL (Sincronizado con tus variables) */
 .global-toast-container {
-  position: fixed;
+  position: fixed;            /* 👈 Clave: Se sale del flujo flexbox de las páginas */
   top: 24px;
   right: 24px;
-  z-index: 9999;
+  width: 380px;
+  max-width: calc(100vw - 48px);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 12px;
-  padding: 1rem 1.25rem;
-  border-radius: var(--radio-boton);
-  background: white;
-  box-shadow: var(--sombra-premium);
-  border: 1px solid #e2e8f0;
+  background: var(--bg-toast); 
+  border: 1px solid var(--border-color);
+  padding: 1rem;
+  border-radius: var(--radio-boton); /* Sigue la estética de tus inputs */
+  box-shadow: var(--sombra-premium); /* Sombra brutal para que destaque */
+  z-index: 100000;            /* Flota por encima de modales, headers y loaders */
   cursor: pointer;
-  max-width: 380px;
-  animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   transition: var(--transicion);
+
+  // Animación de entrada fluida de Plus Jakarta
+  animation: toastFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 
   &:hover {
     transform: translateY(-2px);
   }
 
-  .toast-message {
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: var(--color-texto-p);
-    line-height: 1.4;
+  .toast-icon-box {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
   }
 
-  /* Variaciones de color según el tipo de alerta */
+  .toast-message {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--color-texto-p); /* Cambia automáticamente en modo dark */
+  }
+
+  /* 🟢 Bordes dinámicos e iconos usando tus estados (:root) */
   &.success {
-    border-left: 5px solid var(--exito);
-    .toast-icon-box { color: var(--exito); }
+    border-left: 4px solid var(--exito);
+    .toast-icon-box svg { color: var(--exito); }
   }
 
   &.error {
-    border-left: 5px solid var(--error);
-    .toast-icon-box { color: var(--error); }
+    border-left: 4px solid var(--error);
+    .toast-icon-box svg { color: var(--error); }
   }
 
   &.warning {
-    border-left: 5px solid var(--alerta);
-    .toast-icon-box { color: var(--alerta); }
+    border-left: 4px solid var(--alerta);
+    .toast-icon-box svg { color: var(--alerta); }
+  }
+
+  &.info {
+    border-left: 4px solid var(--primario);
+    .toast-icon-box svg { color: var(--primario); }
   }
 }
 
-@keyframes slideIn {
+@keyframes toastFadeIn {
   from {
     opacity: 0;
-    transform: translateX(40px) scale(0.95);
+    transform: translateY(-12px) scale(0.95);
   }
   to {
     opacity: 1;
-    transform: translateX(0) scale(1);
+    transform: translateY(0) scale(1);
   }
 }

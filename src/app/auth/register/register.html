@@ -1,25 +1,19 @@
-@if (loading()) {
-  <div class="loading-state-auth">
-    <div class="spinner"></div>
-    <p class="loading-text">Conectando de forma segura con el servidor...</p>
-    
-    @if (showSlowServerMessage()) {
-      <div class="server-alert animate-fade-in">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-        <span>El servidor de Render está despertando (puede tardar unos 30-60 seg). Gracias por tu paciencia.</span>
-      </div>
-    }
-  </div>
-}
-
-@if (!loading() && error()) {
-  <div class="error-state-auth">
-    <p class="error-message">Error de conexión. Las credenciales son incorrectas o el servidor ha tardado demasiado en responder.</p>
-  </div>
-}
-
 <div class="auth-container">
   
+  @if (loading()) {
+    <div class="loading-state-auth">
+      <div class="spinner"></div>
+      <p class="loading-text">Conectando de forma segura con el servidor...</p>
+      
+      @if (showSlowServerMessage()) {
+        <div class="server-alert animate-fade-in">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+          <span>El servidor de Render está despertando (puede tardar unos 30-60 seg). Gracias por tu paciencia.</span>
+        </div>
+      }
+    </div>
+  }
+
   <div class="auth-visual-panel">
     <div class="visual-content">
       <span class="badge-tech">Únete a la comunidad</span>
@@ -43,48 +37,26 @@
         <div class="input-group">
           <label class="form-label" for="name">Nombre completo</label>
           <div class="input-wrapper">
-            <input 
-              class="form-input" 
-              type="text" 
-              id="name" 
-              formControlName="name" 
-              autocomplete="name"
-              [class.input-error]="registerForm.get('name')?.touched && registerForm.get('name')?.invalid"
-            >
+            <input class="form-input" type="text" id="name" formControlName="name" autocomplete="name" [class.input-error]="registerForm.get('name')?.touched && registerForm.get('name')?.invalid">
           </div>
         </div>
 
         <div class="input-group">
           <label class="form-label" for="email">Correo electrónico</label>
           <div class="input-wrapper">
-            <input 
-              class="form-input" 
-              type="email" 
-              id="email" 
-              formControlName="email" 
-              autocomplete="email"
-              [class.input-error]="registerForm.get('email')?.touched && registerForm.get('email')?.invalid"
-            >
+            <input class="form-input" type="email" id="email" formControlName="email" autocomplete="email" [class.input-error]="registerForm.get('email')?.touched && registerForm.get('email')?.invalid">
           </div>
         </div>
 
         <div class="input-group">
           <label class="form-label" for="password">Contraseña</label>
           <div class="input-wrapper">
-            <input 
-              class="form-input" 
-              type="password" 
-              id="password" 
-              formControlName="password" 
-              autocomplete="new-password"
-              [class.input-error]="registerForm.get('password')?.touched && registerForm.get('password')?.invalid"
-            >
+            <input class="form-input" type="password" id="password" formControlName="password" autocomplete="new-password" [class.input-error]="registerForm.get('password')?.touched && registerForm.get('password')?.invalid">
           </div>
         </div>
 
         <button type="submit" class="btn-submit" [disabled]="registerForm.invalid || loading()">
           <span class="btn-text">{{ loading() ? 'Creando cuenta...' : 'Registrarse' }}</span>
-          
           @if (!loading()) {
             <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>

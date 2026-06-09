@@ -1,4 +1,4 @@
-import { Component, inject, computed, signal } from '@angular/core'; 
+import { Component, inject, computed, signal, effect } from '@angular/core'; 
 import { RouterLink, Router, RouterModule } from '@angular/router'; 
 import { CommonModule } from '@angular/common'; 
 import { FormsModule } from '@angular/forms';
@@ -29,6 +29,28 @@ export class NavbarComponent {
 
   get isLoggedInFallback(): boolean {
     return !!localStorage.getItem('authToken');
+  }
+
+  isDarkMode = signal<boolean>(
+    localStorage.getItem('theme') === 'dark' || 
+    (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)
+  );
+
+  constructor() {
+    // Este efecto se ejecuta automáticamente cada vez que cambie 'isDarkMode'
+    effect(() => {
+      if (this.isDarkMode()) {
+        document.documentElement.classList.add('dark-theme');
+        localStorage.setItem('theme', 'dark');
+      } else {
+        document.documentElement.classList.remove('dark-theme');
+        localStorage.setItem('theme', 'light');
+      }
+    });
+  }
+
+  toggleTheme() {
+    this.isDarkMode.update(dark => !dark);
   }
 
   // Método para lanzar la búsqueda hacia la página de productos

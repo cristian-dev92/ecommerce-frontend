@@ -53,16 +53,16 @@
     overflow-x: auto;
     padding: 0.25rem 0;
     
-    // Ocultar barra de scroll para mantener la limpieza visual
     &::-webkit-scrollbar { display: none; }
     -ms-overflow-style: none;
     scrollbar-width: none;
 
     .cat-badge {
-      background-color: #f1f5f9;
-      border: 1px solid #e2e8f0;
+      // 🌓 Cambiado a fondo e hilos adaptables
+      background-color: var(--bg-tarjeta);
+      border: 1px solid var(--border-color);
       padding: 0.5rem 1.1rem;
-      border-radius: 30px; // Estilo píldora limpia
+      border-radius: 30px; 
       font-size: 0.85rem;
       font-weight: 500;
       color: var(--color-texto-s);
@@ -78,15 +78,15 @@
     }
 
     .offer-badge {
-      background-color: #fef2f2;
-      color: #ef4444;
+      background-color: rgba(239, 68, 68, 0.1); // Rojo traslúcido para que encaje de noche
+      color: var(--error);
       font-weight: 600;
-      border-color: #fee2e2;
+      border-color: rgba(239, 68, 68, 0.2);
       
       &:hover {
-        background-color: #fee2e2;
-        color: #dc2626;
-        border-color: #fca5a5;
+        background-color: rgba(239, 68, 68, 0.2);
+        color: var(--error);
+        border-color: var(--error);
       }
     }
   }
@@ -118,9 +118,9 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      background-color: #fffbeb;
-      border: 1px solid #fde68a;
-      color: #b45309;
+      background-color: rgba(245, 158, 11, 0.1); // Alerta traslúcida premium
+      border: 1px solid var(--alerta);
+      color: var(--alerta);
       padding: 0.75rem 1.25rem;
       border-radius: var(--radio-boton);
       font-size: 0.9rem;
@@ -131,7 +131,7 @@
     }
   }
 
-  /* --- Rejilla de Productos (Grid Responsivo) --- */
+  /* --- Rejilla de Productos --- */
   .products-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -142,7 +142,7 @@
   .product-card {
     background: var(--bg-tarjeta);
     border-radius: var(--radio-tarjeta);
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--border-color); // Adaptable
     overflow: hidden;
     box-shadow: var(--sombra-suave);
     display: flex;
@@ -152,15 +152,14 @@
     &:hover {
       transform: translateY(-6px);
       box-shadow: var(--sombra-premium);
-      border-color: #cbd5e1;
+      border-color: var(--primario); // Iluminación premium al hover
     }
 
     .product-image-box {
       position: relative;
       width: 100%;
       height: 200px;
-      background-color: #f1f5f9;
-      position: relative;
+      background-color: var(--bg-principal); // Adaptable
       overflow: hidden;
 
       .product-img {
@@ -173,8 +172,8 @@
       .badge-discount {
         position: absolute;
         top: 10px;
-        left: 10px; // Flota arriba a la izquierda
-        background-color: #dc3545; // Rojo ofertas
+        left: 10px;
+        background-color: var(--error);
         color: white;
         padding: 0.3rem 0.6rem;
         font-size: 0.85rem;
@@ -195,15 +194,15 @@
         letter-spacing: 0.05em;
 
         &.out {
-          background-color: #fef2f2;
+          background-color: rgba(239, 68, 68, 0.1);
           color: var(--error);
-          border: 1px solid #fee2e2;
+          border: 1px solid rgba(239, 68, 68, 0.2);
         }
 
         &.low {
-          background-color: #fffbeb;
+          background-color: rgba(245, 158, 11, 0.1);
           color: var(--alerta);
-          border: 1px solid #fde68a;
+          border: 1px solid rgba(245, 158, 11, 0.2);
         }
       }
     }
@@ -243,7 +242,7 @@
         align-items: center;
         margin-top: auto;
         padding-bottom: 1rem;
-        border-bottom: 1px solid #f1f5f9;
+        border-bottom: 1px solid var(--border-color); // Adaptable
 
         .product-price {
           font-size: 1.35rem;
@@ -258,7 +257,6 @@
         }
       }
 
-      /* Botoneras y paneles de acción */
       .product-actions {
         display: flex;
         justify-content: space-between;
@@ -270,7 +268,7 @@
           flex-grow: 1;
           background-color: var(--bg-principal);
           color: var(--color-texto-p);
-          border: 1px solid #e2e8f0;
+          border: 1px solid var(--border-color);
           padding: 0.65rem 1rem;
           border-radius: var(--radio-boton);
           font-weight: 600;
@@ -289,9 +287,10 @@
           }
 
           &:disabled {
-            background-color: #f1f5f9;
-            color: #94a3b8;
-            border-color: #e2e8f0;
+            background-color: var(--bg-principal);
+            color: var(--color-texto-s);
+            border-color: var(--border-color);
+            opacity: 0.5;
             cursor: not-allowed;
           }
         }
@@ -301,8 +300,8 @@
           gap: 0.4rem;
 
           .btn-admin {
-            background: white;
-            border: 1px solid #e2e8f0;
+            background: var(--bg-tarjeta);
+            border: 1px solid var(--border-color);
             padding: 0.65rem;
             border-radius: var(--radio-boton);
             cursor: pointer;
@@ -314,16 +313,16 @@
             &.edit {
               color: var(--color-texto-s);
               &:hover {
-                border-color: #cbd5e1;
-                background-color: #f8fafc;
+                border-color: var(--primario);
+                color: var(--primario);
               }
             }
 
             &.delete {
               color: var(--error);
               &:hover {
-                background-color: #fef2f2;
-                border-color: #fee2e2;
+                background-color: rgba(239, 68, 68, 0.1);
+                border-color: var(--error);
               }
             }
           }
@@ -333,27 +332,17 @@
   }
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
 /* --- Vista Móvil --- */
 @media (max-width: 640px) {
   .catalog-container {
     padding: 2rem 1rem;
-    
     .catalog-header {
       flex-direction: column;
       align-items: flex-start;
-      
-      .btn-create {
-        width: 100%;
-        justify-content: center;
-      }
+      .btn-create { width: 100%; justify-content: center; }
     }
   }
 }
@@ -367,29 +356,29 @@
   margin-top: 1rem;
 
   @media (min-width: 992px) {
-    grid-template-columns: 280px 1fr; // Fijo 280px para filtros en pantallas grandes
+    grid-template-columns: 280px 1fr;
   }
 }
 
-/* --- SIDEBAR DE FILTROS --- */
+/* --- SIDEBAR DE FILTROS (¡CORREGIDO!) --- */
 .filters-sidebar {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: var(--bg-tarjeta); // Asegura el gris/azul oscuro de noche
+  border: 1px solid var(--border-color);
   border-radius: var(--radio-tarjeta, 12px);
   padding: 1.5rem;
-  box-shadow: var(--sombra-suave, 0 1px 3px rgba(0,0,0,0.05));
+  box-shadow: var(--sombra-suave);
   position: sticky;
-  top: 2rem; // Se queda fijo al hacer scroll hacia abajo
+  top: 2rem;
 
   .sidebar-header {
-    border-bottom: 1px solid #f1f5f9;
+    border-bottom: 1px solid var(--border-color);
     padding-bottom: 1rem;
     margin-bottom: 1.5rem;
 
     h2 {
       font-size: 1.25rem;
       font-weight: 700;
-      color: var(--color-texto-p, #1e293b);
+      color: var(--color-texto-p);
       margin: 0;
     }
   }
@@ -402,7 +391,7 @@
 
     &:last-child {
       margin-bottom: 0;
-      border-top: 1px solid #f1f5f9;
+      border-top: 1px solid var(--border-color);
       padding-top: 1.2rem;
     }
   }
@@ -410,7 +399,7 @@
   .filter-label {
     font-size: 0.9rem;
     font-weight: 600;
-    color: var(--color-texto-p, #334155);
+    color: var(--color-texto-p);
     text-transform: uppercase;
     letter-spacing: 0.03em;
   }
@@ -420,30 +409,33 @@
     width: 100%;
     padding: 0.6rem;
     border-radius: 6px;
-    border: 1px solid #cbd5e1;
-    background-color: #f8fafc;
-    color: #334155;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-principal);
+    color: var(--color-texto-p);
     font-size: 0.9rem;
     outline: none;
     cursor: pointer;
+    transition: var(--transicion);
 
     &:focus {
-      border-color: var(--primario, #6366f1);
+      border-color: var(--primario);
     }
   }
 
-  /* Rango de precios inputs + track */
+  /* Rango de precios */
   .price-range-inputs {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    color: #64748b;
+    color: var(--color-texto-s);
     font-size: 0.85rem;
 
     .price-input {
       width: 100%;
       padding: 0.4rem;
-      border: 1px solid #cbd5e1;
+      border: 1px solid var(--border-color);
+      background-color: var(--bg-principal);
+      color: var(--color-texto-p);
       border-radius: 6px;
       font-size: 0.9rem;
       text-align: center;
@@ -454,9 +446,10 @@
     width: 100%;
     margin-top: 0.5rem;
     cursor: pointer;
+    accent-color: var(--primario); // Slider dinámico morado
   }
 
-  /* Lista de checkboxes de marcas */
+  /* Lista de checkboxes */
   .brands-checkbox-list {
     display: flex;
     flex-direction: column;
@@ -465,69 +458,60 @@
     overflow-y: auto;
     padding-right: 0.25rem;
 
-    &::-webkit-scrollbar {
-      width: 4px;
-    }
+    &::-webkit-scrollbar { width: 4px; }
     &::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
+      background: var(--border-color);
       border-radius: 4px;
     }
   }
 
-  /* Estructura limpia para Checkboxes personalizados */
   .checkbox-container {
     display: flex;
     align-items: center;
     gap: 0.6rem;
     cursor: pointer;
     font-size: 0.95rem;
-    color: #475569;
+    color: var(--color-texto-s);
     user-select: none;
 
     input[type="checkbox"] {
       width: 16px;
       height: 16px;
       cursor: pointer;
-      accent-color: var(--primario, #6366f1); // Pinta el checkbox nativo del color de tu tienda
+      accent-color: var(--primario);
     }
 
-    .checkbox-text {
-      line-height: 1;
-    }
-    
-    .stock-text {
-      font-weight: 500;
-    }
+    &:hover .checkbox-text { color: var(--color-texto-p); }
+    .checkbox-text { line-height: 1; transition: var(--transicion); }
+    .stock-text { font-weight: 500; }
   }
 
   .no-brands-text {
     font-size: 0.85rem;
-    color: #94a3b8;
+    color: var(--color-texto-s);
     font-style: italic;
     margin: 0;
   }
 }
 
-.catalog-main-content {
-  flex-grow: 1;
-}
+.catalog-main-content { flex-grow: 1; }
 
-.pagination-top-bar {
+/* --- BARRAS DE PAGINACIÓN (TOP & BOTTOM CORREGIDAS) --- */
+.pagination-top-bar, .pagination-bottom-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0.75rem 1rem;
-  background-color: #ffffff; // O el color de tu tarjeta/fondo
+  background-color: var(--bg-tarjeta); // Dinámico
   border-radius: 8px;
-  margin-bottom: 1.5rem; // Espacio antes de que empiece la rejilla de productos
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--sombra-suave);
 
   .pagination-count-text {
     font-size: 0.9rem;
-    color: #666;
-    strong {
-      color: #333;
-    }
+    color: var(--color-texto-s);
+    strong { color: var(--color-texto-p); }
   }
 
   .pagination-mini-actions {
@@ -541,73 +525,24 @@
     justify-content: center;
     width: 32px;
     height: 32px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--border-color);
     border-radius: 6px;
-    background-color: #fff;
-    color: #4a5568;
+    background-color: var(--bg-principal);
+    color: var(--color-texto-p);
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: var(--transicion);
 
     &:hover:not(:disabled) {
-      background-color: #f7fafc;
-      color: #3182ce; // Cambia por tu color corporativo primario
-      border-color: #cbd5e0;
+      background-color: var(--primario-light);
+      color: var(--primario);
+      border-color: var(--primario);
     }
 
     &:disabled {
       opacity: 0.4;
       cursor: not-allowed;
-      background-color: #edf2f7;
-    }
-  }
-}
-
-.pagination-bottom-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.75rem 1rem;
-  background-color: #ffffff; // O el color de tu tarjeta/fondo
-  border-radius: 8px;
-  margin-bottom: 1.5rem; // Espacio antes de que empiece la rejilla de productos
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
-
-  .pagination-count-text {
-    font-size: 0.9rem;
-    color: #666;
-    strong {
-      color: #333;
-    }
-  }
-
-  .pagination-mini-actions {
-    display: flex;
-    gap: 1.5rem;
-  }
-
-  .btn-pagination-mini {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    border: 1px solid #e2e8f0;
-    border-radius: 6px;
-    background-color: #fff;
-    color: #4a5568;
-    cursor: pointer;
-    transition: all 0.2s ease;
-
-    &:hover:not(:disabled) {
-      background-color: #f7fafc;
-      color: #3182ce; // Cambia por tu color corporativo primario
-      border-color: #cbd5e0;
-    }
-
-    &:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-      background-color: #edf2f7;
+      background-color: var(--bg-principal);
+      color: var(--color-texto-s);
     }
   }
 }

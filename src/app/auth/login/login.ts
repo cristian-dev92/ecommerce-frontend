@@ -20,7 +20,6 @@ export class LoginComponent {
   private ui = inject(UiService);
   
   loginForm: FormGroup; 
-  isSubmitting = signal<boolean>(false);
 
   loading = signal<boolean>(false);
   showSlowServerMessage = signal<boolean>(false);
@@ -35,12 +34,11 @@ export class LoginComponent {
     }
   
   onSubmit() { 
-   if (this.loginForm.invalid || this.isSubmitting()) {
+   if (this.loginForm.invalid || this.loading()) {
       this.ui.warning('Por favor, revisa los campos del formulario.');
       return;
     }
      
-    this.isSubmitting.set(true); 
     this.loading.set(true);
     this.error.set(false);
     this.showSlowServerMessage.set(false);
@@ -58,13 +56,11 @@ export class LoginComponent {
       next: () => {
         clearTimeout(this.serverTimer);
         this.ui.success('¡Bienvenido de nuevo! Iniciando sesión...');
-        this.isSubmitting.set(false);
         this.loading.set(false);
         this.router.navigate(['/products']);
       },
       error: (error: any) => { 
         clearTimeout(this.serverTimer);
-        this.isSubmitting.set(false); 
         this.loading.set(false);
         const msg = error.error?.message || 'Email o contraseña incorrectos.';
         this.ui.error(msg);

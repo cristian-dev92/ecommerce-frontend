@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
   selector: 'app-terms',
   imports: [RouterModule],
   templateUrl: './terms.html',
-  styleUrls: ['./terms.css'],
+  styleUrls: ['./terms.scss'],
 })
 export class Terms {
 

@@ -1,10 +1,10 @@
 .modern-footer {
-  background: #0f172a; // Slate oscuro premium
-  color: #94a3b8;
+  background: var(--bg-tarjeta); // Se adapta: blanco en light, oscuro en dark
+  color: var(--color-texto-s);  // Gris sutil adaptable
   padding-top: 64px;
   font-family: 'Segoe UI', system-ui, sans-serif;
-  border-top: 1px solid #1e293b;
-  margin-top: auto; // Empuja el footer abajo si la pantalla tiene poco contenido
+  border-top: 1px solid var(--border-color);
+  margin-top: auto; 
 
   .footer-container {
     max-width: 1200px;
@@ -36,16 +36,16 @@
       align-items: center;
       gap: 10px;
       cursor: pointer;
-      color: #ffffff;
-      transition: opacity 0.2s;
+      color: var(--color-texto-p); // Evita el blanco fijo
+      transition: var(--transicion);
 
       @media (max-width: 640px) { justify-content: center; }
       &:hover { opacity: 0.85; }
     }
 
     .brand-logo-footer {
-      background: #3b82f6;
-      color: #ffffff;
+      background: var(--primario); // Tu color morado/azul premium
+      color: white;
       padding: 6px;
       border-radius: 8px;
       display: flex;
@@ -67,7 +67,7 @@
 
   // Enlaces de columnas
   .footer-heading {
-    color: #f8fafc;
+    color: var(--color-texto-p); // Títulos principales adaptables
     font-size: 0.95rem;
     font-weight: 600;
     margin: 0 0 20px 0;
@@ -84,13 +84,13 @@
     gap: 12px;
 
     a {
-      color: #94a3b8;
+      color: var(--color-texto-s);
       text-decoration: none;
       font-size: 0.9rem;
-      transition: color 0.2s;
+      transition: var(--transicion);
 
       &:hover {
-        color: #3b82f6;
+        color: var(--primario); // Hover unificado con la marca
       }
     }
   }
@@ -112,31 +112,35 @@
 
       .newsletter-input {
         flex: 1;
-        background: #1e293b;
-        border: 1px solid #334155;
-        border-radius: 8px;
+        background: var(--bg-principal); // Cambia con el tema de fondo de la app
+        border: 1px solid var(--border-color);
+        border-radius: var(--radio-boton);
         padding: 10px 14px;
-        color: white;
+        color: var(--color-texto-p);
         font-size: 0.85rem;
         outline: none;
-        transition: border-color 0.2s;
+        transition: var(--transicion);
 
-        &:focus { border-color: #3b82f6; }
+        &:focus { 
+          border-color: var(--primario); 
+        }
       }
 
       .newsletter-btn {
-        background: #3b82f6;
+        background: var(--primario);
         color: white;
         border: none;
         padding: 0 16px;
-        border-radius: 8px;
+        border-radius: var(--radio-boton);
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: background 0.2s;
+        transition: var(--transicion);
 
-        &:hover { background: #2563eb; }
+        &:hover { 
+          background: var(--primario-hover); 
+        }
       }
     }
 
@@ -145,11 +149,11 @@
       align-items: center;
       gap: 8px;
       font-size: 0.85rem;
-      color: #22c55e;
-      background: rgba(34, 197, 94, 0.1);
+      color: var(--exito);
+      background: rgba(34, 197, 94, 0.1); // Opacidad limpia
       padding: 10px;
       border-radius: 8px;
-      border: 1px solid rgba(34, 197, 94, 0.2);
+      border: 1px solid var(--exito);
     }
 
     .secure-badge {
@@ -157,16 +161,16 @@
       align-items: center;
       gap: 6px;
       font-size: 0.78rem;
-      color: #64748b;
+      color: var(--color-texto-s);
       margin-top: 4px;
       @media (max-width: 640px) { justify-content: center; }
     }
   }
 
-  // Bloque inferior
+  // Bloque inferior (El copyright)
   .footer-bottom {
-    border-top: 1px solid #1e293b;
-    background: #0b0f19;
+    border-top: 1px solid var(--border-color);
+    background: var(--bg-principal); // Crea un contraste perfecto de doble tono con la tarjeta base
     padding: 24px 0;
 
     .bottom-container {
@@ -189,10 +193,11 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      background: #1e293b;
+      background: var(--bg-tarjeta);
+      border: 1px solid var(--border-color);
       padding: 4px 10px;
       border-radius: 20px;
-      color: #e2e8f0;
+      color: var(--color-texto-p);
       font-weight: 500;
     }
   }

@@ -125,9 +125,8 @@ export class ProductListComponent implements OnInit {
     page: number = 0, 
     updateUrl: boolean = true
    ): void {
-   if (!updateUrl) {
-      this.currentPage.set(page);
-    }
+
+    this.currentPage.set(page);
     this.loading.set(true);
     this.error.set(false);
 
@@ -143,13 +142,11 @@ export class ProductListComponent implements OnInit {
         },
         queryParamsHandling: 'merge' // Mantiene otros parámetros si los hubiera
       });
-      return;
     }
     // Nota: Aquí mapeas a los métodos de tu ProductService en Angular. 
     // Si tu Service tiene un método unificado para filtros úsalo, si no, llamamos por separado:
     let request$;
     const pageSize = 8;
-
     const activeBrand = this.filters().searchBrand;
 
     if (offers) {

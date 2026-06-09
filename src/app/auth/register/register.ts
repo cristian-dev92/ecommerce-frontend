@@ -60,10 +60,9 @@ export class RegisterComponent {
       },
       error: (error: any) => {
         clearTimeout(this.serverTimer);
+        this.loading.set(false);
         const errorMsg = error.error?.message || 'Hubo un problema al registrar la cuenta.';
         this.ui.error(errorMsg);
-        this.loading.set(false);
-        this.error.set(true);
       }
     });
   }

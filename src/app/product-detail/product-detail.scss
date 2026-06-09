@@ -28,10 +28,12 @@
     width: 100%;
     max-height: 450px;
     object-fit: contain;
-    border-radius: 12px;
-    background-color: #f8f9fa;
-    border: 1px solid #e9ecef;
+    border-radius: var(--radio-tarjeta);
+    // 🌓 Fondo adaptable para que las imágenes transparentes resalten bien
+    background-color: var(--bg-tarjeta); 
+    border: 1px solid var(--border-color);
     padding: 1rem;
+    box-shadow: var(--sombra-suave);
   }
 }
 
@@ -45,33 +47,38 @@
     text-transform: uppercase;
     font-size: 0.85rem;
     font-weight: 700;
-    color: #6c757d;
+    color: var(--color-texto-s); // Dinámico
     letter-spacing: 1px;
   }
 
   .product-title {
     font-size: 2.2rem;
-    color: #212529;
+    color: var(--color-texto-p); // Letra blanca en oscuro, oscura en claro
     margin: 0;
     line-height: 1.2;
   }
 
   .product-description {
     font-size: 1.05rem;
-    color: #495057;
+    color: var(--color-texto-s); // Dinámico
     line-height: 1.6;
   }
 
   // Precios e Impuestos
   .price-section {
-    background-color: #f8f9fa;
+    background-color: var(--bg-tarjeta); // Pasa a Slate 800 de noche
     padding: 1.2rem;
     border-radius: 8px;
-    border-left: 4px solid #0d6efd; // Detalle azul corporativo
+    border-left: 4px solid var(--primario); // Tu detalle morado corporativo premium
+    border-top: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: var(--sombra-suave);
 
     .old-price {
       font-size: 1.1rem;
-      color: #adb5bd;
+      color: var(--color-texto-s);
+      opacity: 0.7;
       text-decoration: line-through;
       margin-bottom: 0.2rem;
     }
@@ -79,14 +86,14 @@
     .current-price {
       font-size: 2.4rem;
       font-weight: 800;
-      color: #dc3545; // Rojo llamativo para el precio final
+      color: var(--error); // Usa tu rojo de estados premium para el precio
       display: flex;
       align-items: center;
       gap: 1rem;
 
       .discount-tag {
         font-size: 0.9rem;
-        background-color: #dc3545;
+        background-color: var(--error);
         color: #fff;
         padding: 0.2rem 0.6rem;
         border-radius: 20px;
@@ -96,7 +103,7 @@
 
     .tax-info {
       font-size: 0.8rem;
-      color: #6c757d;
+      color: var(--color-texto-s);
       margin-top: 0.4rem;
     }
   }
@@ -106,49 +113,56 @@
     font-weight: 600;
     font-size: 0.95rem;
     
-    &.in-stock { color: #198754; }
-    &.out-of-stock { color: #dc3545; }
+    &.in-stock { color: var(--exito); } // Verde adaptable
+    &.out-of-stock { color: var(--error); } // Rojo adaptable
   }
 
+  /* 🛒 Botón Añadir al Carrito */
   .btn-add-to-cart {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.8rem;
-    background-color: #212529;
-    color: #fff;
+    background-color: var(--primario); // Tu morado eléctrico insignia
+    color: #fff !important;
     border: none;
     padding: 1rem 2rem;
     font-size: 1.1rem;
     font-weight: 600;
-    border-radius: 8px;
+    border-radius: var(--radio-boton);
     cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.1s ease;
+    box-shadow: var(--sombra-suave);
+    transition: var(--transicion);
 
     &:hover:not(:disabled) {
-      background-color: #0d6efd; // Cambia a azul al pasar el ratón
+      background-color: var(--primario-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
     }
 
     &:active:not(:disabled) {
-      transform: scale(0.98);
+      transform: translateY(0);
     }
 
     &:disabled {
-      background-color: #ced4da;
+      background-color: var(--bg-tarjeta);
+      color: var(--color-texto-s);
+      border: 1px solid var(--border-color);
+      opacity: 0.5;
       cursor: not-allowed;
     }
   }
 }
 
-// SECCIÓN INFERIOR: Características y Descripción Técnica (A lo ancho)
+// SECCIÓN INFERIOR: Características y Descripción Técnica
 .product-specs-section {
-  border-top: 1px solid #dee2e6;
+  border-top: 1px solid var(--border-color);
   padding-top: 2.5rem;
   margin-top: 1rem;
 
   h2 {
     font-size: 1.5rem;
-    color: #212529;
+    color: var(--color-texto-p);
     margin-bottom: 1.5rem;
   }
 
@@ -158,24 +172,26 @@
     gap: 1.5rem;
 
     @media (min-width: 768px) {
-      grid-template-columns: 1fr 2fr; // Ficha técnica compacta a la izquierda, texto largo a la derecha
+      grid-template-columns: 1fr 2fr;
     }
   }
 
-  // Tabla compacta de fabricante / marca / garantía
+  // Tabla compacta técnica
   .technical-sheet {
-    background-color: #f8f9fa;
-    padding: 1.5rem;
-    border-radius: 8px;
+    background-color: var(--bg-tarjeta);
+    padding: 2rem;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
     list-style: none;
-    padding-left: 0;
+    padding-left: 1;
     margin: 0;
+    box-shadow: var(--sombra-suave);
 
     li {
       display: flex;
       justify-content: space-between;
       padding: 0.6rem 0;
-      border-bottom: 1px solid #e9ecef;
+      border-bottom: 1px solid var(--border-color);
       font-size: 0.95rem;
 
       &:last-child {
@@ -184,24 +200,25 @@
 
       span:first-child {
         font-weight: 600;
-        color: #495057;
+        color: var(--color-texto-s);
       }
 
       span:last-child {
-        color: #212529;
+        color: var(--color-texto-p);
       }
     }
   }
 
   // Cuadro con la parrafada técnica larga
   .technical-text-box {
-    background-color: #fff;
-    border: 1px solid #dee2e6;
+    background-color: var(--bg-tarjeta); // Cambia a Slate 800 de noche
+    border: 1px solid var(--border-color);
     padding: 1.5rem;
     border-radius: 8px;
     font-size: 0.95rem;
     line-height: 1.7;
-    color: #333;
-    white-space: pre-line; // Clave para que respete los saltos de línea que guardes en el textarea
+    color: var(--color-texto-p);
+    white-space: pre-line;
+    box-shadow: var(--sombra-suave);
   }
 }

@@ -3,19 +3,20 @@
   margin: 40px auto;
   padding: 0 24px;
   font-family: 'Segoe UI', system-ui, sans-serif;
-  color: #1e293b;
+  color: var(--color-texto-p);
 
-  // Cabecera estilizada tipo Dashboard
+  // Cabecera estilizada tipo Dashboard (Reactiva)
   .profile-header {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
+    background: var(--bg-tarjeta);
+    border: 1px solid var(--border-color);
     border-radius: 20px;
     margin-bottom: 32px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--sombra-suave);
 
     .header-cover {
       height: 160px;
-      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+      // Mantiene el gradiente premium en modo claro, pero se suaviza en modo oscuro para evitar estridencias
+      background: linear-gradient(135deg, #0f172a 0%, var(--primario) 100%);
       border-radius: 20px 20px 0 0;
     }
 
@@ -40,9 +41,9 @@
       width: 110px;
       height: 110px;
       border-radius: 50%;
-      background: white;
+      background: var(--bg-tarjeta);
       padding: 6px;
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      box-shadow: var(--sombra-suave);
 
       .profile-avatar {
         width: 100%;
@@ -55,7 +56,7 @@
         width: 100%;
         height: 100%;
         border-radius: 50%;
-        background: #3b82f6;
+        background: var(--primario);
         color: white;
         display: flex;
         align-items: center;
@@ -68,8 +69,8 @@
         position: absolute;
         bottom: 4px;
         right: 4px;
-        background: #0f172a;
-        color: white;
+        background: var(--color-texto-p);
+        color: var(--bg-tarjeta);
         width: 32px;
         height: 32px;
         border-radius: 50%;
@@ -79,32 +80,34 @@
         cursor: pointer;
         border: none;
         box-shadow: 0 4px 6px rgba(0,0,0,0.15);
-        transition: transform 0.2s, background 0.2s;
+        transition: var(--transicion);
         z-index: 51;
 
         &:hover {
           transform: scale(1.1);
-          background: #2563eb;
+          background: var(--primario);
+          color: white;
         }
       }
-      // 🔮 Estilos del nuevo menú desplegable flotante
-      .avatar-dropdown-menu {
-      position: absolute;
-      top: calc(100% + 8px);
-      left: 50%;
-      transform: translateX(-50%);
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-      width: 210px;
-      padding: 6px;
-      z-index: 999;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
 
-      &::before {
+      // 🔮 Menú desplegable flotante del avatar completamente dinámico
+      .avatar-dropdown-menu {
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--bg-tarjeta);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        box-shadow: var(--sombra-suave);
+        width: 210px;
+        padding: 6px;
+        z-index: 999;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+
+        &::before {
           content: '';
           position: absolute;
           top: -6px;
@@ -112,57 +115,59 @@
           transform: translateX(-50%) rotate(45deg);
           width: 10px;
           height: 10px;
-          background: #ffffff;
-          border-left: 1px solid #e2e8f0;
-          border-top: 1px solid #e2e8f0;
+          background: var(--bg-tarjeta);
+          border-left: 1px solid var(--border-color);
+          border-top: 1px solid var(--border-color);
         }
 
-    .dropdown-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 14px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: #334155;
-      border-radius: 8px;
-      cursor: pointer;
-      background: none;
-      border: none;
-      text-align: left;
-      width: 100%;
-      box-sizing: border-box;
-      transition: all 0.2s;
-      position: relative;
+        .dropdown-item {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 10px 14px;
+          font-size: 0.85rem;
+          font-weight: 600;
+          color: var(--color-texto-p);
+          border-radius: 8px;
+          cursor: pointer;
+          background: none;
+          border: none;
+          text-align: left;
+          width: 100%;
+          box-sizing: border-box;
+          transition: var(--transicion);
+          position: relative;
 
-      &:hover {
-        background: #f1f5f9;
-        color: #2563eb;
-      }
+          &:hover {
+            background: var(--bg-principal);
+            color: var(--primario);
+          }
 
-      svg {
-        color: #64748b;
-        transition: color 0.2s;
-      }
+          svg {
+            color: var(--color-texto-s);
+            transition: var(--transicion);
+          }
 
-      &:hover svg {
-        color: #2563eb;
+          &:hover svg {
+            color: var(--primario);
+          }
+        }
       }
     }
-   }
- }
 
     .user-meta {
       padding-bottom: 8px;
-      h2 { font-size: 1.5rem; font-weight: 700; color: #0f172a; margin: 0 0 4px; }
+      h2 { font-size: 1.5rem; font-weight: 700; color: var(--color-texto-p); margin: 0 0 4px; }
+      
       .user-role-badge {
         display: inline-block;
         font-size: 0.78rem;
-        background: #f1f5f9;
-        color: #475569;
+        background: var(--bg-principal);
+        color: var(--color-texto-s);
         padding: 3px 10px;
         border-radius: 12px;
         font-weight: 600;
+        border: 1px solid var(--border-color);
       }
     }
   }
@@ -181,12 +186,12 @@
 
   // Estilo de tarjetas base
   .profile-card {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
+    background: var(--bg-tarjeta);
+    border: 1px solid var(--border-color);
     border-radius: 16px;
     padding: 24px;
     margin-bottom: 24px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03);
+    box-shadow: var(--sombra-suave);
 
     &.orders-card { margin-bottom: 0; min-height: 400px; }
   }
@@ -194,12 +199,12 @@
   .card-title {
     font-size: 1.15rem;
     font-weight: 600;
-    color: #0f172a;
+    color: var(--color-texto-p);
     margin-bottom: 20px;
     display: flex;
     align-items: center;
     gap: 10px;
-    border-bottom: 1px solid #f1f5f9;
+    border-bottom: 1px solid var(--border-color);
     padding-bottom: 12px;
 
     &.justify-between { justify-content: space-between; }
@@ -233,27 +238,34 @@
   .form-label {
     font-size: 0.85rem;
     font-weight: 600;
-    color: #475569;
+    color: var(--color-texto-s);
   }
 
   .form-input {
     width: 100%;
     box-sizing: border-box;
     padding: 10px 14px;
-    border: 1px solid #cbd5e1;
+    background: var(--bg-principal);
+    border: 1px solid var(--border-color);
     border-radius: 10px;
     font-size: 0.92rem;
-    color: #0f172a;
-    transition: all 0.2s;
+    color: var(--color-texto-p);
+    transition: var(--transicion);
 
     &:focus {
       outline: none;
-      border-color: #2563eb;
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+      border-color: var(--primario);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+    }
+    
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      background: var(--border-color);
     }
   }
 
-  // Inputs compactos con botón integrado lateral
+  // Inputs compactos con botón integrado lateral (p. ej., cambiar contraseña rápida)
   .input-with-btn {
     display: flex;
     gap: 10px;
@@ -261,67 +273,78 @@
     .form-input { flex: 1; }
     
     .btn-save-mini {
-      background: #f1f5f9;
-      color: #0f172a;
-      border: 1px solid #cbd5e1;
+      background: var(--bg-principal);
+      color: var(--color-texto-p);
+      border: 1px solid var(--border-color);
       padding: 0 16px;
       border-radius: 10px;
       font-size: 0.85rem;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: var(--transicion);
 
-      &:hover:not(:disabled) { background: #e2e8f0; border-color: #94a3b8; }
+      &:hover:not(:disabled) { 
+        background: var(--bg-tarjeta); 
+        border-color: var(--primario); 
+      }
       &:disabled { opacity: 0.5; cursor: not-allowed; }
     }
   }
 
-  // Botones de acción anchos
+  // Botones de acción principales del perfil
   .btn-profile-submit {
     width: 100%;
-    background: #2563eb;
+    background: var(--primario);
     color: white;
     border: none;
     padding: 12px;
-    border-radius: 10px;
+    border-radius: var(--radio-boton);
     font-size: 0.92rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: var(--transicion);
 
-    &:hover:not(:disabled) { background: #1d4ed8; }
-    &:disabled { background: #cbd5e1; color: #94a3b8; cursor: not-allowed; }
+    &:hover:not(:disabled) { background: var(--primario-hover); }
+    &:disabled { 
+      background: var(--bg-principal); 
+      color: var(--color-texto-s); 
+      border: 1px solid var(--border-color);
+      cursor: not-allowed; 
+    }
 
     &.variant-dark {
-      background: #475569;
-      &:hover:not(:disabled) { background: #334155; }
+      background: var(--color-texto-s);
+      &:hover:not(:disabled) { background: var(--color-texto-p); }
     }
   }
 
-  // Cuadro de zona de peligro aislado
+  // Cuadro de zona de peligro (Borrar cuenta) adaptada a ambos modos
   .danger-zone-box {
-    background: #fff5f5;
-    border: 1px dashed #fca5a5;
+    background: rgba(239, 68, 68, 0.08); // Fondo rojizo traslúcido elegante
+    border: 1px dashed var(--error);
     border-radius: 14px;
     padding: 20px;
     margin-top: 8px;
 
-    h4 { color: #991b1b; font-size: 0.95rem; font-weight: 700; margin: 0 0 6px; }
-    p { color: #7f1d1d; font-size: 0.85rem; line-height: 1.4; margin: 0 0 14px; }
+    h4 { color: var(--error); font-size: 0.95rem; font-weight: 700; margin: 0 0 6px; }
+    p { color: var(--color-texto-p); font-size: 0.85rem; line-height: 1.4; margin: 0 0 14px; opacity: 0.9; }
 
     .btn-delete-account {
-      background: none;
-      border: 1px solid #f87171;
-      color: #b91c1c;
+      background: transparent;
+      border: 1px solid var(--error);
+      color: var(--error);
       padding: 10px 16px;
       border-radius: 10px;
       font-size: 0.88rem;
       font-weight: 600;
       cursor: pointer;
       width: 100%;
-      transition: all 0.2s;
+      transition: var(--transicion);
 
-      &:hover { background: #fee2e2; border-color: #b91c1c; }
+      &:hover { 
+        background: var(--error); 
+        color: white; 
+      }
     }
   }
 }

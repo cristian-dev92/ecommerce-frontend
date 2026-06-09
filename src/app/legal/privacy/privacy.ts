@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
   selector: 'app-privacy',
   imports: [RouterModule],
   templateUrl: './privacy.html',
-  styleUrls: ['./privacy.css'],
+  styleUrls: ['./privacy.scss'],
 })
 export class Privacy {
 

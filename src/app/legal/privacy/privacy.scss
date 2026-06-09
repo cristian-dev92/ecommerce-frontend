@@ -1,0 +1,11 @@
+.privacy-text {
+  font-size: 1.15rem;      
+  line-height: 1.75rem;    
+  color: var(--color-texto-p); /* Dinámico: excelente contraste en claro y oscuro */
+  max-width: 800px;        
+  margin: 40px auto;       
+  
+  /* Corrige el scroll horizontal infinito y permite el flujo natural */
+  white-space: normal;     
+  word-wrap: break-word;   
+}

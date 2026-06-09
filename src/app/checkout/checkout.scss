@@ -3,18 +3,18 @@
   margin: 40px auto;
   padding: 0 24px;
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-  color: #1e293b;
+  color: var(--color-texto-p); // Adaptable
 
   .checkout-header {
     margin-bottom: 32px;
     h1 {
       font-size: 2rem;
       font-weight: 700;
-      color: #0f172a;
+      color: var(--color-texto-p); // Adaptable
       margin-bottom: 6px;
     }
     p {
-      color: #64748b;
+      color: var(--color-texto-s); // Adaptable
       font-size: 0.95rem;
     }
   }
@@ -30,21 +30,21 @@
     }
   }
 
-  // Tarjetas base
+  // Tarjetas base adaptables (Pasan a Slate 800 de noche)
   .panel-card, .summary-card {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
+    background: var(--bg-tarjeta);
+    border: 1px solid var(--border-color);
     border-radius: 16px;
     padding: 24px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    box-shadow: var(--sombra-suave);
   }
 
   .panel-title {
     font-size: 1.2rem;
     font-weight: 600;
-    color: #0f172a;
+    color: var(--color-texto-p);
     margin-bottom: 20px;
-    border-bottom: 1px solid #f1f5f9;
+    border-bottom: 1px solid var(--border-color);
     padding-bottom: 12px;
   }
 
@@ -60,7 +60,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 12px 0;
-    border-bottom: 1px solid #f1f5f9;
+    border-bottom: 1px solid var(--border-color);
     
     &:last-child {
       border-bottom: none;
@@ -73,11 +73,11 @@
       gap: 16px;
 
       .item-avatar {
-        background: #f8fafc;
-        color: #64748b;
+        background: var(--bg-principal); // Cambia dinámicamente
+        color: var(--color-texto-s);
         padding: 10px;
         border-radius: 12px;
-        border: 1px solid #e2e8f0;
+        border: 1px solid var(--border-color);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -87,13 +87,13 @@
         h3 {
           font-size: 1rem;
           font-weight: 600;
-          color: #1e293b;
+          color: var(--color-texto-p);
           margin-bottom: 4px;
         }
         .item-qty {
           font-size: 0.85rem;
-          color: #64748b;
-          strong { color: #0f172a; }
+          color: var(--color-texto-s);
+          strong { color: var(--color-texto-p); }
         }
       }
     }
@@ -106,38 +106,39 @@
 
       .unit-price {
         font-size: 0.8rem;
-        color: #94a3b8;
+        color: var(--color-texto-s);
+        opacity: 0.8;
       }
       .total-price {
         font-size: 1rem;
         font-weight: 600;
-        color: #0f172a;
+        color: var(--color-texto-p);
       }
     }
   }
 
-  // Banner informativo inferior
+  // Banner informativo inferior adaptable (Éxito / Envíos)
   .shipping-info-banner {
     display: flex;
     align-items: center;
     gap: 16px;
-    background: #f0fdf4;
-    border: 1px solid #bbf7d0;
+    background: rgba(22, 163, 74, 0.1); // Fondo verde traslúcido premium apto para ambos modos
+    border: 1px solid var(--exito);
     border-radius: 14px;
     padding: 16px;
     margin-top: 20px;
-    color: #14532d;
+    color: var(--exito);
 
-    svg { flex-shrink: 0; color: #16a34a; }
+    svg { flex-shrink: 0; color: var(--exito); }
     h4 { font-weight: 600; font-size: 0.9rem; margin-bottom: 2px; }
-    p { font-size: 0.82rem; color: #166534; line-height: 1.4; }
+    p { font-size: 0.82rem; color: var(--color-texto-s); line-height: 1.4; }
   }
 
   // Columna Derecha: Sumario de precios
   .summary-title {
     font-size: 1.2rem;
     font-weight: 600;
-    color: #0f172a;
+    color: var(--color-texto-p);
     margin-bottom: 20px;
   }
 
@@ -150,12 +151,12 @@
       display: flex;
       justify-content: space-between;
       font-size: 0.9rem;
-      color: #64748b;
+      color: var(--color-texto-s);
 
       .free-badge {
-        color: #16a34a;
+        color: var(--exito);
         font-weight: 600;
-        background: #dcfce7;
+        background: rgba(22, 163, 74, 0.15);
         padding: 2px 8px;
         border-radius: 20px;
         font-size: 0.75rem;
@@ -164,31 +165,31 @@
 
     .summary-divider {
       height: 1px;
-      background: #e2e8f0;
+      background: var(--border-color);
       margin: 6px 0;
     }
 
     .total-row {
       font-size: 1.05rem;
       font-weight: 600;
-      color: #0f172a;
+      color: var(--color-texto-p);
       
       .grand-total {
         font-size: 1.3rem;
-        color: #2563eb; // Azul corporativo premium
+        color: var(--primario); // Unificado con tu morado eléctrico premium
         font-weight: 700;
       }
     }
   }
 
-  // Botonera de acción
+  // Botonera de acción unificada con la identidad de DevShop
   .btn-confirm-order {
     width: 100%;
-    background: #2563eb;
-    color: white;
+    background: var(--primario);
+    color: white !important;
     border: none;
     padding: 14px;
-    border-radius: 12px;
+    border-radius: var(--radio-boton);
     font-size: 0.95rem;
     font-weight: 600;
     margin-top: 24px;
@@ -197,53 +198,55 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
+    transition: var(--transicion);
+    box-shadow: 0 4px 10px rgba(99, 102, 241, 0.2);
 
     &:hover:not(:disabled) {
-      background: #1d4ed8;
+      background: var(--primario-hover);
       transform: translateY(-1px);
-      box-shadow: 0 6px 14px rgba(37, 99, 235, 0.3);
+      box-shadow: 0 6px 14px rgba(99, 102, 241, 0.3);
     }
 
     &:disabled {
-      background: #cbd5e1;
-      color: #94a3b8;
+      background: var(--bg-tarjeta);
+      color: var(--color-texto-s);
+      border: 1px solid var(--border-color);
       cursor: not-allowed;
       transform: none;
       box-shadow: none;
+      opacity: 0.6;
     }
   }
 
   .btn-back-cart {
     display: block;
     text-align: center;
-    color: #64748b;
+    color: var(--color-texto-s);
     text-decoration: none;
     font-size: 0.88rem;
     margin-top: 14px;
     font-weight: 500;
-    transition: color 0.2s;
+    transition: var(--transicion);
 
-    &:hover { color: #1e293b; }
+    &:hover { color: var(--color-texto-p); }
   }
 
-  // Estado vacío del Carrito
+  // Estado vacío del Checkout
   .checkout-empty-card {
     text-align: center;
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
+    background: var(--bg-tarjeta);
+    border: 1px solid var(--border-color);
     border-radius: 20px;
     padding: 60px 24px;
     max-width: 500px;
     margin: 40px auto;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--sombra-suave);
 
     .empty-icon-circle {
       width: 80px;
       height: 80px;
-      background: #f1f5f9;
-      color: #94a3b8;
+      background: var(--bg-principal);
+      color: var(--color-texto-s);
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -251,20 +254,20 @@
       margin: 0 auto 24px;
     }
 
-    h2 { font-size: 1.4rem; font-weight: 600; color: #0f172a; margin-bottom: 8px; }
-    p { color: #64748b; font-size: 0.95rem; margin-bottom: 24px; }
+    h2 { font-size: 1.4rem; font-weight: 600; color: var(--color-texto-p); margin-bottom: 8px; }
+    p { color: var(--color-texto-s); font-size: 0.95rem; margin-bottom: 24px; }
 
     .btn-return-shop {
-      background: #0f172a;
+      background: var(--primario);
       color: white;
       border: none;
       padding: 12px 24px;
-      border-radius: 10px;
+      border-radius: var(--radio-boton);
       font-weight: 500;
       cursor: pointer;
-      transition: background 0.2s;
+      transition: var(--transicion);
 
-      &:hover { background: #1e293b; }
+      &:hover { background: var(--primario-hover); }
     }
   }
 }

@@ -1,29 +1,23 @@
-@if (loading()) {
-  <div class="loading-state-auth">
-    <div class="spinner"></div>
-    <p class="loading-text">Conectando de forma segura con el servidor...</p>
-    
-    @if (showSlowServerMessage()) {
-      <div class="server-alert animate-fade-in">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-        <span>El servidor de Render está despertando (puede tardar unos 30-60 seg). Gracias por tu paciencia.</span>
-      </div>
-    }
-  </div>
-}
-
-@if (!loading() && error()) {
-  <div class="error-state-auth">
-    <p class="error-message">Error de conexión. Las credenciales son incorrectas o el servidor ha tardado demasiado en responder.</p>
-  </div>
-}
-
 <div class="auth-container">
   
+  @if (loading()) {
+    <div class="loading-state-auth">
+      <div class="spinner"></div>
+      <p class="loading-text">Conectando de forma segura con el servidor...</p>
+      
+      @if (showSlowServerMessage()) {
+        <div class="server-alert animate-fade-in">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+          <span>El servidor de Render está despertando (puede tardar unos 30-60 seg). Gracias por tu paciencia.</span>
+        </div>
+      }
+    </div>
+  }
+
   <div class="auth-visual-panel">
     <div class="visual-content">
       <span class="badge-tech">Nueva Colección</span>
-      <h1 class="visual-title">Consigue lo que mas deseas a precios competitivos.</h1>
+      <h1 class="visual-title">Consigue lo que más deseas a precios competitivos.</h1>
       <p class="visual-description">Descubre componentes, periféricos y herramientas exclusivas con envíos automatizados y gestión en tiempo real.</p>
     </div>
     <div class="visual-footer">
@@ -40,61 +34,60 @@
 
       <form class="modern-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
-  <div class="input-group">
-    <label class="form-label" for="email">Correo electrónico</label>
-    <div class="input-wrapper">
-      <input 
-        class="form-input" 
-        type="email" 
-        id="email" 
-        formControlName="email"
-        autocomplete="email"
-        [class.input-error]="loginForm.get('email')?.touched && loginForm.get('email')?.invalid"
-      >
-    </div>
-  </div>
+        <div class="input-group">
+          <label class="form-label" for="email">Correo electrónico</label>
+          <div class="input-wrapper">
+            <input 
+              class="form-input" 
+              type="email" 
+              id="email" 
+              formControlName="email"
+              autocomplete="email"
+              [class.input-error]="loginForm.get('email')?.touched && loginForm.get('email')?.invalid"
+            >
+          </div>
+        </div>
 
-  <div class="input-group">
-    <label class="form-label" for="password">Contraseña</label>
-    <div class="input-wrapper">
-      <input 
-        class="form-input" 
-        type="password" 
-        id="password" 
-        formControlName="password"
-        autocomplete="current-password"
-        [class.input-error]="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
-      >
-    </div>
-  </div>
+        <div class="input-group">
+          <label class="form-label" for="password">Contraseña</label>
+          <div class="input-wrapper">
+            <input 
+              class="form-input" 
+              type="password" 
+              id="password" 
+              formControlName="password"
+              autocomplete="current-password"
+              [class.input-error]="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
+            >
+          </div>
+        </div>
 
-  <div class="form-actions">
-    <label class="remember-me">
-      <input class="checkbox-input" type="checkbox">
-      <span class="checkbox-label">Recordarme</span>
-    </label>
-    <a href="#" class="forgot-link">¿Olvidaste tu contraseña?</a>
-  </div>
+        <div class="form-actions">
+          <label class="remember-me">
+            <input class="checkbox-input" type="checkbox">
+            <span class="checkbox-label">Recordarme</span>
+          </label>
+          <a href="#" class="forgot-link">¿Olvidaste tu contraseña?</a>
+        </div>
 
-  <button type="submit" 
-      class="btn-submit"
-      [disabled]="loginForm.invalid || isSubmitting()"
-      [class.btn-disabled]="loginForm.invalid || isSubmitting()">
-    <span class="btn-text">
-      {{ isSubmitting() ? 'Verificando...' : 'Iniciar Sesión' }}
-    </span>
-    @if (!isSubmitting()) {
-      <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="5" y1="12" x2="19" y2="12"></line>
-        <polyline points="12 5 19 12 12 19"></polyline>
-      </svg>
-    }
-  </button>
+        <button type="submit" 
+                class="btn-submit"
+                [disabled]="loginForm.invalid || loading()">
+          <span class="btn-text">
+            {{ loading() ? 'Verificando...' : 'Iniciar Sesión' }}
+          </span>
+          @if (!loading()) {
+            <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          }
+        </button>
 
-  <p class="switch-auth">
-    ¿No tienes una cuenta? <a class="switch-link" routerLink="/register">Regístrate gratis</a>
-  </p>
-</form>
+        <p class="switch-auth">
+          ¿No tienes una cuenta? <a class="switch-link" routerLink="/register">Regístrate gratis</a>
+        </p>
+      </form>
     </div>
   </div>
 

@@ -1,8 +1,11 @@
 .privacy-text {
-  font-size: 1.15rem;      /* más grande */
-  line-height: 1.75rem;    /* más espacio entre líneas */
-  color: #374151;          /* gris elegante y legible */
-  max-width: 800px;        /* evita líneas demasiado largas */
-  margin: 40px auto;          /* centra el texto */
-  white-space: nowrap;    /* evita saltos de línea */
+  font-size: 1.15rem;      /* Excelente tamaño para lectura cómoda */
+  line-height: 1.75rem;    /* Espaciado perfecto para textos legales densos */
+  color: var(--color-texto-p); /* Cambia dinámicamente: ultra legible en claro y oscuro */
+  max-width: 800px;        /* Evita la fatiga visual limitando el ancho de línea */
+  margin: 40px auto;       /* Centra el bloque en la pantalla */
+  
+  /* Permitir el flujo normal del texto con saltos de línea automáticos */
+  white-space: normal;     
+  word-wrap: break-word;   /* Asegura que palabras ultra largas no desborden el contenedor */
 }

@@ -1,0 +1,11 @@
+.terms-text {
+  font-size: 1.15rem;      /* Tamaño óptimo para lectura de términos densos */
+  line-height: 1.75rem;    /* Interlineado cómodo */
+  color: var(--color-texto-p); /* Dinámico: perfecta legibilidad en modo claro y oscuro */
+  max-width: 800px;        /* Limita el ancho para evitar la fatiga visual */
+  margin: 40px auto;       /* Centra el bloque de texto */
+  
+  /* Permite que el texto fluya y salte de línea de forma natural */
+  white-space: normal;     
+  word-wrap: break-word;   /* Evita desbordamientos si hay enlaces o términos muy largos */
+}
