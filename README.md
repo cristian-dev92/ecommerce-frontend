@@ -11,6 +11,23 @@ Frontend desplegado en Vercel.
 
 🔗 Demo: <https://ecommerce-frontend-seven-psi.vercel.app/>
 
+## 🔄 Evolución del proyecto (V2 vs. V3)
+
+### 🛒 1. Catálogo Principal
+| Versión 2.0 | Versión 3.0 |
+| :---: | :---: |
+| ![CATALOGO V2](.github/assets/v2/catalogo.png) | ![CATALOGO V3](.github/assets/admin.png) |
+
+### 🛒 2. Carrito
+| Versión 2.0 | Versión 3.0 |
+| :---: | :---: |
+| ![CATALOGO V2](.github/assets/v2/carrito.png) | ![CATALOGO V3](.github/assets/carrito.png) |
+
+### 🛒 3. Perfil
+| Versión 2.0 | Versión 3.0 |
+| :---: | :---: |
+| ![CATALOGO V2](.github/assets/v2/perfiluno.png) | ![CATALOGO V3](.github/assets/perfil.png) |
+
 ## 🚀 Tecnologías principales
 
 - **Angular 21**
